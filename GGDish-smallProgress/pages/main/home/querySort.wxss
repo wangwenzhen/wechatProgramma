@@ -1,0 +1,6 @@
+.shopList{
+  padding:0 13px;
+  background-color: #FFFFFF;
+}
+@import "common/entScreenToast.wxss";
+@import "common/common.wxss";

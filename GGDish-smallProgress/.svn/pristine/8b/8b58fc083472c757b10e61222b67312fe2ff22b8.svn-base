@@ -1,0 +1,20 @@
+// pages/order/selectedDishHint/selectedDishHint.js
+Page({
+    data:{
+      
+    },
+    onLoad:function(options){
+        // 页面初始化 options为页面跳转所带来的参数
+        console.log('选好菜品提示页：shopId:' + options.shopId);
+        var shopId = options.shopId;
+    },
+    toSelectedDishDetail:function(){
+      var orderId = '';
+      wx.navigateTo({
+        url: '../selectedDishDetail/selectedDishDetail?orderId='+order,
+        success: function(res) {},
+        fail: function(res) {},
+        complete: function(res) {},
+      })
+    }
+})

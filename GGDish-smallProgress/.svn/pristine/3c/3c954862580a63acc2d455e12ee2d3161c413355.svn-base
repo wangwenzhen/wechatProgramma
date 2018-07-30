@@ -1,0 +1,74 @@
+<template name="shoppingCar">
+    <view class="sCart" >
+        <!-- 购物车 -->
+        <view class="sCart-popup-bg" bindtap="hintShoppingCart"  wx:if="{{showShoppingCar}}">
+        </view>
+        <view wx:if="{{shoppingCarAnamation}}"  class="sCart-popup {{showShoppingCar?'sCart-show-animate':''}}" catchtap="catchTapEventDoNothing">
+            <!-- 总数统计与图标 -->
+            <view class="sCartImg-top">
+                <view  class="imgContainer">
+                    <view class="badge-totalNum">{{shoppingCart.totalNum}}</view>
+                    <image class="sCartImg"  src="../../image/menu.png"></image>
+                </view>
+            </view>
+            <!-- 已选好的菜品的数量-->
+            <view class="cells selDishStatistics">
+                <view class="numContainer">已选好
+                    <view wx:if="{{shoppingCart.dishNum>0}}"><text>{{shoppingCart.dishNum}}</text>道菜 </view>
+                    <view wx:if="{{shoppingCart.stapleNum>0}}"><text>{{shoppingCart.stapleNum}}</text>份主食 </view>
+                    <view wx:if="{{shoppingCart.tableWare>0}}"><text>{{shoppingCart.tableWare}}</text>份餐位 </view>
+                    <view wx:if="{{shoppingCart.tableNum>0}}"><text>{{shoppingCart.tableNum}}</text>份餐具</view>
+                </view> 
+                <view class="clear-sCart" bindtap="clearShoppingCar">
+                    <image src="image/clear_shopping_car.png"></image>
+                    <view>清空</view>
+                </view>
+            </view>
+            <!-- 菜品列表-->
+            <scroll-view scroll-y class="dishList">
+                <view class="cell" wx:for="{{shoppingCart.addDishes}}" wx:key="{{index}}">
+                    <view class="dishItem">
+                        <!-- 菜品名称-->
+                        <view class="dishNameContainer">
+                            <text class="specialSign" wx:if="{{item.isSpecial}}">特</text>
+                            <text class="dishName">{{item.dishName + (item.attrCombo&&item.attrCombo!=''?'('+item.attrCombo+')' :"")}}</text>
+                        </view>
+                        <!-- 菜品价格-->
+                        <view class="price-detail ell">
+                            <text class="dish-price">{{item.isSpecial? (item.totalPrice * item.specialNum + item.originalTotalPrice * (item.num - item.specialNum))/100:(item.num * item.totalPrice)/100}}</text>
+                            <text class="originalPri"wx:if="{{item.isSpecial}}">{{item.num * item.originalTotalPrice/100}}</text>                      
+                        </view>
+                        <!-- 加减号-->
+                        <view class="btn-box" >
+                            <!--减号-->
+                            <view wx:if="{{shoppingCart.addDishes[item.dishMd5].num>0}}" class="minus" 
+                                bindtap="tapAlreadyChooseDishMinus" data-dish-md="{{item.dishMd5}}" wx:if="{{item.num>0}}"></view>
+                            <!--已点个数-->
+                            <view class="num-innner"> {{item.num}}</view>
+                            <!--加号-->
+                            <view class="plus" wx:if="{{!item.hasSideDish&&!item.soldOut}}" 
+                                bindtap="tapAlreadyChooseDishPlus" data-dish-md= "{{item.dishMd5}}"></view>
+                        </view>
+                    </view>
+                    <!-- 配菜-->
+                    <view wx:if="{{item.sideDishStr&&item.sideDishStr.length>0}}" class="sCart-sideDish">{{'配菜：'+item.sideDishStr}}</view>
+                </view>
+            </scroll-view>
+        </view>
+                
+        <!-- 购物栏-->
+        <view class="sCart-bar" style="{{noImgControl.showDropBoard ? 'z-index:0': ''}}"> 
+            <view  class="imgContainer"wx:if="{{!showShoppingCar}}" bindtap="getReady">
+                <view class="badge-totalNum">{{shoppingCart.totalNum}}</view>
+                <image class="sCartImg"  src="../../image/menu.png"></image>
+            </view>
+            <view class="priceContainer ell">
+                <text class="dish-price">{{shoppingCart.totalPrice/100}}</text>
+                <text class="originalPri" 
+                      wx:if="{{shoppingCart.originalPrice>0 && shoppingCart.originalPrice!= shoppingCart.totalPrice }}">{{shoppingCart.originalPrice/100}}</text>
+                <view wx:if="{{false}}"> 还差4.5元可减4.9元</view>
+            </view>     
+            <view class="btn sCartSure" bindtap="getReady">{{showShoppingCar?'确定':'选好了'}}</view>
+        </view>
+    </view>
+</template>

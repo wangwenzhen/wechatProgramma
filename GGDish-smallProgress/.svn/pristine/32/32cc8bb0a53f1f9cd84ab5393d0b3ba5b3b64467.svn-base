@@ -1,0 +1,89 @@
+<template name="secondMenu">
+
+<!--二级菜单弹窗-->
+<view catchtap="catchTapEventDoNothing">
+    <view class="second-menu" wx:if="{{showSecondMenu}}" catchtap="colseDishPopWindow">
+        <scroll-view class="pop-menu-bd" scroll-y="true" style="{{curDishInfo.hasSideDish ? 'top:0px;' : ''}} height:{{curDishInfo.hasSideDish ? secondDishbgH-69: ''}}px" catchtap="catchTapEventDoNothing">
+        <view style="padding:12px;">
+                <text style="font-size:18px;">{{curDishInfo.dishName}}</text>
+                <block wx:if="{{!curDishInfo.hasSideDish}}">
+                    <image src="../../image/close_icon.png" class="second-dish-delete" catchtap="colseDishPopWindow"></image>
+                </block>
+        
+                <block wx:else>
+                    <text style="color:#cf112d;font-size:18px;">￥{{curDishInfo.price/100}}</text>
+                    <text class="{{curDishInfo.hasSideDish && curDishInfo.priceFloat ? 'dish-float' : ''}}" style="color:#A3A3A3;font-size:15px">/{{curDishInfo.dishUnit}}</text>
+                    <text style="color:#A3A3A3;font-size:12px;padding-left:4px" wx:if="{{curDishInfo.originalPrice > 0}}" class="paddle-str">￥{{curDishInfo.originalPrice/100}}</text>
+                </block>
+        </view>
+        
+        <!--引入菜品属性公用面板-->
+        <include src="attrTemplate.wxml" />
+        
+        
+        <!--配菜信息-->
+        
+        <block wx:if="{{curDishInfo.hasSideDish}}" >
+        <view class="cells hiddenBottom">
+                <view class="cell"><text style="color:#A3A3A3;font-size:15px;">配菜</text></view>
+                <block wx:for="{{curDishInfo.sideDishData}}" wx:key="*this" wx:for-item="sideDish" >
+                <view class="cell sencond-sideDish showBefore">
+                    <view class="cell-bd">
+                        <view class="dish-des ell">
+                            {{sideDish.dishName}}
+                        </view>
+                    </view>
+                    <view style="width:25%"><text class="dish-price">{{sideDish.price / 100}}</text> <text class="dish-unit">/{{sideDish.dishUnit}}</text>
+                    </view>
+                    <!--xxx-->
+                        <view class="btn-box">
+                                <view class="minus" wx:if="{{sideDish.selNum > 0}}" catchtap="minusSideDish" data-sideDishIndex="{{index}}"></view>
+                                <!--已点个数-->
+                                    <view class="num-innner {{sideDish.selNum > 0? '' :'visHidden'}}">{{sideDish.selNum}}</view>
+                                    <view class="plus" mode="aspectFit" catchtap="addSideDish" data-sideDishIndex="{{index}}"></view>
+                        </view>
+
+                </view>
+                </block>
+        </view>
+        </block>
+
+        </scroll-view>
+        <!--底部显示分割栏-->
+            <view class="fiexdBot" catchtap="catchTapEventDoNothing">
+                
+                    <block wx:if="{{curDishInfo.hasSideDish}}"><!--有配菜的底部视图-->
+                        <view class="btn-sel" style="padding-top:14px">
+                            <view class="btn gray" catchtap="colseDishPopWindow" style="flex:1.4">返回</view>
+                            <view class="btn" style="flex:2;" catchtap="commitCurDishInfo">确定</view>
+                        </view>
+                    </block>
+
+                    <block wx:else><!--无配菜的底部视图-->
+                        <view class="flex" style="padding:14px;">
+                            <view class="cell-left" catchtap="catchEventDoNoneThing">
+                                <view><text style="color:#cf112d">￥<text style="font-size:17px;">{{curDishInfo.price/100}}</text></text> <text style="font-size:12px;color:#A3A3A3">/{{curDishInfo.dishUnit}}</text>
+                                <text style="font-size:12px;color:#8D8D8D;" wx:if="{{curDishInfo.originalPrice > 0}}" class="paddle-str">￥{{curDishInfo.originalPrice/100}}</text>
+                                </view>
+                                <view class="cell-bd" style="color:#A3A3A3;font-size:13px;">已选:{{curDishInfo.attrComboStr}}</view>
+                            </view>
+                            <!--购物车中已有记录则显示加减和个数-->
+                            <block wx:if="{{shoppingCart.addDishes[curDishInfo.dishMd5]}}">
+                                <view class="secondMenu-bottom-minus-plus">
+                                    <view class="minus" catchtap="commitExistDishInfoMinus" data-dish-md="{{curDishInfo.dishMd5}}"></view>
+                                    <!--已点个数-->
+                                        <view class="num-innner">{{shoppingCart.addDishes[curDishInfo.dishMd5].num}}</view>
+                                        <view class="plus" mode="aspectFit" catchtap="commitExistDishInfoPlus" data-dish-md="{{shoppingCartRecord.dishMd5}}"></view>
+                                </view>
+                            </block>
+                            <block wx:else>
+                                <view class="cell-bd" catchtap="commitCurDishInfo"><view class="btn">确定</view></view>
+                            </block>
+                        </view>
+                    </block>
+
+            </view>
+
+    </view>
+</view>
+</template>

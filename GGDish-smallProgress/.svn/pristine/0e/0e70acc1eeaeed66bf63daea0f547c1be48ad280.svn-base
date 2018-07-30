@@ -1,0 +1,175 @@
+.sCart{
+
+}
+/* 购物车popupWindow*/
+.sCart-popup-bg{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background-color:rgba(0, 0, 0, 0.65) !important;
+    z-index:4;
+}
+.sCart-show-animate{
+    opacity: 1 !important;
+    transform: translateY(-438rpx) !important;
+    -webkit-transform: translateY(-438rpx) !important; 
+}
+.sCart-popup {
+    opacity: 0 ;
+    transition-duration: 0.3s;
+    transform: translateY(0);
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:-330rpx;
+    background:#FFFFFF;
+    z-index:5;
+}
+.sCartImg-top {
+    position: absolute;
+    top:-55px;
+    padding-left:24rpx;
+    padding-bottom:6rpx;
+    z-index:5;
+}
+.sCart .imgContainer{
+    margin-right:29rpx;
+    position:relative;
+}
+.sCartImg{
+    width:90rpx;
+    height:90rpx;
+}
+.sCart .badge-totalNum{
+    position: absolute;
+    right:0;
+    top: -8rpx;
+    background:#fff;
+    font-size:22rpx;
+    border-radius:10px;
+    height:35rpx;
+    line-height: 35rpx;
+    min-width:35rpx;
+    text-align:center;
+    color:#01CCEE;
+}
+.sCart .selDishStatistics{
+    margin-top: 0;
+    height:80rpx;
+    background:#FCFCFC;
+    align-items:center;
+    display:flex;
+    padding-left:24rpx;
+}
+.sCart .selDishStatistics.cells::before{
+    display: none;
+}
+.selDishStatistics .numContainer{
+    flex: 1;
+    font-size:24rpx;
+    color:#969696;
+}
+.selDishStatistics .numContainer > view{
+    display:inline-block;
+}
+.sCart .numContainer text{
+    color:#01CCEE;
+}
+.clear-sCart{
+    margin-right: 24rpx;
+    display:flex;
+}
+.clear-sCart > image{
+    width:26rpx;
+    height:26rpx;
+    margin-right:8rpx;
+}
+.clear-sCart > view{
+    font-size:26rpx;
+    color:#969696;
+    line-height: 26rpx;
+}
+.sCart .cell{
+    display:block;
+}
+.sCart .dishItem{
+    display:flex;
+    align-items:flex-start;
+}
+.sCart .dishNameContainer{
+    width:48%;
+    color:#292929;   
+}
+.sCart .dishList{
+    height: 500rpx;
+}
+.sCart .specialSign{
+    display: inline-block;
+    vertical-align:middle;
+    background-color:#DF3F5D;
+    height:32rpx;
+    line-height: 32rpx;
+    width: 32rpx;
+    text-align: center;
+    color:#FFFFFF;
+    font-size:22rpx;
+    border-radius:6rpx;
+    margin-right:10rpx;
+    margin-top: -8rpx;
+}
+.sCart .btn-box{
+    margin-top: -5rpx;
+}
+.sCart .dishName{
+     font-size: 32rpx;
+}
+.sCart .price-detail{
+    margin-top:6rpx;
+    line-height: 30rpx;
+    height:30rpx;
+}
+.sCart .sCart-sideDish{
+    color: #9F9F9F;
+    font-size: 22rpx;
+    margin-right: 24rpx;
+}
+.sCart-bar {
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:110rpx;
+    background:#FFFFFF;
+    padding-left:24rpx;
+    padding-right:24rpx;
+    display:flex;
+    align-items:center;
+    z-index:5;
+}
+.sCart-bar::before{
+    content:'';
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    height:1px;
+    border-top: 1px solid #e6e6e6;
+    color: #e6e6e6;
+    transform-origin: 0 0;
+    transform: scaleY(0.5);
+}
+.sCart-bar .dish-price{
+     font-size:38rpx;
+}
+.sCart-bar .dish-price::before{
+      font-size:24rpx;
+}
+.sCart-bar .originalPri{
+     font-size:22rpx;
+}
+.sCart .priceContainer{
+    flex: 1;
+}
+.btn.sCartSure{
+    width:224rpx;
+}

@@ -1,0 +1,78 @@
+<template name="dishDetail">
+
+    <scroll-view scroll-y="true"  wx:if="{{showDishDetail}}" class="dish-detail-container" >
+
+        <view style="height:100%">
+    
+            <!-- 菜品图片 -->
+            <view class="dish-detail-img-container">
+                <image class="dish-detail-back"  bindtap="hintDishDetail" src="image/back_dish_detail.png"/>
+                <image class="dish-detail-dish-img" src="{{ip+curDishInfo.dishBigPic}}"></image>
+            </view>
+            <!-- 菜品信息 -->
+            <view  class="dish-detail-dish-info-container"> 
+        
+                <!-- 菜品名称 -->
+                <view class="dish-detai-dish-name">{{curDishInfo.dishName}}</view>
+                <!-- 优惠限制信息 -->
+                <view class="special-offer" wx:if="{{curDishInfo.isSpecial}}">{{curDishInfo.specialInfo}}</view>
+                <!-- 菜品属性 没有配菜才会显示属性选择的界面-->
+                <view wx:elif="{{!curDishInfo.hasSideDish}}">
+                    <include src="../secondMenu/attrTemplate.wxml" /> 
+                </view>
+                <!-- 价格与数量的操作 -->
+                <view class="dish-detail-price-container">
+                    <!-- 菜品价格 -->
+                    <view class="dDetail-item-price-lay" >
+                        <text class="item-ren">¥</text>
+                        <text class="item-price-num">{{curDishInfo.price/100}}</text>
+                        <text class="item-unit">/份</text>
+                        <text class="before-price"wx:if="{{curDishInfo.isSpecial}}">¥{{curDishInfo.originalPrice/100}}</text>
+                    </view>
+                     <!-- soldOut：1 表示售罄 -->
+                    <block wx:if="{{curDishInfo.soldOut}}">
+                         <view class="num-operation sold-out"> 已售罄 </view>
+                    </block>
+                     <!-- hasSideDish 表示有配菜 -->
+                    <block wx:elif="{{curDishInfo.hasSideDish}}">
+                        <view class="num-operation select-side-dish" bindtap="tapDishPlusFromDishDetail"> 可选配菜 </view>
+                    </block>
+                     <!-- curDishInfo.dishAttrDatahasInf || curDishInfo.dishAttrData 表示有属性选择 -->
+                    <block  wx:elif="{{((curDishInfo.dishAttrDatahasInf&&curDishInfo.dishAttrDatahasInf.length>0) || (curDishInfo.dishAttrData && curDishInfo.dishAttrData.length>0))&&(!shoppingCart.addDishes[curDishInfo.dishMd5].num || shoppingCart.addDishes[curDishInfo.dishMd5].num ==0)}}">
+                        <view class="num-operation btn" catchtap="commitCurDishInfo">确定</view>
+                    </block>
+                    <block wx:else>
+                        <view style="position:absolute;right:24rpx" class="btn-box" wx:if="{{!item.soldOut}}">
+                                <!--减号-->
+                                    <view wx:if="{{shoppingCart.addDishes[curDishInfo.dishMd5].num>0}}" class="minus" bindtap="tapDishMinusFronDishDetail" >
+                                    </view>
+                                <!--已点个数-->
+                                    <view class="num-innner {{shoppingCart.addDishes[curDishInfo.dishMd5].num>0 ? '':'visHidden'}}">{{shoppingCart.addDishes[curDishInfo.dishMd5].num}}
+                                    </view>
+                                    <!--加号-->
+                                    <view class="plus"  catchtap="tapDishPlusFromDishDetail" >
+                                    </view>
+                            </view>
+                    </block>
+                   
+                </view>
+            </view>
+
+            <!-- 菜品介绍 -->
+            <view class="dish-detail-dish-introduce-container" >
+                <view class="tip" wx:if="{{curDishInfo.dishInfo && curDishInfo.dishInfo.length>0}}">菜品描述</view>
+                <view class="dish-detail-dish-introduce" wx:if="{{curDishInfo.dishInfo && curDishInfo.dishInfo.length>0}}">{{curDishInfo.dishInfo}}</view>
+                 <view class="tip dish-detail-tip">温馨提示:图片仅供参考，请以实物为准</view>
+            </view>
+           
+        </view>
+    </scroll-view>
+</template>
+
+
+                        <!--<view class="num-operation" style="display:flex;text-align:center;"> 
+                            <image class="minus" wx:if="{{shoppingCart.addDishes[curDishInfo.dishMd5].num>0}}" 
+                                   bindtap="tapDishMinusFronDishDetail"></image>
+                            <view class="item-dish-num" wx:if="{{shoppingCart.addDishes[curDishInfo.dishMd5].num>0}}">{{shoppingCart.addDishes[curDishInfo.dishMd5].num}}</view>
+                            <image class="plus" bindtap="tapDishPlusFromDishDetail"></image>
+                        </view>-->

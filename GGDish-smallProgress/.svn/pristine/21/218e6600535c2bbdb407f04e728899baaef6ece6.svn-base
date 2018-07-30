@@ -1,0 +1,164 @@
+.oDetail-container{
+}
+/*  */
+.oDetail-container .cells:first-child{
+    margin-top: 0;
+    padding:20rpx 26rpx 20rpx 26rpx;
+    background:#FFFFFF;
+}
+.orderNo-lay{
+    display:flex;
+    align-items: center;
+    font-size:30rpx;
+}
+.orderNo{
+    flex: 1;
+    font-size:45rpx;
+    font-weight:bolder;
+}
+.deskInfo{
+    margin-bottom: 16rpx;
+}
+.orderStatus{
+    color:#D22B40;
+    font-size:30rpx;
+}
+.desk-lay{
+    display: flex;
+    margin-top: 10rpx;
+}
+.time{
+    color:#969696;
+}
+.totalPrice{
+   color:#454545;
+   
+}
+/* 按钮区*/
+.btn-lay{
+    display:flex; 
+    padding: 16rpx 0;
+    margin-top: 0;
+}
+.btn-lay.cells::before{
+    display: none;
+}
+.btn-lay .btn{
+    width: 45%;
+}
+.btn-lay .btn + .btn{
+    margin-top: 0;
+}
+/* 菜品信息*/
+.dish-hint{
+    padding: 10rpx 20rpx 10rpx 0;
+    color: #1f1f1f;
+    font-size: 34rpx;
+    align-items: center;
+}
+.ent-logo{
+    width: 50rpx;
+    height: 50rpx;
+    margin-right: 20rpx;
+}
+.change-order{
+    padding: 6rpx 40rpx;
+    margin-right: 20rpx;
+    font-size: 22rpx;
+}
+.cells.dish-list{
+    margin-top: 0;
+}
+.dish-item-container{
+    margin-top: 20rpx;
+    margin-bottom:20rpx;
+}
+.dish-item{
+    padding-right:20rpx; 
+    display:flex;
+    position:relative;
+}
+.dish-name{
+    flex: 1;
+    font-size:32rpx;
+}
+.dish-num{
+    width:100rpx;
+    font-size:28rpx;
+    color:#969696;
+}
+.dish-price{
+    width:150rpx;
+    font-size:28rpx;
+    color:#969696;
+    text-align:right;
+}
+.side-dish{
+    padding-left: 24rpx;
+    padding-right:24rpx;
+    padding-top: 15rpx;
+    color:#969696;
+    font-size:28rpx;
+}
+.all-price-info{
+    display: flex;
+    padding-right: 26rpx;
+    margin-top: 20rpx;
+}
+.all-price-content{
+    flex:1;
+    text-align: right;
+    font-size:26rpx;
+   
+}
+.txt-red{
+   color: #D22B40;
+}
+.dish-lay{
+    padding: 0 0 12px 12px;
+}
+/*订单编号，用户手机号*/
+.phone-lay{
+    padding: 12px;
+    color:#999999;
+    font-size:26rpx;
+}
+.phone-lay view + view{
+    margin-top:12rpx;
+}
+.select-dish{
+    color: #969696;
+    font-size: 22rpx;
+}
+.change-lay{
+    padding-top: 20rpx;
+}
+.add-dish{
+  position: relative;
+  padding-top: 12rpx;
+}
+.add-dish::before{
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 1px;
+  border-top: 1px solid #d8d8d8;
+  color: #d8d8d8;
+  transform-origin: 0 0;
+  transform: scaleY(0.5);
+}
+.bot-cancle-order{
+  margin:50rpx 40rpx;  
+  background-color:#FFFFFF;
+  text-align:center;
+  padding:12px 0;
+  font-size:15px;
+
+  
+  border: 1px solid #e6e6e6;
+  color: 6c6c6c !important;
+}
+/* 取消订单的弹窗 */
+@import "../../component/qnDialog/qnDialog.wxss";

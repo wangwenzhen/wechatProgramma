@@ -1,0 +1,94 @@
+<include src="../../component/qnToast/toast.wxml"/>
+<view wx:if="{{orderInfo}}">
+    <view class="place-order-top-view">
+        <image src="../../../image/commit-success.png" style="width:207px;height:92px"></image>
+        <view class="place-orderId-view">
+            <view style=" font-weight: 350;font-size:15px;line-height:17px;">订单号</view>
+            <view class="place-orderId">{{partOforderId}}</view>
+        </view>
+        <view class="place-order-tip">下单成功,如需帮助请联系服务员</view>
+    </view>
+    <block wx:if="{{returnTickets.length}}">
+        <view class="return-ticket">
+            <view class="returnTicketTip">获得返券</view>
+            <view wx:for="{{returnTickets}}" wx:for-item="returnTicket" wx:key="*this">
+                <!--代金券 保留折扣券的代码 ，暂时returnTicket.ticketKind 都为1 不显示折扣券内容--> 
+                <view class="return-ticket-bg" style="{{returnTicket.ticketKind == 1 ?'color: #ffae23;' : 'color: #29a61f;'}}">
+                        <block wx:if="{{returnTicket.ticketKind == 1}}">
+                            <image src="../../../image/coupons_unSelected.png"></image>
+                        </block>
+                        <block wx:else>
+                            <image src="../../../image/discount_unselected.png"></image>
+                        </block>
+
+                        <view class="return-ticket-info">
+                            <view class="return-ticket-left {{returnTicket.ticketKind == 1 ? 'return-ticket-vouchers' : 'return-ticket-discount'}}">
+                                <text>{{returnTicket.returnPrice/100}}</text>
+                            </view>
+                            <view class="return-ticket-right">  
+
+                                <view class="return-kind">
+                                    <block wx:if="{{returnTicket.ticketKind == 1}}">
+                                        <view>代金券</view>
+                                    </block>
+                                    <block wx:else>
+                                        <view>折扣券</view>
+                                    </block>
+                                </view>
+                                <view class="gary ell" style="font-size:13px;">{{returnTicket.content}}</view>
+                                <view class="gary ell" style="font-size:12px;">{{returnTicket.effectZone}}</view>
+                                <view class="return-ticket-num" style="{{returnTicket.ticketKind == 1 ? '' : 'background-color:#29a61f'}}">x{{returnTicket.num}}</view>
+                            </view>
+                        </view>
+
+                </view>
+                
+            </view>
+            
+                <block wx:if="{{!isShowReceiveWindow}}">
+                    <view class="return-ticket-account ell">
+                        {{getTicketPhoneNumber}}
+                        <text style="margin-left:5px">查看我的<text class="underline" style="color:#26638c">优惠券</text></text>
+                    </view>
+                </block>
+                <block wx:else>
+                    <view class="flex">
+                        <view class="input-receive">
+                            <input bindinput="receivePhone" placeholder="输入手机号码" placeholder-class="receive-default" type="number" maxlength="11" style="height:27px"/>
+                        </view>
+                        <view class="btn" style="width:40%;line-height:15px" catchtap="receiveCounpon">领取</view>
+                    </view>
+                </block>
+            
+        </view>
+    </block>
+    <view class="palce-order-info">
+        <view class="info-item">
+            <view>已点菜品</view>
+            <text class="right">{{takeOrderTip}}</text>
+        </view>
+        <view class="info-item">
+            <view>消费金额</view>
+            <text class="right priceUnit">{{consumPrice/100}}</text>
+        </view>
+        <view class="info-item">
+            <view>实付金额</view>
+            <text class="right priceUnit">{{actualPayPrice/100}}</text>
+        </view>
+        <view class="info-item">
+            <view>手机号码</view>
+            <text class="right">{{consumPhoneNumber}}</text>
+        </view>
+        <view class="info-item">
+            <view>下单时间</view>
+            <text class="right">{{takeOrderTime}}</text>
+        </view>
+    </view>
+
+    <view class="place-order-bot-view">
+        <view class="btn">
+            <navigator url="/pages/order/orderDetail/orderDetail">查看订单</navigator>
+        </view>
+    
+    </view>
+</view>

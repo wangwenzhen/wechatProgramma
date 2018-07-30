@@ -1,0 +1,189 @@
+/**
+ *  无图模式
+ */
+function noImgInit(){
+    let pages = getCurrentPages();
+    let curPage = pages[pages.length - 1];
+     /**
+     * 展示分类面板
+     */
+    curPage.showGroupBoard =  function(e){
+        console.log('展示分类面板');
+
+        var noImgControl = this.data.menu.noImgControl;
+    
+        this.setData({
+            'menu.noImgControl.showDropBoard' : !noImgControl.showDropBoard,
+        });
+    },
+     curPage.hiddenBoard = function(){
+     
+        this.setData({
+            'menu.noImgControl.showDropBoard' : false,
+        });
+    },
+    /**
+     * 计算各个菜品分类所处的位置 
+     * 每次添加菜品含有配菜和属性的时候刷新界面位置
+     */
+    curPage.calculateControlFrames = function(){
+
+       var noImgcontrolFrames = this.getControlFrames(6,18,46,false);
+       var smallImgcontrolFrames = this.getControlFrames(12,18,66,true);//传的是小图下的无图高度数据
+       this.setData({
+        'menu.smallImgControl.controlFrames' : smallImgcontrolFrames,
+        'menu.noImgControl.controlFrames' : noImgcontrolFrames,
+       });
+    },
+    curPage.getControlFrames = function(containSpecialDesH,containComboDishH,defaultCellH,isHasImg){
+          var controlFrames = [];
+          var totalH = 0;//总计高度
+  
+          for(var i=0;i < this.data.menu.dishMenu.length;i++){//group
+            var group = this.data.menu.dishMenu[i];
+            var introH = group.intro ? 25 : 0; 
+            totalH +=40 + 1 + introH;//每个分组的高度 35 + 1 border-bottom
+            for(var j = 0;j < group.dishes.length ; j++ ){
+                var dish = group.dishes[j];
+           
+                if(isHasImg && dish.dishPic.length){
+                    //  if((dish.isSpecial && dish.specialLimit.length > 0)){//有特价描述
+                    //      totalH += containSpecialDesH;
+                    //  }
+                     if(dish.comboDishName.length > 0){//有套餐
+                        totalH += containComboDishH;
+                     }
+                     totalH += (defaultCellH + 12);//cell基本的高度       
+                }else{
+                    if(dish.isSpecial && dish.specialLimit.length > 0 &&dish.groupName =='特价菜'){//有特价描述
+                         totalH += containSpecialDesH;
+                     }       
+                    if(dish.comboDishName.length > 0){//有套餐
+                        totalH += containComboDishH;
+                    }
+                   
+                    totalH += defaultCellH;//cell基本的高度
+                }
+                /***
+                 * 计算有内联二级菜单 属性菜品 例如：
+                 *  烤鱼（大 小）
+                 *  配菜：土豆x5、山药x2
+                 */
+            
+                 var internalDishH = 0;
+                 var addDishes_chang = this.data.menu.shoppingCart.addDishes;
+                 for(var shoppingRecordIndex in addDishes_chang){
+                     var shoppingCartRecord = addDishes_chang[shoppingRecordIndex];
+
+                     if(((dish.isSpecial && shoppingCartRecord.isSpecial)|| !dish.isSpecial)&&(shoppingCartRecord.dishId == dish.dishId && shoppingCartRecord.dishMd5 != dish.dishMd5)){
+                 
+                           if(shoppingCartRecord.sideDishStr){//有配菜
+                                internalDishH+= isHasImg ?72 :63;//91、63
+                           }else{//无配菜
+                                internalDishH+=isHasImg ? 54 :45; //68、45
+                           } 
+                    
+                     }
+                 }
+                 
+                 if(internalDishH > 0 && isHasImg){
+                     //8是界面上的margin-bottom
+                     internalDishH+=8;
+                 }
+                 totalH += internalDishH;
+
+            }
+            if(i ==0){totalH -= 8;}//提前触发的偏移量
+            var H = totalH ;
+            var fixName = group.groupName;
+            controlFrames[i] = {'offsetHeight':H, 'groupName' : fixName};
+        }
+        return controlFrames;
+
+    },
+    curPage.scrollNoImgDish = function(e){//悬浮框切换菜品分类
+
+        this.scrollDish(e,false);
+    },
+    /**
+      * 在展开的分类面板中切换 【group（菜品）的分类】
+      */
+     curPage.switchGroup = function(e){
+
+
+        var curIndex = e.target.dataset.groupindex;
+        // var curGroupIndex = '' + curIndex ;
+        var selGroupName= e.target.dataset.groupname;
+        
+        var noImgControl = this.data.menu.noImgControl;
+        // this.data.menu.noImgControl.userSelOperation = selGroupName;
+        this.setData({
+            'menu.curGroupIndex' : curIndex,
+            'menu.noImgControl.showDropBoard' : !noImgControl.showDropBoard,
+            'menu.noImgControl.isOperation' : true,
+        });
+        
+        
+    }
+}
+/**
+ * 小图模式
+ */
+function smallVCsetup (){
+    let pages = getCurrentPages();
+    let curPage = pages[pages.length - 1];
+    curPage.scrollSmallImgDish = function(e){
+        this.scrollDish(e,true);
+    }
+}
+/**
+ * 大图模式
+ */
+function bigImgInit(){
+
+}
+
+/**
+ * 超大图模式
+ */
+function superImgInit(){
+    let pages = getCurrentPages();
+    let curPage = pages[pages.length - 1];
+
+    //点击tabbar上的分类
+    curPage.tapChange = function(event){
+         console.log(event);
+          var index = event.target.dataset.index;
+          this.scrollChange(index);
+    },
+    curPage.pageChange = function(event){    
+        console.log(event);
+        this.scrollChange(event.detail.current);  
+    },
+    curPage.scrollChange = function(i){
+      
+        this.setData({'menu.curGroupIndex':i});
+        //计算topbar的滚动
+        var res = wx.getSystemInfoSync(); 
+        var containerW = res.windowWidth;
+        var itemW = (res.windowWidth/750)*150;
+        var length= itemW*(i+1);
+        var left = this.data.menu.superImgControl.left;
+        var offset = containerW + left-length;
+        if(offset<0){
+            left+=containerW/3;     
+        }
+        if(offset>containerW-itemW){
+            left-=containerW/2;
+        }   
+        this.setData({'menu.superImgControl.left':(left)});
+        console.log('left' ,left);
+    }
+}
+
+
+module.exports = {
+    noImgInit : noImgInit,
+    smallVCInit : smallVCsetup,
+    superImgInit : superImgInit,
+}

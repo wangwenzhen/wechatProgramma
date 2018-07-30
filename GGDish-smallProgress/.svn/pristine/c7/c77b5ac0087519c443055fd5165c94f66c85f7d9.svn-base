@@ -1,0 +1,121 @@
+
+<!--<template is="secondMenu" data="{{...menu}}"/>-->
+
+
+<template name="noImgModelController">
+<view style="height:100%" class="noImg">
+    <view>
+        <!--菜品分类悬浮框-->
+        <view catchtap="showGroupBoard" class="noImg-fixed-group" catchtouchmove="catchTapEventDoNothing">
+            <view class="flex" style="height:40px">
+                <text class="drop-down-triangle {{noImgControl.showDropBoard ? 'on' : ''}}" style="flex:1">{{dishMenu[curGroupIndex].groupName}} </text>
+                <image wx:if="{{AllHasImgDishNum > 0}}" src="{{menuModel == 0 ? './image/NoImageBtn.png' : './image/haveImageBtn.png'}}" class="swich-model" catchtap="siwchMode" data-model="{{originalModel}}" >
+                </image>
+            </view>
+            <!--分类描述-->
+            <view class="group-dish-intro ell" wx:if="{{dishMenu[curGroupIndex].intro.length}}">
+                {{dishMenu[curGroupIndex].intro}}
+            </view>
+        </view>
+            <!--菜品分组展示下拉框-->
+            <view class="board-bd" catchtap="hiddenBoard" wx:if="{{noImgControl.showDropBoard}}" catchtouchmove="catchTapEventDoNothing">
+                <view style="background-color:#FFFFFF" class="drop-sel-board">
+                    <scroll-view style="{{dishMenu.length >= 10 ? (screenH - 225 > 450 ? 'height:450px' : (screenH - 225 >300 ? 'height:315px' : 'height:225px')) : ''}}" scroll-y="true" scroll-into-view="group-{{curGroupIndex}}" >
+                        <view class="cells drop-down-panel" catchtouchmove="{{dishMenu.length >= 10 ? '' : 'catchTapEventDoNothing'}}">
+                            <view id="group-{{index}}" class="cell {{index == curGroupIndex ? 'on' : ''}}" wx:for="{{dishMenu}}" data-groupName="{{item.groupName}}" catchtap="switchGroup" data-groupIndex="{{index}}" wx:key="{{index}}">{{item.groupName}}
+                            </view>
+                        </view>
+
+                    </scroll-view>
+                </view>
+            </view>
+
+
+    </view>
+
+    <!--菜品结构图-->
+    <scroll-view class="scr-bd" scroll-x="false" scroll-y="true" bindscroll="scrollNoImgDish"  scroll-into-view="group-{{noImgControl.isOperation ? curGroupIndex : ''}}">
+        <block>
+            <view wx:for="{{dishMenu}}" wx:key="{{index}}" wx:for-index="i" class="group-bd" id="group-{{i}}" wx:for-item="group">
+            <!--菜品系别-->
+                <view class="noImg-group">
+                    <view class="group-name">{{group.groupName}}</view>
+                    <view class="group-dish-intro ell" wx:if="{{group.intro.length}}">{{group.intro}}</view>
+                </view>
+
+                <!--单体菜内容总体-->
+            <block wx:for="{{group.dishes}}" wx:key="{{index}}" wx:for-index="j">
+                <view class="cell" catchtap="toDishDetail" 
+                            data-tap-menu-index="{{i}}"data-tap-dish-index="{{j}}">
+                            
+                        <view class="flex">
+                            <view style="width:48%;" class="ell">
+                                <view class="dish-des ell">{{item.dishName}}</view>
+                                <view wx:if="{{item.groupName == '特价菜' && item.specialLimit.length}}" class="special-limit ell"> {{item.specialLimit}}
+                                </view>  
+                            </view>
+                            <!--原价现价-->
+                            <view class="price-detail ell"><text class="dish-price">{{item.price/100}}</text><text class="dish-unit {{item.priceFloat ? 'dish-float' : ''}}">/{{item.dishUnit}}</text><text class="originalPri" wx:if="{{item.originalPrice}}">{{item.originalPrice/100}}</text>
+                            </view>
+                    
+                            <view class="btn-box" wx:if="{{!item.soldOut}}">
+                                <!--减号-->
+                                    <view wx:if="{{shoppingCart.addDishes[item.dishMd5].num>0 && !item.hasSideDish}}" class="minus" bindtap="tapDishMinus" data-tap-menu-index="{{i}}"data-tap-dish-index="{{j}}">
+                                    </view>
+                                <!--已点个数-->
+                                    <view class="num-innner {{shoppingCart.addDishes[item.dishMd5].num ? '':'visHidden'}}"> {{item.hasSideDish ? '' : shoppingCart.addDishes[item.dishMd5].num}}
+                                    </view>
+                                    <!--加号-->
+                                    <view class="plus" wx:if="{{!item.hasSideDish&&!item.soldOut}}" catchtap="tapDishPlus" data-tap-menu-index="{{i}}"data-tap-dish-index="{{j}}">
+                                    </view>
+
+                                <!--可选配菜视图-->
+                                    <view class="sideDish" wx:if="{{item.hasSideDish}}" catchtap="tapDishPlus" data-tap-menu-index="{{i}}"data-tap-dish-index="{{j}}">可选配菜
+                                    </view>
+
+                            </view>
+                            <view class="sellOver" wx:else="{{item.soldOut}}">
+                                    已售完
+                            </view>                            
+                        </view>
+                    <!--view 中的显示组件-->
+                         <view wx:if="{{item.comboDishName.length}}" class="packageDes ell" >{{item.comboDishName}}
+                         </view>
+
+                </view>
+               
+                   <!--二级菜单附属信息-->
+                    <view wx:if="{{item.hasOption || item.hasSideDish}}" class="affiliated" style="{{menuModel ==3 ? 'margin-left: 10px;' : ''}}"> 
+                        <block wx:for="{{shoppingCart.addDishes}}" wx:for-index="recordIndex" wx:for-item="shoppingCartRecord" wx:if="{{(((item.isSpecial && shoppingCartRecord.isSpecial)|| !item.isSpecial)&&(shoppingCartRecord.dishId == item.dishId && shoppingCartRecord.dishMd5 != item.dishMd5)) || (item.hasSideDish && item.dishMd5 == shoppingCartRecord.dishMd5)}}" wx:key="{{index}}">
+                        
+                         <view class="cell-affiliated">
+                                <view class="noImg-triangle">
+                                    <view class="affiliated-dishName ell">{{shoppingCartRecord.dishName}}<text wx:if="{{shoppingCartRecord.attrComboStr}}">({{shoppingCartRecord.attrComboStr}})</text> 
+                                    </view>
+
+                                    <view class="affiliated-price"><text class="dish-price">{{shoppingCartRecord.totalPrice/100}}</text><text class="dish-unit">/份</text><text class="originalPri" wx:if="{{shoppingCartRecord.originalTotalPrice}}">{{shoppingCartRecord.originalTotalPrice/100}}</text>
+                                    </view>
+                                    <view class="affiliated-minus-plus">
+                                            <image src="image/minus_sideDish.png" style="width:50rpx;height:50rpx;" mode="scaleToFill" catchtap="tapAlreadyChooseDishMinus" data-dish-md="{{shoppingCartRecord.dishMd5}}"></image>
+                                            <view class="inner-dish-num">{{shoppingCartRecord.num}}</view>
+                                            <image src="image/plus_sideDish.png" style="width:50rpx;height:50rpx;" mode="scaleToFill" catchtap="tapAlreadyChooseDishPlus" data-dish-md="{{shoppingCartRecord.dishMd5}}"></image>
+                                    </view>
+                                    
+                                </view>
+                                <view class="affiliated-sideDishe ell" wx:if="{{shoppingCartRecord.sideDishStr}}">配菜:{{shoppingCartRecord.sideDishStr}}</view>
+                                
+                          </view>
+                         </block>
+            
+                      
+                    </view>
+
+            </block>
+            
+            </view>
+            
+            
+        </block>
+    </scroll-view>
+</view>
+</template>

@@ -1,0 +1,352 @@
+
+var app = getApp();
+var qnRequest = require('../../../utils/request.js');
+var util = require('../../../utils/util.js');
+var constants = require('../../../utils/constants.js');
+var Dialog = require('../../component/qnDialog/qnDialog.js');
+var qnLoading = require('../../component/qnLoading/qnLoading.js');
+
+Page ({
+    data:{
+      
+        // orderId:'1101203304504440',
+        // orderInfo:{
+        //   orderId:'1101203304504440',
+        //   userPhone:"18610773772",
+        //   orderNo:"3772",
+        //   deskNo:"007",
+        //   orderStatus:"00",
+        //   createTime:"16:33",
+        //   totalPrice: 37400, 
+        //   entInfo: {
+
+        //     entName: '青牛饭店',
+        //     address: '裕惠大厦111',
+
+        //   },
+        //   dishList:[
+        //     {dishName:"肉丝大拉皮",
+        //       dishType:0,
+        //       num:2,
+        //       dishPrice:3200},
+        //     {dishName:"菠菜粉丝",
+        //       dishType:0,
+        //       num:1,
+        //       dishPrice:1000},
+        //     {dishName:"烤鱼",
+        //       dishType:0,
+        //       attrCombo:"鲢鱼 麻辣",
+        //       num:1,
+        //       dishPrice:7800},
+        //     {dishName:"烤鱼",
+        //       dishType:0,
+        //       attrCombo:"乌江鱼 香辣",
+        //       num:1,
+        //       dishPrice:19200,
+        //       subDish:[
+        //         {dishName:"土豆",num:1},
+        //         {dishName:"藕片",num:2},
+        //         {dishName:"芹菜",num:1},
+        //         {dishName:"地瓜",num:2},
+        //         {dishName:"豆皮",num:1}
+        //        ]},
+        //     {dishName:"烤鱼",
+        //        dishType:0,
+        //        attrCombo:"乌江鱼 香辣",
+        //        num:1,
+        //        dishPrice:19200},
+        //     {dishName:"套餐",
+        //        dishType:1,
+        //        attrCombo:"套餐小菜1 套餐小菜2 套餐小菜3 套餐小菜4",
+        //        num:1,
+        //        dishPrice:19200}
+        //     ],
+        //  },
+      
+        orderInfoToShow:{
+          orderStatus:"",
+          isShowBtnLay:true,
+          isShowCancelBtn:false,
+          sureBtnTxt:'',
+          modifyOrderBtnTxt:'',
+        }
+    },
+     //页面加载
+    onLoad(options){
+        console.log('======订单详情页======');
+        console.log(options && options.orderId);
+
+        qnLoading.loading();
+        Dialog.init();
+        this.Dialog.setupDialog({
+            dialogTitle:'取消订单',
+            dialogContent:'您确定取消订单吗？',
+            cancelBtnTxt:'考虑一下',
+            confirmBtnTxt:'确认取消',
+        });
+
+        var that = this;
+        // that.changeOrderStatus(this.data.orderInfo); 
+        // that.changeShowDishName(this.data.orderInfo); 
+        if(options && options.orderId){
+          this.setData({orderId:options.orderId});
+        }
+       this.loadOrderData();
+    },
+    loadOrderData:function(){
+       var that = this;
+       var orderId = this.data.orderId;
+       if(orderId){
+            wx.request({
+                url: constants.IP + constants.URL_GetOrderDetail,
+                data:{
+                  orderId:orderId
+                },
+                success:function(res){
+                  console.log('获取订单详情成功success');
+                    if(res.data.returnCode==="00"){
+                         that.changeOrderStatus(res.data.orderInfo); 
+                         that.changeShowDishName(res.data.orderInfo); 
+                    }else{
+                      that.qnLoading.loadError();
+                    }
+                    console.log(res.data);
+                },
+                fail:function(res){
+                     that.qnLoading.loadError();
+                     console.log('获取订单详情失败fail()');
+                     console.log(res);
+                },
+                complete:function(){
+                    that.qnLoading.hide();
+                }
+            });
+        }
+    },
+    //取消订单
+    cancelBtn:function(){
+        //展示弹窗询问是否确定取消订单
+        this.Dialog.show();
+    },
+    //立即下单、我要加菜
+    sureBtn:function(){
+      //根据当前订单状态 决定按钮的功能
+
+      switch(this.data.orderInfo.orderStatus){
+          case "00":
+              this.takeOrderNow();
+          break;
+          case "01":
+              this.scanToSeat();
+          break;
+          case "05":
+              this.addDish();
+          break;
+      }
+    },
+    //立即下单
+    takeOrderNow:function(){
+        wx.navigateTo({
+            url: '../commitOrder/commitOrder?shopId='+this.data.orderId,
+        });
+    },
+    //我要加菜
+    /**
+     * TODO:加菜要传orderId 还要传递加菜意图
+     */
+    addDish:function(){
+        var entId = this.data.orderInfo.entId;
+        var orderId = this.data.orderId;
+        wx.navigateTo({
+          url: '../../menu/menu?entId=' + entId + '&orderId=' + orderId,
+        })
+    },
+    //修改订单
+    changeOrder:function(){
+      if (this.data.orderInfo.orderStatus === '01'){ //加菜
+          this.addDish();
+          return;
+      }
+
+        var entId = this.data.orderInfo.entId;
+        wx.navigateTo({
+           url: '../../menu/menu?entId=' + entId,
+        })
+    },
+    //点击商家
+    entClicked:function(){
+      var entId = this.data.orderInfo.entId;
+      wx.navigateTo({
+        url: '../../menu/menu?entId=' + entId,
+      })
+    },
+    //扫码入座
+    scanToSeat:function(){
+      var that = this;
+        wx.scanCode({
+          
+          success: function(res){
+            // success
+            console.log(res);
+            var deskNum = util.urlSearch(res.result,'deskNum');
+            console.log(deskNum);
+            //调用入座接口
+            console.log('开始执行入座');    
+            wx.request({
+                url: constants.IP + constants.URL_UserArrived,
+                data: {
+                    orderId: that.data.orderId,
+                    deskNum: deskNum,
+                 },
+                 success:function(res){
+                   //入座成功 刷新数据
+                   if (res.data.returnCode === constants.RETURN_OK){
+                       that.loadOrderData();
+                       console.log('入座成功');
+                       console.log(res);
+                   }else{
+                     //入座失败
+                     console.log('入座失败');
+                     console.log(res);
+                   }
+                 },
+                 fail:function(res){
+                   //失败
+                   console.log('入座失败');
+                   console.log(res);
+                 }
+
+            });
+          },
+          fail: function(res) {
+            // fail
+             console.log(res);
+          },
+          complete: function(res) {
+            // complete
+             
+          }
+        })
+        
+    },
+    //进入店铺首页
+    toEntDetail:function(){
+         console.log("前往商家首页");
+    },
+    //确认取消订单
+    dialogConfirm:function(){
+        //调用取消订单接口
+        console.log("确认取消订单");
+        var that = this;
+        qnRequest.request({
+           url: constants.IP + constants.URL_CancelOrder,
+           data: { orderId: that.data.orderId},
+                success:function(res){
+                    if(res.data.returnCode==="00"){
+                         console.log('取消订单成功success()');
+                          //成功后 收起弹窗
+                         that.Dialog.hide();
+                          //刷新界面数据
+                         that.loadOrderData();
+                    }
+                    console.log(res.data);
+                },
+                fail:function(res){
+                     that.qnLoading.loadError();
+                     console.log('取消订单失败fail()');
+                     console.log(res);
+                },
+                complete:function(res){
+                }
+        });
+       
+    },
+    //将订单状态转换为要显示的字符串
+    changeOrderStatus(orderInfo){
+       var orderStatus = orderInfo.orderStatus;
+
+       var orderStatus_toShow = "";//订单状态
+       var isShowBtnLay = true;  //是否展示按钮布局
+       var isShowCancelBtn = false; //是否展示左边的取消订单按钮
+       var sureBtnTxt = ""; //右边确认按钮的文字
+       var modifyOrderBtnTxt = "";
+       if(orderStatus == "00"){
+            orderStatus_toShow = "等待下单";
+            sureBtnTxt = '立即下单';
+            modifyOrderBtnTxt = '修改';
+            isShowCancelBtn = true;
+       }else if(orderStatus == "01"){
+            orderStatus_toShow = "未就餐";
+            sureBtnTxt = '扫码入座';
+            modifyOrderBtnTxt = '我要加菜';
+       }else if(orderStatus == "05"){
+           orderStatus_toShow = "就餐中";
+           sureBtnTxt = '我要加菜';
+       }else if(orderStatus == "06"){
+           orderStatus_toShow = "已完成";
+           isShowBtnLay = false;
+       }else if(orderStatus == "10"){
+           orderStatus_toShow = "已取消";
+           isShowBtnLay = false;
+       }
+       this.data.orderInfoToShow.orderStatus = orderStatus_toShow;
+       this.data.orderInfoToShow.isShowBtnLay = isShowBtnLay;
+       this.data.orderInfoToShow.sureBtnTxt = sureBtnTxt;
+       this.setData({
+          'orderInfoToShow.orderStatus':orderStatus_toShow,
+          'orderInfoToShow.isShowBtnLay':isShowBtnLay,
+          'orderInfoToShow.sureBtnTxt':sureBtnTxt,
+          'orderInfoToShow.isShowCancelBtn':isShowCancelBtn,
+          'orderInfoToShow.orderStatus':orderStatus_toShow,
+          'orderInfoToShow.modifyOrderBtnTxt': modifyOrderBtnTxt,
+       });
+
+    },
+    //将要展示的dishName封装好
+    changeShowDishName(info){
+      var dishList = info.dishList;
+      if(dishList !=null&& dishList.length>0){
+        for(var i=0;i<dishList.length;i++){
+          var dishItem = dishList[i];
+          var dishName = dishItem.dishName;
+          var dishType = dishItem.dishType;
+          var attrCombo= dishItem.attrCombo;
+          var attrCombo_toShow = dishName;
+          var sideDish_toShow="";
+          if(attrCombo){
+             if(dishType == 0){ //普通菜
+               attrCombo_toShow = attrCombo_toShow+'(' +attrCombo +')';
+             }else if(dishType == 1){ //套餐
+               sideDish_toShow = attrCombo;
+             }
+          }
+          //将配菜遍历出来
+          if(dishType == 0){
+             var subDish = dishItem.subDish;
+             if (subDish != null && subDish.length > 0) {
+               for(var j=0;j<subDish.length;j++){
+                 var subDishItem = subDish[j];
+                 var subDishName = subDishItem.dishName;
+                 var subDishNum  = subDishItem.num;
+                 if(subDishNum>1){
+                   sideDish_toShow = sideDish_toShow + subDishName + '*'+subDishNum + ' ';
+                 }else{
+                    sideDish_toShow = sideDish_toShow + subDishName + ' ';
+                 }
+               }
+             }
+          }
+          dishItem.attrCombo_toShow = attrCombo_toShow;
+          dishItem.sideDish_toShow  = sideDish_toShow;
+        }
+        this.setData({
+          orderInfo:info
+        });
+      }
+    },
+    reloadData: function () {
+      console.log('重新加载');
+      this.qnLoading.show();
+      this.loadOrderData();
+    },
+})

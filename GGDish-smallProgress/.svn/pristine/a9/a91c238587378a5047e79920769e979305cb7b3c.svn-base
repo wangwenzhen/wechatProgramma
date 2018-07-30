@@ -1,0 +1,33 @@
+<!--pages/login/login.wxml-->
+<view class="login">
+
+			
+  <view class="cells line phone-verify">
+      <view class="cell cell-vcode" >
+          <view class="cell-ico"><image src="../../image/icon/phone.png"/></view>
+          <view class="cell-bd"><input placeholder="手机号" type="tel" maxlength="11"/></view>
+          <view class="cell-verify">获取验证码</view>
+      </view>
+
+      <view class="cell">
+          <view class="cell-ico"><image src="../../image/icon/keyCode.png"/></view>
+          <view class="cell-bd"><input placeholder="验证码" type="number" pattern="[0-9]*"  
+                oninput="if(value.length>6)value=value.slice(0,6)"/></view>
+      </view>
+      
+  </view>
+			
+			
+			
+
+
+  <!-- 用户协议-->
+  <view class="classname">
+  </view>
+  <!-- 确定按钮-->
+  <view class="btn verify" >验证手机号
+  
+  </view>
+
+
+</view>

@@ -1,0 +1,121 @@
+var MD5 = require('md5.js');
+function deepCopy(p,c){
+    var c = c|| {};
+    // if(Object.prototype.toString.call(p) === '[object Array]'){
+    //     c = [];
+    //     for(var i=0;i<p.length;i++){
+    //         if(typeof p[i] === 'object'){
+    //             var obj={};
+    //             c.push(this.deepCopy(p[i],obj))
+    //         }else{
+    //             c.push(p[i]);
+    //         }
+    //     }
+    // }
+    for(var i in p){
+        if(typeof p[i] === 'object'){
+            c[i] =(p[i].constructor === Array) ? [] : {};
+            this.deepCopy(p[i],c[i]);
+        }else{
+            c[i] = p[i];
+        }
+    }
+    return c;
+}
+function formatTime(date) {
+  var year = date.getFullYear()
+  var month = date.getMonth() + 1
+  var day = date.getDate()
+
+  var hour = date.getHours()
+  var minute = date.getMinutes()
+  var second = date.getSeconds()
+
+
+  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+}
+
+function formatNumber(n) {
+  n = n.toString()
+  return n[1] ? n : '0' + n
+}
+
+  /** 将Dish传过来计算MD5值
+   *  1.没有属性、没有配菜，只计算dishId
+   *  2.有属性的 dishId 拼接 按顺序排列的已选属性
+   *  3.有配菜的 dishId 拼接 按顺序排列的已选属性 在拼接按顺序排列的已选配菜
+  */
+function caculateDishMD5(dish){
+
+    if(!dish){
+      return '';
+    }
+    //没有属性、没有配菜，返回这个菜的MD5
+    if(!dish.attrCombo && !dish.sideDishData){
+      return MD5.transformMd5(dish.dishId);
+    }
+    //有属性、有配菜 拼接起来生成md5
+    var generateMd5Str = dish.dishId;
+    if(dish.attrComboStr){
+      var attrArr = dish.attrComboStr.split(" ");
+
+      generateMd5Str += ";"+attrArr.join("|");
+    }
+    if(dish.sideDishComboStr){
+      generateMd5Str += ";"+dish.sideDishComboStr;
+    }
+    return MD5.transformMd5(generateMd5Str);
+}
+/**
+ * 拓展对象
+ */
+function extend(target) {
+    var sources = Array.prototype.slice.call(arguments, 1);
+
+    for (var i = 0; i < sources.length; i += 1) {
+        var source = sources[i];
+        for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+                target[key] = source[key];
+            }
+        }
+    }
+
+    return target;
+};
+function urlSearch(url,param) {
+  var name, value;
+  
+  var num = url.indexOf("?")
+  url = url.substr(num + 1); //取得所有参数   stringvar.substr(start [, length ]
+
+  var arr = url.split("&"); //各个参数放到数组里
+  for (var i = 0; i < arr.length; i++) {
+    num = arr[i].indexOf("=");
+    if (num > 0) {
+      name = arr[i].substring(0, num);
+      value = arr[i].substr(num + 1);
+     
+      if(name === param){
+        return value;
+      }
+    }
+  }
+  return '';
+};
+function emptyOfObj(obj){
+
+  for(var key in obj){
+    return false;
+  }
+  return true;
+}
+module.exports = {
+
+  formatTime: formatTime,
+  caculateDishMD5:caculateDishMD5,
+  deepCopy : deepCopy,
+  extend:extend,
+  urlSearch: urlSearch,
+  emptyOfObj: emptyOfObj
+}

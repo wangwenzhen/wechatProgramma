@@ -1,0 +1,68 @@
+.entInfoToast{
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1000000;
+  background-color: #FFFFFF;
+}
+.ent-logo-toast{
+  position: relative;
+  margin-top: 95rpx;
+}
+.ent-logo-toast .noDishImg-bg{
+  border-radius: 30px;
+  overflow: hidden;
+}
+.ent-logo-toast > image{
+  margin: 0 auto;
+  width: 60px;
+  height: 60px;
+  display: block;
+}
+.time-body-toast{
+  color: #969696;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 55rpx;
+}
+.ent-toast-info{
+  position: relative;
+  padding: 45rpx 50rpx;
+  padding-bottom: 90rpx;
+}
+.ent-toast-info::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left:50rpx;
+  right: 50rpx;
+  border-top: 1px solid #e6e6e6;
+  transform: scaleY(0.5);
+}
+.basic-des .ent-address{
+  padding: 15rpx 0;
+}
+.cell-ft .phone-toast{
+  margin: 15rpx 3px;
+}
+.basic-des{
+  position: absolute;
+  padding: 5px 15px;
+  background-color: #FFFFFF;
+  top:0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+
+}
+.close-toast-btn{
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.close-toast-btn > image{
+  width: 50rpx;
+  height: 50rpx;
+}

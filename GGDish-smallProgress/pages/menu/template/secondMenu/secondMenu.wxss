@@ -1,0 +1,119 @@
+/*二级菜单*/
+.second-menu{
+    background-color: rgba(0,0,0,0.5) !important;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+}
+.pop-menu-bd{
+    background-color: #FFFFFF;
+    position: absolute;
+    bottom: 69px !important;
+    left: 0px;
+    right: 0px;
+    border-bottom: 1px solid  #d8d8d8;
+    z-index: 2;
+}
+
+button{
+    border-radius:0px !important;
+}
+button::after{
+    display: none;
+}
+.pop-menu-bd.adjustTop{
+    top: 0px;
+    height: 100%;
+}
+.pop-menu-bd .cell::before{
+    display: none;
+}
+.secondMenu-bottom-minus-plus{
+    display: flex;
+    align-items: center;
+    width: 180rpx;
+    position: absolute;
+    right: 14px;
+    min-height: 40px;
+}
+.cells.hiddenBottom::after{
+    display: none;
+}
+.cell.showBefore::before{
+    display: block;
+}
+
+.fiexdBot{
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 69px;
+    background-color: #FFFFFF;
+
+    /*padding-top: 5px;*/
+}
+
+.top-line :before {
+    content: " ";
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #e6e6e6;
+    color: #e6e6e6;
+    transform-origin: 0 0;
+    transform: scaleY(0.5);
+    left: 0px;
+}
+
+
+.cell-left{
+    width: 70%;
+}
+
+.cell.sencond-sideDish{
+    display: flex !important;
+}
+.cell.sencond-sideDish:nth-child(2)::before{
+    display: none;
+}
+.secondMenu-cls .cell::before{
+    display: none !important;
+}
+.secondMenu-cls{
+    padding-bottom: 5px;
+}
+.second-dish-delete{
+    width:19px;
+    height:18px;
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+}
+.option>button.on{
+    border: 1px solid #cf112d;
+    color:  #cf112d ;
+    background: #FDF0F0;
+}
+.option>button{
+    text-align: center;
+    font-size: 15px;
+    margin: 5px 7px;
+    float: left;
+    background: #f0f0f0;
+    border: 1px solid #d8d8d8;
+}
+
+.option{
+    padding-left: 8px;
+}
+/**背景置灰*/
+.btn.gray{
+    background-color: #F0F0F0;
+    color:#18181C;
+}
+.btn.gray:active{
+  background-color: #F0F0F0;
+}

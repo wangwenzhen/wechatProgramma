@@ -1,0 +1,17 @@
+<!--pages/queryEnt/queryEnt.wxml-->
+<view class="top-view" style="{{home.shopList && home.shopList.length ? 'padding-bottom:0;border-bottom:0' : ''}}">
+    <view class="search-bg flex">
+                <image src="../../../image/search-logo.png" style="width:24px;height:22px;margin-right:8px"></image>
+                <form bindreset="reset" style="width:100%">
+                    <view class="flex">
+                        <input placeholder="请输入商家名称" placeholder-class="location-input" bindinput="searchEnt"    focus="false" bindfocus="focus"/>
+                
+                        <button form-type="reset" type="download" class="bg-btn"></button>
+                    </view>
+                </form> 
+    </view>    
+    <view class="shopList">
+        <include src="common/common.wxml"/>
+    </view>
+</view>    
+<view class="load-more" wx:if="{{!home.shopList.length}}">没有更多商家了</view>

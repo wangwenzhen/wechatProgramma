@@ -1,0 +1,116 @@
+<!--logs.wxml-->
+<!--<include src="../component/qnLoading/qnLoading.wxml"/>-->
+
+<view class="pd">
+
+
+<view class="btn" bindtap="userInfo">选好了</view>
+
+    <view class="btn off" bindtap="bigImg">选好了</view>
+
+    <view class="btn-sel">
+        <view class="btn" bindtap="superImg">按钮1</view>
+        <view class="btn yel">按钮2</view>	
+    </view>
+
+
+    <view class="btn-sel">
+        <view class="btn blank">按钮1</view>
+        <view class="btn">按钮2</view>	
+    </view>
+
+  <view class="btn-sel">
+        <view class="btn b-red">按钮1</view>
+        <view class="btn b-red">按钮2</view>	
+ </view>
+
+</view>
+
+
+
+<view class="cells">
+    <view class="cell">
+    <view>content1</view>
+    </view>
+    <view class="cell">
+        <view>content2</view>
+    </view>	
+   
+</view>
+
+
+
+<view class="cells line">
+    <view class="cell">
+    <view>全边框</view>
+    </view>
+    <view class="cell">
+        <view>全边框</view>
+    </view>	
+ 
+</view>
+
+<view class="cells">
+    <view class="cell act">							
+    <view class="cell-bd ell">跳转列表跳转列表跳转列表跳转列表跳转列表跳转列表跳转列表</view>
+    <view class="cell-ft"></view>
+    </view>
+
+    <view class="cell act">							
+        <view class="cell-bd">跳转列表</view>
+        <view class="cell-ft"></view>
+    </view>
+    <view class="cell act more">
+        <view class="cell-bd">查看更多<text class="triangle-b"></text></view>
+    </view>	
+</view>
+
+
+
+<view class="cells">
+    <view class="cell">
+        <view class="cell-ico">
+            <image src="../../image/icon/shop.png"  mode="widthFix"></image>
+        </view>
+        <view>标题</view>
+    </view>
+    <view class="cell act">
+        
+        <view class="ellLn2">内容区域内容区域内容区域内容区域内容区域内容区域内容区域内容区域内容区域内容区域内容区域内容区域内容区域内容区域内容区域内容区域内容区域内容区域内容区域内容区域</view>
+        <view class="cell-ft"></view>
+    </view>
+    
+</view>
+<view class="loading"></view>
+
+<view class="" style="width:100px">
+<view class="ell" style="width:100%">abbbbbbbbbbbbbfffff</view>
+
+
+</view>
+
+
+
+<view class="" style="width:100px;display:flex;">
+
+<view style="flex:1">
+
+<view class="ell" style="width:100%">
+
+
+abbbbbbbbbbbbbfffff
+
+
+
+
+</view>
+
+</view>
+
+
+
+</view>
+
+<view class="classname" style="background-color:yellow;display:inline-block">
+    <image src="../../image/noDefult" style="width:30px;height:30px"></image>
+</view>

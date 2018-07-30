@@ -1,0 +1,94 @@
+// pages/order/selectedDishHint/selectedDishHint.js
+var common = require('../common.js');
+var constants = require('../../../utils/constants.js');
+
+Page({
+    data:{
+      
+    },
+    onLoad:function(options){
+        // 页面初始化 options为页面跳转所带来的参数
+        console.log('--选好菜品提示页---');
+        console.log('shopId:' + options.shopId + 'entId :' + options.entId);
+        var shopId = options.shopId;
+        var entId = options.entId;
+        this.setData({ shopId: shopId , entId : entId})
+        this.requestOrderDetail();
+        
+    },
+    requestOrderDetail:function(){
+      var that = this;
+      wx.request({
+        url: constants.IP + constants.URL_PreOrderDetail,
+        data: {
+          entId: that.data.entId,
+          shopId: that.data.shopId,
+        },
+        success: function (res) {
+
+          if (res.data.returnCode == "00") {
+            // 正常结束小牛动画
+            console.log('获取订单信息成功');
+            that.setupViewData(res.data);
+            
+
+          } else {
+            // 非正常结束小牛动画
+            console.log('获取订单信息失败');
+
+          }
+          
+        },
+        fail: function (res) {
+          
+          console.log('获取订单信息 - fail');
+          
+        },
+        complete: function (res) {
+          console.log(res);
+        }
+      });
+      
+    },
+    setupViewData:function(data){
+        var orderInfo_chang = data.orderInfo;
+        var dishs_chang = data.dishs;
+        
+        /**界面渲染数据 */
+        var orderInfoDetail = this.getOrderInfoDetail(orderInfo_chang);
+        var totalPrice = orderInfo_chang.totalPrice;
+        this.setData({
+          orderInfo: orderInfo_chang, 
+          dishs: dishs_chang,
+          orderInfoDetail: orderInfoDetail,
+          totalPrice: totalPrice
+        })
+
+    },
+    getOrderInfoDetail:function(obj){
+      var orderInfoDetail = '';
+      var mainFoodNum = obj.mainFoodNum;
+      var dishNum = obj.dishNum;
+      var tableWare = obj.tableWare;
+      var tableNum = obj.tableNum;
+      if (dishNum > 0) {orderInfoDetail += dishNum + "道菜";} 
+      if (mainFoodNum > 0) {orderInfoDetail += mainFoodNum + "份主食";} 
+      if (tableWare > 0) { orderInfoDetail += tableWare + "份餐位";}
+      if (tableNum > 0) { orderInfoDetail += tableNum + "份餐具"; }
+      return orderInfoDetail;
+    },
+    toSelectedDishDetail:function(){
+      
+      wx.navigateTo({
+        url: '../selectedDishDetail/selectedDishDetail?shopId='+this.data.shopId+'&entId='+this.data.entId,
+        success: function(res) {},
+        fail: function(res) {},
+        complete: function(res) {},
+      })
+    },
+    scanToSeat:function(){
+        this.data.orderInfo.entId= this.data.entId;
+       common.scanToSeat(this.data.orderInfo);
+    }
+ 
+})

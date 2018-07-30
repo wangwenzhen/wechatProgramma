@@ -1,0 +1,49 @@
+<view class="sortList flex" catchtouchmove="doNothingForCatch">
+      <view wx:for="{{sortZone}}" wx:key="*this" class="option {{index == selectIndex ? 'on' : ''}}" catchtap="querySort" data-queryType="{{index}}">{{item}}</view>
+</view>
+<view class="toast-bg" wx:if="{{selectIndex >= 0}}" catchtouchmove="doNothingForCatch" catchtap="closeBg">
+    <view class="list-bg" style="{{selectIndex == 0 ?'padding:10px 7px;' :''}}">
+          <block wx:if="{{selectIndex == 0}}"><!--全部-->
+              <view class="sort-block" wx:for="{{allQuery}}" wx:key="*this" style="width:{{sortBlockW}}px;padding:20rpx 0;">{{item}}</view>
+          </block>
+          <block wx:elif="{{selectIndex == 1}}"><!--智能排序-->
+              <view wx:for="{{smartSort}}" class="outer-bd flex" wx:key="*this">
+                  <block wx:if="{{index==0}}">
+                      <view class="smart-sort {{selectSubIndex == index ? '' : 'off'}}"></view>
+                  </block>
+                  <block wx:elif="{{index==1}}">
+                      <view class="hot-sort {{selectSubIndex == index ? '' : 'off'}}"></view>
+                  </block>
+                  <block wx:else>
+                      <view class="distance-near {{selectSubIndex == index ? '' : 'off'}}"></view>
+                  </block>
+
+                  
+                  
+                  <view class="smartSort {{selectSubIndex == index ? 'on' : ''}}">{{item}}</view>
+              </view>
+          </block>
+          <block wx:else><!--筛选-->
+              <view class="flex" wx:for="{{screening}}" class="outer-bd flex" wx:key="*this">
+                  <block wx:if="{{index==0}}">
+                      <view class="takeOrder-counpon {{selectSubIndex == index ? '' : 'off'}}"></view>
+                  </block>
+                  <block wx:elif="{{index==1}}">
+                      <view class="return-counpon {{selectSubIndex == index ? '' : 'off'}}"></view>
+                  </block>
+                  <block wx:elif="{{index==2}}">
+                      <view class="coupon-icon {{selectSubIndex == index ? '' : 'off'}}"></view>
+                  </block>
+                  <block wx:else>
+                      <view class="special-text-icon {{selectSubIndex == index ? '' : 'off'}}"></view>
+                  </block>
+                  <view class="screening {{selectSubIndex == index ? 'on' : ''}}">{{item}}</view>
+              </view>
+          </block>
+    </view>
+</view>
+
+
+
+
+<view style="width:50px">2啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法2</view>

@@ -1,0 +1,5 @@
+<view class="sortList flex">
+        <view class="option" catchtap="querySort" data-queryType="">全部 <image src="../../../../image/home-drop-arrow.png" style="width:11px;height:7px" ></image></view>
+        <view class="option" catchtap="querySort" data-queryType="">智能排序 <image src="../../../../image/home-drop-arrow.png" style="width:11px;height:7px" ></image></view>
+        <view class="option" catchtap="querySort" data-queryType="">筛选 <image src="../../../../image/home-drop-arrow.png" style="width:11px;height:7px" ></image></view>
+</view>

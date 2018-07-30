@@ -1,0 +1,12 @@
+<view class="tip " wx:if="{{toastShow}}">
+   
+    <view class="{{toastShow?'fadeUp':''}}">
+    <block wx:if="{{toastType=='warnImg'}}">
+     <image  src="../../image/icon-warning.png" mode="" ></image>
+     </block>
+     <block wx:elif="{{toastType=='loading'}}">
+     <view  class="loading" mode="" ></view>
+     </block>
+        <view>{{toastContent}}</view>
+    </view>
+</view>

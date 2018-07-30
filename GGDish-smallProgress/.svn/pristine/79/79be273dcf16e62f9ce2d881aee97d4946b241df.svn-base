@@ -1,0 +1,560 @@
+// pages/main/home/home.js
+var qnLocation = require('../../../utils/map');
+var qnRequest = require('../../../utils/request.js');
+var constants = require('../../../utils/constants.js');
+var getOpenId = require('../../../utils/getOpenId.js');
+var qnLoading = require('../../component/qnLoading/qnLoading.js')
+Page({
+  data:{
+    home:{
+      onGoingOrder: {
+        // entId: '11111',
+        logo: 'sss',
+        orderId: '订单号:9213',
+        entName: '青牛饭店',
+        orderInfo: '11道菜 5份主食 3份餐具',
+        payMoney: 0,
+        totalPrice: 35600,
+        dishInfo: '红烧肉 麻婆豆腐 芋头泡饼 剁椒鸡蛋 三线米西 啤酒炸鸡',
+        isSeat: 1,
+        orderStatus: '等待下单',//订单状态 10等待下单 、 20 进餐中订单 
+      },
+      takeOrderIconDes: [
+        '家常菜',
+        '小吃快餐',
+        '火锅',
+        '烧烤',
+        '自助餐',
+        '海鲜',
+        '清真',
+        '西餐'
+      ],
+      isShowPreferentialView: false,//优惠view
+      shopList: [
+        // {
+        //   logo: 'sss',
+        //   shopName: '鸿运天外天烤鸭店',
+        //   addressAndFeaturesDish: '西钓鱼台 北京菜',
+       
+        //   couponMaterialList: [
+        //     {
+        //       "content": "满1元返1元",    
+        //       "couponType": "3",//3返券 、 2满减 、1折扣
+        //     },
+        //     {
+        //       "content": "满10元减2元",
+        //       "couponType": "2",
+        //     },
+        //     {
+        //       "content": "满2元打1折",
+        //       "couponType": "1",
+        //     }],
+        //   recentConsume: '2天前关顾',
+        //   isCollection: true,
+        //   distance: 900,//单位为m
+        //   entId: '1480484337783'
+        // },
+        // {
+        //   logo: 'ssss',
+        //   shopName: '福义轩',
+        //   addressAndFeaturesDish: '西钓鱼台 北京菜',
+    
+        //   recentConsume: '3天前光顾过',
+        //   isCollection: true,
+        //   distance: 1100,//单位为m
+        //   entId: '1480484337900'
+        // },
+        // {
+        //   logo: 'sss',
+        //   shopName: '重庆美食',
+        //   addressAndFeaturesDish: '航天桥 川菜',
+         
+        //   recentConsume: '人均 ￥87元',
+        //   isCollection: false,
+        //   distance: 1500,//单位为m
+        //   entId: '1480484331000'
+        // }
+      ],
+    },
+
+    // 远程JSON源数据
+    entList:[
+      {
+        "entId": "1a1a66",
+        "entName": "c123",
+        "entLogo": "resource/image/defaultPic/logoDF.png",
+        "industyName": "北京菜",
+        "distance": 5431,
+        "privilegeMsg": "",
+        "collectionStatus": 0,
+        "address": "裕惠大厦",
+        "recentConsume": ""
+      },
+      {
+        "entId": "1480484337783",
+        "entName": "冰糖sherly2",
+        "entLogo": "resource/image/defaultPic/logoDF.png",
+        "industyName": "北京菜",
+        "distance": 5431,
+        "type": "10",
+        "privilegeMsg": "每满10元减9.99元",
+        "collectionStatus": 1,
+        "address": "惠大厦",
+        "couponMaterialList": [
+          {
+            "amount": 1,
+            "availableEndTime": "15:00",
+            "availableStartTime": "10:00",
+            "channelStr": "",
+            "className": "CouponMaterial",
+            "consumeAmountLimit": 1,
+            "content": "满1元返1元",
+            "couponDetail": "1",
+            "couponId": "33aeed48e2644a98a2678f24fb9e76ca",
+            "couponSourceFlag": "1",
+            "couponStatus": "2",
+            "couponTrade": "",
+            "couponType": "3",
+            "createTime": "2016-11-30 17:48:52",
+            "discountStr": "0.01",
+            "editTime": "",
+            "endDate": "",
+            "entAddress": "",
+            "entId": "1480484337783",
+            "entityDescription": "",
+            "entName": "",
+            "id": "ff80808158b4003b0158b4a305550001",
+            "imgPath": "resource/image/common/backkey.png",
+            "intro": "",
+            "isHolidayUse": 1,
+            "isWeekendUse": 1,
+            "landmark": "",
+            "moneyStr": "0.01",
+            "objectDescription": "",
+            "objectID": "",
+            "objectName": "couponMaterial",
+            "operator": "",
+            "privilegeId": "",
+            "privilegeType": "2",
+            "publishStatus": "1",
+            "showMicroweb": 0,
+            "startDate": "",
+            "timeType": 1,
+            "title": "1元代金券",
+            "top": 1,
+            "url": ""
+          },
+          {
+            "amount": 2,
+            "availableEndTime": "15:00",
+            "availableStartTime": "10:00",
+            "channelStr": "",
+            "className": "CouponMaterial",
+            "consumeAmountLimit": 0,
+            "content": "满2元返5元",
+            "couponDetail": "5",
+            "couponId": "8d6421d1fff1477ca53b314516d0e53c",
+            "couponSourceFlag": "1",
+            "couponStatus": "2",
+            "couponTrade": "",
+            "couponType": "3",
+            "createTime": "2016-11-30 17:48:52",
+            "discountStr": "0.05",
+            "editTime": "",
+            "endDate": "",
+            "entAddress": "",
+            "entId": "1480484337783",
+            "entityDescription": "",
+            "entName": "",
+            "id": "ff80808158b4003b0158b4a305590002",
+            "imgPath": "resource/image/common/backkey.png",
+            "intro": "",
+            "isHolidayUse": 1,
+            "isWeekendUse": 1,
+            "landmark": "",
+            "moneyStr": "0.02",
+            "objectDescription": "",
+            "objectID": null,
+            "objectName": "couponMaterial",
+            "operator": "",
+            "privilegeId": "",
+            "privilegeType": "1",
+            "publishStatus": "1",
+            "showMicroweb": 0,
+            "startDate": "",
+            "timeType": 1,
+            "title": "5元代金券",
+            "top": 1,
+            "url": ""
+          }
+        ],
+        "recentConsume": "光过8次"
+      },
+      {
+        "entId": "1a1ac",
+        "entName": "c123",
+        "entLogo": "resource/image/defaultPic/logoDF.png",
+        "industyName": "北京菜",
+        "distance": 5431,
+        "privilegeMsg": "",
+        "collectionStatus": 0,
+        "address": "裕惠大厦",
+        "recentConsume": ""
+      }
+      ],
+    "longitude": "116.3293",
+    "latitude": "39.96383",
+     
+     onGoingOrderInfo:{
+       orderId:'wangwz',
+     },
+     page:1,
+     indexOrder: {
+       "shopId": "1494249682389850",
+       "orderId": "1494249682389850",
+       "totalPrice": 288800,
+       "specialDiscount": 287800,
+       "entId": "1483669756662",
+       "orderStatus": "100",
+       "dishName": "健康套餐 ",
+       "dishNum": 1,
+       "tableNum": 0,
+       "stapleFoodNum": 0,
+       "entName": "缤纷小镇（假订单）",
+       "domainHacks": "colorful",
+       "entImage": "resource/image/defaultPic/logoDF.png"
+     }
+  },
+  onLoad:function(options){
+    // 页面初始化 options为页面跳转所带来的参数
+    
+    qnLoading.loading();
+
+    this.getOpenId();
+    qnLocation.QnMap();
+    this.Map.autoLocation();
+    this.setUpConstants();
+    // wx.getStorageSync('openId');
+  
+    // this.initData();
+    
+  },
+  /**
+   * 定位成功
+   */
+  hideLoading:function(){
+    this.qnLoading.hide();
+  },
+  /**
+   * isClear ，true 重新请求，false 加页请求
+   */
+  initData:function(isClear){
+    this.requestEntListInfo(true);
+    this.requestOnGoingOrder()
+    this.requestPopEnt();
+  },
+  requestOnGoingOrder:function(){
+    var that = this;
+    wx.request({
+      url: constants.IP + constants.URL_QueryIndexOrder,
+      data: {
+        openId: wx.getStorageSync('openId'),
+      },
+      success: function (res) {
+
+        if (res.data.returnCode == "00") {
+          // 正常结束小牛动画
+          res.data = that.data.indexOrder;//构建假数据
+          that.setUpOnGoingOrder(res.data);
+
+          console.log('查询首页正在进行中的订单成功');
+        } else {
+          // 非正常结束小牛动画
+          console.log('查询首页正在进行中的订单失败');
+
+        }
+        console.log(res);
+      },
+      fail: function (res) {
+        console.log('查询首页正在进行中的订单数据请求 - fail');
+        console.log(res);
+      },
+      complete: function (res) {
+
+      }
+    });
+  },
+  setUpOnGoingOrder:function(data){
+      var indexOrder_chang = data.indexOrder;
+      if (!indexOrder_chang)return;
+      /**
+       * 构建界面正在进行中的订单
+       */
+      var onGoingOrder_chang = {};
+      onGoingOrder_chang.logo = constants.IP + indexOrder_chang.entImage;
+      onGoingOrder_chang.orderId = "订单号:" + indexOrder_chang.orderId.substr(indexOrder_chang.orderId.length - 4);
+      onGoingOrder_chang.entName =indexOrder_chang.entName;
+      var orderInfo_chang = "";
+      if (indexOrder_chang.dishNum > 0) orderInfo_chang += indexOrder_chang.dishNum+"道菜 ";
+      if (indexOrder_chang.stapleNum > 0) orderInfo_chang += indexOrder_chang.stapleNum + "份主食 ";
+      if (indexOrder_chang.tableWare > 0) orderInfo_chang += indexOrder_chang.tableWare +"份餐位 ";
+      if (indexOrder_chang.tableNum > 0) orderInfo_chang += indexOrder_chang.tableNum + "份餐具";
+      onGoingOrder_chang.orderInfo =orderInfo_chang;
+      onGoingOrder_chang.payMoney = indexOrder_chang.totalPrice - indexOrder_chang.specialDiscount;
+      onGoingOrder_chang.totalPrice = indexOrder_chang.totalPrice;
+      /**
+       * 假数据
+       */
+      onGoingOrder_chang.dishInfo = "红烧肉 我还没处理假的 芋头泡饼 剁椒鸡蛋 三线米西 啤酒炸鸡";
+      this.setData({ 'home.onGoingOrder': onGoingOrder_chang})
+  },
+  requestPopEnt:function(){
+    // 
+    var that = this;
+   
+    qnRequest.request({
+      url: constants.IP + constants.URL_QueryMostPopEnt,
+      data: {
+        // longitude: that.data.longitude,//维度
+        // latitude: that.data.latitude,//纬度
+        longitude: '116.3293',
+        latitude: '39.96383',
+      },
+      success: function (res) {
+        
+        if (res.data.returnCode == "00") {
+          // 正常结束小牛动画
+          if(res.data.entInfo){
+            var hottestEnt = "@"+res.data.entInfo.name+"("+res.data.entInfo.address+")";
+            that.setData({
+              hottestEnt: hottestEnt,
+              entInfo: res.data.entInfo
+            })
+          }
+          console.log('查询最热商铺成功');
+        } else {
+          // 非正常结束小牛动画
+          console.log('查询最热商铺失败');
+
+        }
+        console.log(res);
+      },
+      fail: function (res) {
+        console.log('查询最热商铺数据请求 - fail');
+        console.log(res);
+      },
+      complete: function (res) {
+        
+      }
+    });
+  },
+  /**
+   * 构建界面数据
+   */
+  getHomeData: function (data, isClear){
+
+    var entList_chang = data.entList;
+    /**
+     * 构造 shopList
+     */
+    var shopList_chang = [];
+    for(var i = 0; i <entList_chang.length;i++){
+      let entObj_chang = entList_chang[i];
+      let shop_insert = {};
+      shop_insert.shopName = entObj_chang.entName;
+      shop_insert.addressAndFeaturesDish = entObj_chang.address.length ? entObj_chang.address + " " + entObj_chang.industyName : entObj_chang.industyName;
+      shop_insert.recentConsume = entObj_chang.recentConsume;
+      shop_insert.isCollection = entObj_chang.collectionStatus == 0 ? false:true;
+      shop_insert.distance = entObj_chang.distance;
+      shop_insert.entId = entObj_chang.entId;
+      shop_insert.logo = constants.IP + entObj_chang.entLogo;
+      /**
+       * couponMaterialList 数据还未处理
+       */
+      if (!isClear){
+        this.data.home.shopList.push(shop_insert);
+        this.data.entList.push(entObj_chang);
+      }else
+        shopList_chang.push(shop_insert);
+      
+    }
+    if (!isClear){//分页
+        this.setData({
+          entList: this.data.entList,
+          'home.shopList': this.data.home.shopList,
+        });
+    }else{
+        this.setData({
+          entList: entList_chang,
+          'home.shopList': shopList_chang,
+        })
+    }
+
+    
+  },
+  /**
+   * 首页8个筛选的图标宽度进行适配，
+   * 获取适合的宽高
+   */
+  setUpConstants:function(){
+      var res = wx.getSystemInfoSync(); 
+      // var containerH=res.windowHeight;
+      var containerW = res.windowWidth;
+      var scale = 750 / containerW;
+      var takeOrderIconW_chang = (containerW - (45 * 4) - (17.5 * 2 / scale)) / (4 * 2);
+      this.setData({ takeOrderIconW : takeOrderIconW_chang});
+  },
+  onReady:function(){
+    // 页面渲染完成
+  },
+  onShow:function(){
+    var obj = wx.getStorageSync('latitude');
+    if (!obj){
+      return;
+    }
+    // 页面显示
+    this.setData({
+      latitude: wx.getStorageSync('latitude'),
+      longitude: wx.getStorageSync('longitude'),
+      address: wx.getStorageSync('locationRegion')
+    });
+
+  },
+  onHide:function(){
+    // 页面隐藏
+  },
+  onUnload:function(){
+    // 页面关闭
+  },
+  errorImg:function(event){
+      if (event.currentTarget.dataset.entlogo){
+        this.setData({
+          'home.onGoingOrder.logo': '../../../image/noImgForSmallModel.png',
+        });  
+        return;
+      }
+      var shop_index = event.currentTarget.dataset.tapShopIndex;
+      var shopList_chang = this.data.home.shopList;
+      shopList_chang[shop_index].logo = '../../../image/noImgForSmallModel.png';
+      this.setData({
+          'home.shopList' : shopList_chang
+      });
+  },
+  /**
+   * 下拉
+   */
+  onPullDownRefresh: function () {
+      console.log('下拉');
+      this.setData({page:1});
+      this.requestEntListInfo(true);
+  }, 
+  onReachBottom: function(){
+      this.data.page ++;
+      this.setData({ page: this.data.page})
+      this.requestEntListInfo(false);
+  },
+  /**
+   * isClear 是否分页
+   */
+  requestEntListInfo:function(isClear){
+    var that = this;
+    // console.log('openId: ' + wx.getStorageSync('openId'));
+    qnRequest.request({
+      url: constants.IP + constants.URL_QueryEntList,
+      data: {
+        // longitude: that.data.longitude,//维度
+        // latitude: that.data.latitude,//纬度
+        longitude: '116.3293',
+        latitude: '39.96383',
+        userId: wx.getStorageSync('openId'),//用户Id
+        page: that.data.page,//页数
+        sortType: 0,//排序方式
+        searchValue: '',//搜索名
+        industryId: '',//常态Id
+        regionName: '北京',//城市名
+        privilege: 0,//优惠类型
+        pageSize:20
+      },
+      header: { 'content-type': 'application/x-www-form-urlencoded' },
+      method: 'POST',
+      success: function (res) {
+        console.log('首页加载成功：res.entList.length 个数 ：' + res.data.entList.length);
+        if (res.data.returnCode == "00") {
+          // 正常结束小牛动画
+          console.log('请求数据成功');
+          that.getHomeData(res.data, isClear);
+
+
+        } else {
+          // 非正常结束小牛动画
+          console.log('请求数据异常');
+
+        }
+        console.log(res);
+      },
+      fail: function (res) {
+        console.log('首页数据请求 - fail');
+        console.log(res);
+      },
+      complete: function (res) {
+        wx.stopPullDownRefresh();
+      }
+    });
+  },
+  toLocation :function(){
+      var that=this;
+      wx.navigateTo({
+        url: '../../chooseLocation/chooseLocation?address='+this.data.address,
+        success: function(res){
+            console.log('跳转chooseLocation成功');
+            that.setData({ showLocationFail:false})
+        },
+        fail: function(res) {
+          // fail
+          console.log('跳转chooseLocation失败');
+        },
+        complete: function(res) {
+          
+        }
+      })
+  },
+  getOpenId:function(){
+
+      getOpenId.login({
+        loginUrl:'https://order2.m.qncloud.cn/mina/order/wxMinaGetOpenId.action',
+        success: function(){
+            console.log("获取openId成功");
+        },
+        fail: function(){
+          console.log("获取openId失败");
+        }}
+      );
+  },
+  /**
+   * 进入点菜页
+   */
+  toTakeOrder:function(e){
+    var entId = e.currentTarget.dataset.entid;
+    if(!entId || !entId.length){console.log('entId不正确：'+entId);}
+    wx.navigateTo({
+      url: '../../menu/menu?entId='+entId,
+    })
+  },
+  toDishDetail:function(e){
+    var orderId = e.currentTarget.dataset.orderid;
+    if(!orderId || !orderId.length){console.log('orderId不正确：'+orderId)};
+    wx.navigateTo({
+      url: '../../order/selectedDishDetail/selectedDishDetail?orderId='+orderId,
+    })
+  },
+  querySort:function(e){
+      console.log('查询排序');
+      wx.navigateTo({
+        url: '../home/querySort/querySort',
+      })
+      
+  },
+  getPageName:function(){
+    return "home";
+  }
+})

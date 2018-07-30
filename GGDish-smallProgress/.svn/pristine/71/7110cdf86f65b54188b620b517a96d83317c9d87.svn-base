@@ -1,0 +1,9 @@
+<block wx:if="{{showMoreDes}}">
+    <view class="load-more-gugu-animation">上拉加载更多</view>
+</block>
+<block wx:elif="{{showloadDes}}">
+    <view class="load-more-gugu-animation">
+        <view class="refresh-list"></view>
+            <text style="margin-left:5px;line-height: 20px">{{loadDes}}</text>
+    </view>
+</block>

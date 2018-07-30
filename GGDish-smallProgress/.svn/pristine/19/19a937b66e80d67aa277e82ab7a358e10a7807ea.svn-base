@@ -1,0 +1,28 @@
+<!--pages/myCard/myCard.wxml-->
+<include src="../component/qnLoading/qnLoading.wxml"/>
+<view class="myCard">
+
+    <block wx:if="{{cardList && cardList.length>0}}">
+        <view wx:for="{{cardList}}" wx:key="{{index}}" class="card" bindtap="onCardItemClicked" data-index="{{index}}">
+            <image src="../../image/card{{index%4}}.png"></image>
+            <view class="ent-info flex">
+                <view class="ent-logo">
+                    <image src="{{ip + item.entLogo}}"></image>
+                </view>
+                <view >
+                    <view class="ent-name">{{item.entName}}</view>
+                    <view wx:if="{{item.integration}}" class="integration">积分：{{item.integration}}</view>
+                </view>
+                <view class="vip">银卡会员</view>
+            </view>
+          
+        </view>
+    </block>
+    <block wx:else>
+        <view class="no-data" >
+              <image src="../../../image/collection_nodata.png"></image>
+              <text>暂无会员卡</text>
+        </view>
+    </block>
+
+</view>

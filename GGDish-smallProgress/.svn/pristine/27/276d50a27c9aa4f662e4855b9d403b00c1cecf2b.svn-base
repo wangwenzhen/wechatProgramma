@@ -1,0 +1,74 @@
+// pages/myCollection/myCollection.js
+// 我的收藏
+var app = getApp();
+var constants = require('../../utils/constants.js');
+var qnRequest = require('../../utils/request.js');
+var getOpenId = require('../../utils/getOpenId.js');
+var qnLoading = require('../component/qnLoading/qnLoading.js')
+Page({
+  data:{
+      ip:"https://v.qncloud.cn/",
+      entList:[
+        // { entId:"1492659799253",
+        //   entLogo:"resource/image/defaultPic/logoDF.png",
+        //   entName:"谁都不要操作此店",
+        //   industyName:"北京菜",
+        //   privilegeMsg:"满10.00元减1.00元",
+        //   recentConsume:"0天之前来过"
+        // }
+      ]
+  },
+  onShow:function(){
+    this.initData();
+  },
+  onLoad:function(options){
+      qnLoading.loading();
+  },
+  initData:function(){
+        var that = this;
+        qnRequest.request({
+            url: constants.IP + constants.URL_UserCollecton,
+            
+            method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+            // header: {}, // 设置请求的 header
+            success: function(res){
+                console.log(res);
+                if(res.data&& res.data.returnCode === constants.RETURN_OK){
+                    that.setData({
+                        entList:res.data.entList
+                    });
+                }else{
+                //获取失败
+                }
+                // success
+            },
+            fail: function(res) {
+                // fail
+                console.log(res);
+            },
+            complete: function(res) {
+                // complete
+              that.qnLoading.hide();
+            }
+        })
+    },
+    //点击商家列表item
+    onEntItemClick:function(event){
+        var index = event.currentTarget.dataset.index;
+        console.log(index);
+        var entId = this.data.entList[index].entId;
+        wx.navigateTo({
+           url: '../menu/menu?entId=' + entId,
+         })
+    },
+    getOpenId:function(callback){
+        getOpenId.login({
+            success: function(){
+                callback.success();
+            },
+            fail: function(){
+                console.log();
+            }
+        })
+    }
+})

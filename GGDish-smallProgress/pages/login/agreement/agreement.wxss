@@ -1,0 +1,24 @@
+/* pages/login/agreement/agreement.wxss */
+.agreement{
+   background: #fff;
+}
+.agreement > view{
+    margin: 5px;
+    margin-bottom: 0px;
+    padding: 5px;
+}
+.sss{
+    padding: 0px;
+    height: 50px;
+    text-align: center;
+    
+    line-height: 45px;
+    color: #000;
+}
+
+.title{
+    font-weight: bold;
+}
+.agreement .btn{
+   margin: 60rpx 34rpx;
+}

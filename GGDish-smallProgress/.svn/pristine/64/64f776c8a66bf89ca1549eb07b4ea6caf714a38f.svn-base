@@ -1,0 +1,180 @@
+
+.cmtOrder{
+
+}
+
+.statistic > .cell{
+    padding-bottom:0;
+}
+.icon-privlg{
+    width: 30rpx;
+    height: 30rpx;
+    margin-right:20rpx;
+    margin-top: 3px;
+}
+.checked-privlg{
+    width: 40rpx;
+    height: 40rpx;
+}
+.privlg-able{
+    
+}
+.privlg-disable{
+    
+}
+.change-dish{
+     text-decoration: underline;
+     font-size: 24rpx;
+     color: #25628c;
+}   
+.privlg-able .cell-bd{
+    color:#1F1F1F;
+}
+.privlg-disable .cell-bd{
+     color:#969696;
+}
+.privlg-disable-hint{
+    color:#CF112D;
+    font-size:24rpx;
+    padding-left:24rpx;
+    margin-top: 35rpx;
+    margin-bottom: -10rpx;
+}
+.discount-lay .cell{
+    align-items: inherit;
+}
+.privilege-name{
+    font-size:32rpx;
+    color: #000000;
+    margin-right: 20rpx;
+}
+.discount-money{
+    color: #CF112D;
+    font-size:24rpx;
+    margin-right:20rpx;
+    margin-top: 2px;
+}
+.privilege-hint{
+    font-size:24rpx;
+    color: #B4B4B4;
+    margin-top: 4px;
+}
+.icon-statistic{
+    width: 40rpx;
+    height: 34rpx;
+    margin-right: 20rpx;
+}
+.sInfo-container{
+    flex:1;
+}
+.sInfo{
+    font-size: 32rpx;
+    color: #1D1D1D;
+}
+.sDesk{
+     color:#909090;
+}
+.cmtOrder .tip{
+     color:#969696;
+     font-size:24rpx;
+ }
+.sure-order-container{
+    position: absolute;
+    bottom:0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+.sure-order-container > .cell{
+    padding: 0 0  0 24rpx;
+    height: 100rpx;
+}
+.cmtOrder .sure-order-container.cells{
+    overflow:visible;
+}
+.sure-order{
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 33rpx;
+    padding-right: 33rpx;
+    line-height: 100rpx;
+}
+.should-pay{
+    flex: 1;
+    font-size: 32rpx;
+    color: #CF112D;
+    text-align:right;
+    margin-right: 37rpx;
+}
+.discount{
+    
+    font-size: 26rpx;
+    color: #444444;
+    visibility:visible;
+}
+.return-coupons{
+    line-height:20rpx;
+    position:absolute;
+    width: 100%;
+    padding-bottom: 18rpx;
+    top: -45rpx;
+    text-align: center;
+    z-index: 2;
+}
+.return-coupons-content{
+    display:inline-block;
+}
+.return-coupons-content::before{
+    content: '返券';
+    border: #CF112D 1px solid;
+    font-size: 20rpx;
+    line-height:20rpx;
+    color: #CF112D;
+    border-radius: 8rpx;
+    padding: 0 2rpx;
+}
+.integral{
+    display:inline-block;
+}
+.integral::before{
+    content: '积分';
+    border: #CF112D 1px solid;
+    color: #CF112D;
+    line-height:20rpx;
+    font-size: 20rpx;
+    border-radius: 8rpx;
+    padding: 0 2rpx;
+}
+
+.im-member.btn{
+    padding:14rpx 20rpx 14rpx 20rpx;
+}
+.please-later{
+    color: #CF112D;
+}
+.subtotal{
+    color: #1F1F1F;
+    font-size:34rpx;   
+}
+.cell-title{
+    color: #1F1F1F;
+    font-size:32rpx;   
+}
+.message{
+    width: 150px;
+    color: #969696;
+    text-align:right;
+    margin-right: 4px;
+}
+.coupon-detail{
+    width: 150px;
+    color: #969696;
+    text-align:right;
+}
+.coupon-detail-discount{
+      color: #CF112D;
+      margin-right: 24rpx;
+}
+.coupon-next{
+    margin-left: 6px;
+}

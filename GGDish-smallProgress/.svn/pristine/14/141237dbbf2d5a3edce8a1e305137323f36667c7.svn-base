@@ -1,0 +1,16 @@
+<!-- 选择个人优惠中 公用布局-->
+
+
+<image class="coupon-img" src="{{item.notUse?'../../../image/unable_coupons_selected.png':(item.couponType==1?'../../../image/cash_coupons_selector.png':'../../../image/discount_coupons_selector.png')}}"></image>
+<!-- 优惠内容-->
+<view class="coupons-left">
+    <text class="couponInfo">{{item.couponDetail}}</text>               
+</view>
+<!-- 优惠券文字介绍区域-->
+<view class="coupons-right">
+    <view class="couponType">{{item.couponType==1?'代金券':'折扣券'}}</view>
+    <view class="coupon-tip" style="margin-top:10rpx">满{{item.consumeAmountLimit}}使用</view>
+    <view class="coupon-tip">有效期至{{item.endTime}}</view>
+</view>
+<!--表示选中的图标-->
+<image class="selector" wx:if="{{item.recommended}}" src="../../../image/coupons_selector_tip.png"></image>

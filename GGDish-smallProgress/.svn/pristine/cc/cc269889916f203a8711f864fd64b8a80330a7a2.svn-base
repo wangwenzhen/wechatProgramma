@@ -1,0 +1,157 @@
+module.exports = {
+    WX_HEADER_CODE: 'X-WX-Code',
+    WX_HEADER_ENCRYPTED_DATA: 'X-WX-Encrypted-Data',
+    WX_HEADER_IV: 'X-WX-IV',
+    WX_HEADER_ID: 'X-WX-Id',
+    WX_HEADER_SKEY: 'X-WX-Skey',
+
+    WX_SESSION_MAGIC_ID: 'F2C224D4-2BCE-4C64-AF9F-A6D872000D1A',
+
+    ERR_INVALID_PARAMS: 'ERR_INVALID_PARAMS',
+
+    ERR_WX_LOGIN_FAILED: 'ERR_WX_LOGIN_FAILED',
+    ERR_WX_GET_USER_INFO: 'ERR_WX_GET_USER_INFO',
+    ERR_LOGIN_TIMEOUT: 'ERR_LOGIN_TIMEOUT',
+    ERR_LOGIN_FAILED: 'ERR_LOGIN_FAILED',
+    ERR_LOGIN_SESSION_NOT_RECEIVED: 'ERR_LOGIN_MISSING_SESSION',
+
+    ERR_INVALID_SESSION: 'ERR_INVALID_SESSION',
+    ERR_CHECK_LOGIN_FAILED: 'ERR_CHECK_LOGIN_FAILED',
+
+
+    RETURN_OK:'00',
+    RETURN_TIME_OUT:'-200',
+    RETURN_SERVER_ERROR:'-1',
+
+    BMAP_AK:'cH84u9jnAk3TXacz77y61wVmDFsVG7oT',
+    LOAD_ERROR_IMG_SCR:'../image/noDefult.png',
+
+
+
+    /**
+     *  URL
+     */
+
+    /**
+     * IP地址
+     */
+    //正式环境
+     // IP:'https://m.qncloud.cn/',
+    //测试环境
+    // IP:'https://v.qncloud.cn/',
+
+    //开发环境
+    IP:'https://t.qncloud.cn/',
+
+
+    /**
+     * 获取openId
+     */
+    URL_GetOpenId:'mina/order/wxMinaGetOpenId.action',
+
+    /**
+     * 获取验证码
+     */
+    URL_GetVerifyCode:'mina/order/getCode.action',
+    /**
+     * 验证验证码
+     */
+    URL_VerifyCode:'mina/order/verifyCode.action',
+
+    /**
+     * 商铺列表
+     */
+    URL_QueryEntList:'mina/order/queryEntList.action',
+    /**
+     * 获取附近最热商铺
+     */
+    URL_QueryMostPopEnt: 'mina/order/queryMostPopEnt',
+    /**
+     * 获取首页进行中的订单
+     */
+    URL_QueryIndexOrder: 'mina/order/queryIndexOrder.action',
+    /**
+     * 商家信息
+     */
+    /**
+     * 点菜页
+     */
+    URL_getMenu:'mina/order/menu.action',
+    /**
+     * 生成购物车
+     */
+    URL_SaveDishShoppingRecordes: 'mina/order/saveDishShoppingRecords.action',
+    /**
+     * 确认下单 （获取订单以及优惠的信息）
+     */
+    URL_orderDishInfo:'mina/order/orderDishInfo.action',
+    /**
+     * 确认下单
+     */
+    URL_PlaceOrder:'mina/order/placeOrder.action',
+    /**
+     * 下单成功 - 获取基本信息
+     */
+    URL_GetOrderBaseInfo:'mina/order/getOrderBaseInfo.action',
+    /**
+     * 下单成功 - 获取返券信息
+     */
+    URL_QuerySendReturnCoupon:'mina/order/coupon/querySendReturnCoupon.action',
+    /**
+     * 下单成功 - 输入号领取返券
+     */
+    URL_ReceiveReturnCoupons:'mina/order/coupon/receiveReturnCoupons.action',
+    /**
+     * 订单详情
+     */
+    URL_GetOrderDetail:'mina/order/queryOrderInfoToUser.action',
+    /**
+     * 订单列表
+     */
+    URL_GetOrderList:'mina/order/getMoreOrderListInfoByOpenId.action',
+    /**
+     * 取消订单
+     */
+    URL_CancelOrder:'mina/order/userCancelOrder.action',
+    /**
+     * 未就餐状态--扫码入座（传参为orderId）
+     */
+    URL_UserArrived:'mina/order/userArrived.action',
+    /**
+     * 扫码入座 ,传参数为shopId
+     */
+    URL_SetOrderDeskInfo:'mina/order/setOrderDeskInfo.action',
+    /**
+     * 我的优惠列表
+     */
+    URL_UserCouponList:'mina/order/getMoreCouponListInfoByOpenId.action',
+    /**
+     * 添加收藏
+     */
+    URL_AddCollect: 'mina/order/addCollectionMPEnt.action',
+    /**
+     * 取消收藏
+     */
+    URL_CancelCollect:'mina/order/cancelCollectionMPEnt.action',
+    /**
+     * 我的收藏 
+     */
+    URL_UserCollecton:'mina/order/queryCollectedEnt.action',
+    /**
+     * 我的卡包
+     */
+    URL_UserCard: 'mina/order/',
+    /**
+     * 获取桌位信息
+     */
+    URL_GetDeskInfoById : 'mina/order/getDeskInfoById.action',
+    /**
+     * 原公众号业务（选好菜品提示、选好菜品页）获取当前订单的信息
+     * 需要shopId和entId
+     */
+    URL_PreOrderDetail:'mina/order/preOrderDetail.action',
+    /**
+     * 取消预订单
+     */
+    URL_ClearDishShoppingRecords:'mina/order/clearDishShoppingRecords.action',
+};

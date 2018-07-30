@@ -1,0 +1,46 @@
+<!--pages/order/selectedDishDetail/selectedDishDetail.wxml-->
+<view class="classname">
+
+    <view class="order-title cells">
+        <view class="order-info">
+            <image class="icon-dish" src="../../../image/wait_order_dish.png"></image>
+            <view>
+                <view>已选择{{orderInfo.dishList.length}}道菜</view>
+                <view>合计¥{{orderInfo.totalPrice}}</view>  
+            </view>
+        </view>
+        <view class="btn-sel">
+            <view class="btn blank" bindtap="cancelOrder">取消订单</view>
+            <view class="btn" bindtap="scanForSeat">我已入座，扫码下单</view>
+        </view>
+       
+    </view>
+
+    <view class="order-dish cells">
+        <view class="cell dish-hint" bindtap="entItemClicked">
+            <view class="cell-ico">
+                <image src="{{orderInfo.entLogo}}"  mode="widthFix"></image>
+            </view>
+            <view class="cell-bd">{{orderInfo.entName}}</view>
+            <view class="cell-ft"></view>
+        </view>   
+        <view class="flex change-lay">
+            <view class="select-dish">已选菜品</view>
+            <view class="btn b-red change-order" bindtap="addDisClicked"
+                    wx:if="{{true}}">我要加菜</view>
+        </view>
+        <view class="dish-item-container " wx:for="{{orderInfo.dishList}}" wx:key="{{index}}">
+            <view class="dish-item">
+                <view class="dish-name">{{item.dishName}}</view>
+                <view class="dish-num">x{{item.num}}</view>
+                <view class="dish-price">¥{{item.totalPrice/100}}</view>
+            </view>
+            <view class="side-dish"> {{item.sideDish_toShow}}</view>
+        </view>
+    
+    </view>
+
+
+
+</view>
+<include src="../../component/qnDialog/qnDialog.wxml"/>

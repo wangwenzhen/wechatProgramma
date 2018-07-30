@@ -1,0 +1,33 @@
+/* pages/order/selectedDishHint/selectedDishHint.wxss */
+.selectedDishHint{
+
+}
+.order-info{
+    background: #fff;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 30rpx;
+}
+.order-info >image{
+    width: 100rpx;
+    height: 100rpx;
+    margin: 30rpx auto;
+    display: inline-block;
+}
+.scan{
+    margin: 30rpx 24rpx;
+}
+.dish-info{
+    text-align:center;
+}
+.check-dish{
+    margin-left: 6rpx;
+    color: #969696;
+    text-decoration:underline;
+}
+.dish-hint{
+   text-align:center;
+   font-size: 20rpx;
+   color: #969696;
+   margin-top: 10rpx;
+}

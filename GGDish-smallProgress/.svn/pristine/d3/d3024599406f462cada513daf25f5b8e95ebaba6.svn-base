@@ -1,0 +1,94 @@
+var common = require('./common/common.js')
+var qnLoading = require('../../component/qnLoading/qnLoading.js')
+Page({
+  data:{
+    industryId:'',//常态
+    sortType:'',//排序类型
+    privilege:'',//优惠类型
+    selectIndex:-1,
+    showToastBg:true,
+    sortZone: [{ optionName: '全部', subIndex: 0 }, { optionName: '智能排序', subIndex: 0 }, { optionName: '筛选',subIndex:0}],
+    allQuery:[
+        '全部','小吃快餐','火锅','家常菜',
+        '烧烤','海鲜','清真','自助餐',
+        '西餐','咖啡厅','面包甜点','素菜',
+        '川菜','湘菜','湖北菜','新疆菜',
+        '浙江菜','粤菜','东北菜','北京菜',
+        '日本菜','韩国菜','云南菜','东南亚菜',
+        '鲁菜','西北菜','贵州菜','其他'
+    ],
+    smartSort:['智能排序','人气排序','离我最近'],
+    screening:['点菜优惠','返券','优惠券','特价菜'],
+
+  },
+  onLoad: function (options) {
+      this.setData({ selectIndex: options.selectIndex})
+      if (options.subIndex){
+          var sortZone_chang = this.data.sortZone;
+          sortZone_chang[options.selectIndex].subIndex = options.subIndex;
+          this.setData({ sortZone:sortZone_chang});
+      } 
+      qnLoading.loading();
+      common.setUpEntListData();
+      this.setUpBasiData();
+      this.requestEntListInfo(true);
+  },
+  setUpBasiData:function(){
+      var containerW = wx.getSystemInfoSync().windowWidth;
+      
+      var sortBlockW = (containerW - 10 * 7) / 4;
+      this.setData({ sortBlockW: sortBlockW})
+  },
+  closeBg:function(){
+    this.setData({ showToastBg: false})
+  },
+  
+  querySort:function(e){
+    if (this.data.selectIndex == e.currentTarget.dataset.querytype && this.data.showToastBg){
+      this.closeBg();
+      return;
+    }
+    this.setData({ selectIndex: e.currentTarget.dataset.querytype, showToastBg: true})
+ 
+  },
+  /**
+   *  点击条件后 获取商铺
+   */
+  tapOption:function(e){
+    var index = e.currentTarget.dataset.tapIndex;
+    var subIndex = e.currentTarget.dataset.tapSubindex;
+    /**
+     *  构造sortZone
+     */
+    var opionName_chang = index == 0 ? this.getOptionNameAndIndex(this.data.allQuery, subIndex) : (index == 1 ? this.getOptionNameAndIndex(this.data.smartSort,subIndex) : this.getOptionNameAndIndex(this.data.screening,subIndex));
+    var sortZone_chang = this.data.sortZone;
+    sortZone_chang[index].optionName = opionName_chang;
+    sortZone_chang[index].subIndex = subIndex;
+    /**
+     * 获取遍历的条件
+     */
+    this.setData({
+       sortZone:sortZone_chang,
+       industryId: sortZone_chang[0].subIndex == 0 ? '' : sortZone_chang[0].optionName,
+       sortType: sortZone_chang[1].subIndex,
+       privilege: sortZone_chang[2].subIndex
+    })
+    this.closeBg();
+ 
+    /**
+     * 重新加载数据
+     */
+    this.requestEntListInfo(true);
+
+
+  },
+  getOptionNameAndIndex:function(optionList,subIndex){
+    for(var i = 0; i< optionList.length;i++){
+      let obj = optionList[i];
+      if(i == subIndex) return obj;
+    }
+    return "";
+  },
+  doNothingForCatch:function(){return}
+
+})

@@ -1,0 +1,11 @@
+<view class="sortList flex" catchtouchmove="doNothingForCatch">
+      <view wx:for="{{sortZone}}" wx:key="*this" class="option {{index == selectIndex ? 'on' : ''}}" catchtap="querySort" data-queryType="">{{item}}</view>
+</view>
+<view class="toast-bg" catchtouchmove="doNothingForCatch">
+    <view class="list-bg" wx:if="{{selectIndex >= 0}}">
+          <block wx:if="{{selectIndex == 0}}"><!--全部-->
+              <view class="sort-block" wx:for="{{allQuery}}" wx:key="*this" style="width:152.5rpx;padding:20rpx 0;">{{item}}</view>
+          </block>
+    </view>
+</view>
+<view style="width:50px">2啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法2</view>

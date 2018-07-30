@@ -1,0 +1,140 @@
+.info-container{
+
+}
+.info-container > .cells:first-child:before {
+   display: none;
+}
+.info-container .cells:last-child{
+    margin-bottom: 20rpx;
+}
+.info-container > view:first-child{
+    margin-top: 0;
+    padding-top:30rpx;
+    padding-bottom:40rpx;
+    text-align:center;
+    color:#969696;
+}
+.cells.head > image{
+    width:108rpx;
+    height:108rpx;
+    margin-bottom:20rpx;
+}
+.cells.head > text{
+    color:#CF112D;
+    position:absolute;
+    right:26rpx;
+}
+.line-vertical{
+    background:#D8D8D8;
+    height:40rpx; 
+    width:1rpx;
+    margin-left:30rpx
+}
+.text-gray{
+    color:#969696;
+}
+.txt-tip{
+    color:#969696;
+    font-size:24rpx;
+}
+.cell.item{
+     display:block;
+     padding: 33rpx 24rpx 63rpx 30rpx;
+}
+
+.status-red{
+    color: #CF112D;
+    font-size:25rpx;
+    position:absolute;
+    right:24rpx;
+}
+.tip-r{
+    float:right;
+    color:#969696;
+    font-size:24rpx;
+}
+.big-text{
+    color:#1F1F1F;
+    font-size:30rpx;
+}
+.coupons-img{
+    width:627rpx;
+    height:181rpx;
+    z-index:1000;
+    position:absolute;
+    left:50%;
+    margin-left:-313rpx;
+}
+.cell.coupons{
+    padding-bottom:53rpx;
+    display:block;
+    padding-top:37rpx;
+}
+.cell.coupons >view:first-child{
+    margin-top:0;
+}
+.item-coupons{
+    width: 85%;
+    margin: 0 auto;
+    margin-top:38rpx;  
+    display:flex;
+    position:relative;
+}
+.item-pay{
+    display:flex;
+}
+.coupons-left{
+    line-height:181rpx;
+    width:45%;
+    text-align: center;
+    z-index: 1;
+}
+.coupons-right{
+    flex:1;
+    height:181rpx;
+    padding-left:30rpx;
+    z-index: 1;
+}
+.font-big{
+  
+}
+
+.couponInfo{
+ font-size:48rpx;
+}
+.cash{
+     color: #FFAC0D;
+}
+.discount{
+     color: #34AB2A;
+}
+.discount .couponInfo::after{
+    content: "折";
+    font-size: 25rpx;
+}
+
+.cash .couponInfo::before{
+    content: "¥";
+    font-size: 25rpx;
+}
+.couponType{
+     font-size:32rpx;
+    margin-top: 35rpx;
+}
+
+.no-data{
+    height:280rpx;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color: #969696;
+    font-size: 24rpx;
+}
+.no-data > image{
+    width:148rpx;
+    height:148rpx;
+}
+.no-data>text{
+    margin-top:40rpx;
+}

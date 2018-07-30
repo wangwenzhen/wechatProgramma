@@ -1,0 +1,11 @@
+<!--pages/myCollection/myCollection.wxml-->
+<view class="myCollection cells">
+
+    <view wx:for="{{entList}}"wx:key="{{index}}" class="cell" data-index="{{index}}"bindtap="onEntItemClick">
+        <image src="{{ip + item.entLogo}}"></image>
+        <view class="ent-info">
+            <view>{{item.entName}}</view>
+            <view class="ent-industy">{{item.industyName}}</view>
+        </view>
+    </view>
+</view>

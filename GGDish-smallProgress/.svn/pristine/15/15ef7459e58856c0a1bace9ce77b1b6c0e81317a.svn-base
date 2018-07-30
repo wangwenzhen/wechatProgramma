@@ -1,0 +1,15 @@
+ <view >
+    <view class="dish-group-bar">
+        <scroll-view scroll-x="true" class="scroll-group-bar" scroll-left="{{superImgControl.left}}">
+       
+            <view wx:for="{{dishMenu}}" wx:key="index" 
+                class="{{curGroupIndex==index?'on':''}} bar-item" 
+                bindtap="tapChange" data-left="{{left}}" data-index="{{index}}">{{item.groupName}}
+                <view class="takeOrder-num-cls" wx:if="{{item.selNum > 0}}">{{item.selNum}}</view>
+            </view>
+        </scroll-view>
+        <image src="{{menuModel == 0 ? './image/NoImageBtn.png' : './image/haveImageBtn.png'}}" class="swich-model" mode="aspectFit" catchtap="siwchMode" data-model="0">
+        </image>
+    </view>
+    <text class="group-intro ellLn2">{{dishMenu[curGroupIndex].intro}}</text>
+</view>

@@ -1,0 +1,47 @@
+/*
+ * dialog
+ */
+.dialog{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10000;
+    display: flex;
+    background-color:rgba(0, 0, 0, 0.65) !important;
+}
+.dialog > view {
+    position: relative;
+    background: #fff;
+    width: 80%;
+    height: auto;
+    margin: auto auto;
+}
+.dialog-title{
+    padding-top: 20rpx;
+    text-align: center;
+    font-size: 36rpx;
+    color: #1f1f1f;
+}
+.dialog-content{
+    margin-top: 30rpx;
+    margin-bottom: 150rpx;
+    text-align: center;
+    font-size: 30rpx;
+    color: #1f1f1f;
+}
+.dialog-btn{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    padding: 22rpx 0;
+}
+.dialog-btn .btn{
+    padding: 10rpx 0;
+    margin-top: 0;
+    width: 45%;
+}

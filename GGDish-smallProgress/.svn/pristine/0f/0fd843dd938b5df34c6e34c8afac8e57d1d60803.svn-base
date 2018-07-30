@@ -1,0 +1,34 @@
+<!--pages/coupon/coupon.wxml-->
+<view class="coupon-logo-bg flex">
+  <image src="{{interfaceData.logo}}" class="coupon-logo noDishImg-bg" binderror="errImg"></image>
+</view>
+<view class="coupon-bg">
+    
+    <view class="coupon-info">
+        <view class="coupon-title">{{interfaceData.intro}}</view>
+        <view class="cell-ft" style="position: relative;">
+          <text class="conpon-money">{{interfaceData.coupon_detail}}</text><text class="conpon-type">代金券</text>
+        </view>
+        <!--<view class="coupon-id"></view>-->
+        <view sytle="font-size:24rpx" >{{interfaceData.timeZone}}</view>
+        <view class="entName">{{interfaceData.entName}}</view>
+        <view class="point-left"></view>
+        <view class="point-right"></view>
+    </view>
+    <view class="use-bg">
+        <view class="rule">
+            <text>{{interfaceData.ruleDescribe}}</text>
+        </view>
+        <view class="instructions"> 
+            <text>1.本券不可兑换现金、不找零、不开票
+                  2.本券当餐不可使用,仅限堂食,不外卖,不打包
+                  3.请在有效期内使用，过期作废
+                  4.报手机号即可使用，转让有效
+                  5.本券最终解释权归本店所有
+            </text>
+        </view>
+        <image wx:if="{{isShowOverDate}}" src="../../image/coupon-overdue.png"></image>
+    </view>
+    
+</view>
+<text>由北京青牛风科技有限公司 提供技术支持</text>

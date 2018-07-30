@@ -1,0 +1,81 @@
+page{
+    background:#F2F2F2;
+    display: block;  
+    min-height: 100%;
+}
+
+/*底部border*/
+.view-box{
+    border-bottom: 1px solid #EBEBEB;
+    background-color: white;
+    padding: 12px 12px;
+}
+.view-box:first-child{  
+    border-top: 1px solid #EBEBEB;
+}
+.left-view image{
+    display: block;
+}
+.right-view{
+    flex: 1;
+    margin-left: 6px;
+}
+
+.order-list-img{
+    width: 62px;
+    height: 62px;
+}
+.ent-name{
+    font-size:16px;
+    flex: 1;
+}
+.order-status{
+    color: #cf112d;
+    text-align:right;
+    line-height: 18px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+.order-list-info{
+    font-size: 16px;
+}
+.list-payAmount{
+    color: #969696;
+    font-size: 13px;
+}
+.list-orderDes{
+    font-size: 12px;
+    color: #969696;
+    flex: 1;
+}
+.order-time{
+    width: 132rpx;
+    text-align: right;
+    font-size: 12px;
+    color: #969696;
+}
+.completion-list{
+    margin-top: 4px;
+    padding: 7px 0;
+    color: #969696;
+    text-align: center;
+}
+
+
+/*加载更多动画 */
+.load-more{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: 7px;
+    font-size: 14px;
+    color: darkgray;
+}
+.top-inline{
+    display:flex;margin-bottom:6px;padding-top:4rpx;position:relative;
+}
+
+

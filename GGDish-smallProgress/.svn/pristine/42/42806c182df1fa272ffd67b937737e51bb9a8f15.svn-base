@@ -1,0 +1,31 @@
+<view class="top-location {{isShowCityList ? '': 'off'}}" catchtouchmove="catchTapEventDoNothing">
+    <view class="flex">
+        <view class="city-name {{isShowCityList ? 'on' : ''}}" catchtap="cityListOperation">{{currentCity}} </view>
+        <view class="search-bg flex">
+            <image src="../../image/search-logo.png" style="width:24px;height:22px;margin-right:8px"></image>
+            <form bindreset="reset" style="width:100%">
+                <view class="flex">
+                    <input placeholder="请输入搜索地址" placeholder-class="loaction-input" bindinput="POISearchForHotWords"    focus="false" bindfocus="focus"/>
+            
+                    <button form-type="reset" type="download" class="bg-btn"></button>
+                </view>
+            </form>
+    
+        </view>
+    </view>
+</view>
+<block wx:if="{{isShowCityList}}">
+    <view class="citys">
+            <view class="choose-city-bg" catchtouchmove="catchTapEventDoNothing"></view>
+            <block wx:for="{{citys}}" wx:key="*this">
+                <view class="choose-city {{currentCity === item ? 'on' : ''}}" bindtap="hiddenCityList" catchtouchmove="catchTapEventDoNothing" data-choose-city="{{item}}">{{item}}</view> 
+            </block>
+    </view>
+</block>
+<block wx:elif="{{sugData.length && !isShowCityList}}">
+    <view class="region-top">
+         <view class="region" wx:for="{{sugData}}" wx:key="*this" catchtap="toHome" data-lat="{{item.latitude}}" data-lng="{{item.longitude}}" data-regionName="{{item.name}}">
+            {{item.name}}
+        </view>
+    </view>
+</block>

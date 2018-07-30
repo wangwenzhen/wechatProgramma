@@ -1,0 +1,381 @@
+.group-cells{
+    border-top: 1px solid #E1E1E1;
+    border-bottom: 1px solid #E1E1E1;
+}
+.group-cell{
+    font-size: 15px;
+    text-align: center;
+    padding: 30rpx 20rpx;
+    background-color: #fcfcfc;
+    position: relative;
+}
+.group-cell.on{
+    color: #D22F48;
+    font-size: 16px;   
+    background-color: #FFFFFF;
+}
+.group-cell.on::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    bottom: 10px;
+    border-left: 6px solid #D22F48;
+}
+
+.group-cell+.group-cell{
+    border-top: 1px solid #E1E1E1;
+}
+
+.group-cell:last-child{
+    border-bottom: 1px solid #E1E1E1;
+}
+.smallDishs-cls{
+    position: relative;
+    display: inline;
+    
+}
+.small-bd{
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-left: 1px solid #E1E1E1;
+    height: 100%;
+    bottom: 0;
+    width:560rpx;
+}
+
+.small-group{
+    position: absolute;
+    background-color: #fcfcfc;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    width:190rpx;
+}
+.smallImg-group{
+    display: flex;
+    position: relative;
+    background-color: #F4F4F4;
+    padding-left: 10px;
+    height: 35px;
+    line-height: 35px;
+    color: #868686;
+}
+.btn-box.adjustWidth{
+    width: 148rpx;
+}
+.smallImg-dish{
+    display: flex;
+    align-items: center;
+}
+.right-bd{
+    flex: 1;  
+}
+
+.small-img-cls{
+  margin-right: 16rpx;
+  width: 58px;
+  height: 58px;
+}
+.btn-box.sellOver{
+    font-size: 13px;
+    display:block;
+}
+
+.adjustTop{
+    top:0px !important;
+}
+.takeOrder-num-cls{
+    background-color: #3E91FF;
+    width: 13px;
+    height: 13px;
+    border-radius: 13px;
+    color: #FFFFFF;
+    font-size: 10px;
+    position: absolute;
+    line-height: 13px;
+    top: 4px;
+    right: 4px;
+    text-align: center;
+}
+/*二级菜单附属信息*/
+.cell-affiliated{
+    position: relative;
+    padding: 10px;
+}
+.cell-affiliated::after{
+    content: " ";
+    position: absolute;
+    height: 1px;
+    border-bottom: 1px solid #e6e6e6;
+    right: 0;
+    left: 10px;
+    transform: scaleY(0.5);
+}
+.affiliated-dishName{
+    width: 47%;
+    font-size: 13px;
+    line-height: 15px;
+}
+.affiliated-dishName-small{
+    font-size: 13px;
+    line-height: 15px;
+}
+.affiliated-sideDishe{
+    color: #9B9B9B;
+    font-size: 12px;
+    margin-top: 4px;
+    line-height: 14px;
+
+}
+.affiliated-operation{
+    display: flex;
+    margin-top: 4px;
+    line-height: 15px;
+}
+.affiliated-minus-plus{
+    display:flex;
+    align-items:center;
+    width: 140rpx;
+}
+.cell-affiliated:nth-child(1)::before{
+    content:" ";
+    position:absolute;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #F6F6F6;
+    top: -8px;
+    left: 23px;
+    padding-top: 3px;
+}
+.affiliated-price{
+    flex: 1;
+    line-height: 19px;
+}
+.cell-affiliated.noUnder{
+    padding-bottom: 0px;
+}
+.affiliated{
+    background-color: #F6F6F6;
+}
+.small-bd .cell-affiliated:nth-last-child(1){
+    margin-bottom: 8px;
+}
+
+.small-bd .cell{
+    display: block !important;
+    padding: 10px 20rpx !important;
+}
+
+.scr-inner{
+    display: flex;
+    padding: 4px 0px 4px 0px;
+    background: #3B6076;
+    width: 100%;
+    z-index: 1;
+}
+.drop-down-panel{
+    z-index:4;
+    background-color:#FFFFFF;
+    margin-top:0px !important;
+}
+.group-dish-intro{
+    color: #929292;
+    padding-bottom: 10px;
+    font-size: 13px;
+}
+.noImg-group .group-dish-intro{
+     line-height: 15px;
+}
+
+.packageDes{
+    color:#969696;
+    margin-top: 3px;
+    font-size: 13px;
+    line-height: 15px;
+}
+/*滚动内容*/
+.scr-bd{
+    height: 100%;
+    position: absolute;
+    opacity: 1;
+    top: 0px;
+    background-color: #FFFFFF;
+}
+/*菜系分组*/
+.noImg-group{
+    background-color: #fafafa;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: #939393;
+}
+.group-name{
+    line-height: 40px;
+    font-size:14px;
+}
+.noImg-fixed-group{   
+    position: relative;
+    background-color: #F6F6F6;
+    padding-left: 10px;
+    padding-right: 10px;
+   
+    z-index: 2;
+    color: #D22F48;
+    font-size:15px;
+}
+.group-bd{
+    position: relative;
+    border-bottom: 1px solid #d8d8d8;
+}
+.group-bd:last-child{
+    border-bottom: 0;
+}
+.group-bd :nth-child(2)::before{
+    display: none;
+}
+/*菜品描述*/
+.dish-des{
+    font-size: 16px;
+    line-height: 20px;
+    vertical-align: middle;
+}
+/*菜品价格显示*/
+.price-detail{
+    flex: 1;
+    line-height: 17px;
+}
+.num-innner{
+    flex: 1;
+    text-align: center;
+}
+.sideDish{
+    border: 1px solid lightgray;
+    width: 100rpx;
+    text-align: center;
+    line-height: 24px;
+    font-size: 22rpx;
+    border-radius: 12px;
+    color: #D22F48;
+}
+.sideDish:active{
+    border-color:#Cf112d;
+}
+/*分时段优惠描述*/
+.special-limit{
+   color: #DC6C77;  
+   font-size: 11px;
+   width: 100%;
+   line-height: 12px;
+   height: 12px;
+}
+/*已售完*/
+.sellOver{
+    color: #969696;
+    text-align: right;
+}
+
+/*已勾选的菜品个数*/
+.selnum-cls{
+    position: absolute;
+    bottom: 36px;
+    left: 45px;
+    color: lightskyblue;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    width: 18px;
+    height: 18px;
+    line-height: 16px;
+    text-align: center;
+}
+/*切换显示模式*/
+.swich-model-cls{
+    width: 67px;
+    
+    position: absolute;
+    right: 0;
+    top: 6px;
+}
+/*展示菜系分组面板*/
+.showGroup-board{
+    position: relative;
+    left:4px;
+    top: 14px;
+    width: 9px;
+    height: 5px;
+}
+/*黑色背景面板*/
+.board-bd{
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    top: 0;
+    bottom: -110rpx;
+    width: 100%;
+    z-index: 7;
+}
+/*展开后选中分类样式*/
+.drop-down-panel .on{
+    color:#D22F48; 
+}
+.drop-down-panel .cell{
+    line-height: 25px;
+}
+.drop-down-panel .on::after{
+  content: " ";
+  height: 14px;
+  width: 6px;
+  border-width: 2px 2px 0 0;
+  border-color: #D22F48;
+  border-style: solid;
+  transform: matrix(0.71, 0.71, 0.71, -0.71, 0, 0);
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
+  right: 15px;
+}
+.btn-box{
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 158rpx;
+}
+.cell-bd image{
+    position: absolute;
+    right: 10px;
+}
+.noImg-triangle{
+    display: flex;
+    align-items: center;
+    line-height: 17px;
+}
+
+.drop-down-triangle{
+    position: relative;
+
+}
+.drop-down-triangle::after{
+    content:" ";
+    display: inline-block;
+    vertical-align: middle;
+    height: 0;
+    width: 0;
+    position: relative;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #D22F48;
+    top: -2px;
+}
+.drop-down-triangle.on::after{
+    transform: rotate(180deg);
+}
+.noImg .cell-affiliated::after{
+    left: 10px;
+    bottom: 0;
+}
+.cell-affiliated:last-child::after{
+    display: none;
+}
+.noImg .cell{
+    display: block !important;
+    padding: 10px 10px !important;
+}

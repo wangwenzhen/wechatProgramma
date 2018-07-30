@@ -1,0 +1,22 @@
+
+var Tip = require('../component/qnToast/toast.js');
+Page({
+
+    data:{       
+    },
+    onLoad:function(){
+       
+         new Tip.toast();
+       
+    },
+    clickTip:function(){
+        this.Toast.showTip("提示内容");
+
+    },
+    clickTipAuto:function(){
+        this.Toast.showTipAuto({toastContent:"带图片提示",toastType:this.Toast.WARN_IMG_TYPE});
+    }
+
+});
+
+

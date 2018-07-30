@@ -1,0 +1,37 @@
+ <!--/**
+      * 解决后台咋特殊菜 数据传输过程中，将影响和不影响价格数据设置相反
+      * 导致界面渲染影响价格属性显示在下的问题
+      * 前端处理判断后正确插入
+      */-->
+<!--影响价格的属性-->
+<block wx:for="{{curDishInfo.dishAttrDatahasInf}}" wx:key="*this" wx:for-index="i" wx:for-item="dishAttrInfo">
+    <view style="overflow:hidden" class="secondMenu-cls">
+        <view class="cell">
+                <view class="cell-bd" style="color:#A3A3A3;font-size:14px">{{dishAttrInfo.attrName}}
+                </view>
+        </view>
+        <!--属性按钮-->
+                <!--data-dishAttrData 当前菜品属性 ，data-dishAttrName 当前选中的属性 , 'dishAttrHighlighte' 是否高亮-->
+        <view class="option">
+            <block wx:for="{{dishAttrInfo.option}}" wx:key="*this" wx:for-index="j" wx:for-item="optionObj">
+                    <button hover-class="none" style="width:{{optionNameW}}px" catchtap="dishAttrOperation" data-hasInf="{{true}}" data-attrNameIndex="{{i}}" data-optionIndex="{{j}}" class="optionName-cls ell {{optionObj.status == 1 ? 'on' : '' }}" disabled="{{optionObj.status == -1 ? true : false}}">{{optionObj.name}}</button>   
+            </block>
+        </view>
+    </view>
+        
+</block>
+<!--不影响价格的属性-->
+<block wx:for="{{curDishInfo.dishAttrData}}" wx:key="*this" wx:for-index="i" wx:for-item="dishAttrInfo">
+            <view style="overflow:hidden" class="secondMenu-cls">
+                <view class="cell">
+                    <view class="cell-bd" style="color:#A3A3A3;font-size:14px">{{dishAttrInfo.attrName}}
+                    </view>
+                </view>
+                <view class="option">
+                    <block wx:for="{{dishAttrInfo.option}}" wx:key="*this" wx:for-index="j" wx:for-item="optionObj">
+                        <button hover-class="none" style="width:{{optionNameW}}px" catchtap="dishAttrOperation" data-hasInf="{{false}}" data-attrNameIndex="{{i}}" data-optionIndex="{{j}}" class="optionName-cls ell {{optionObj.status == 1? 'on' : '' }}" disabled="{{optionObj.status == -1 ? true : false}}">{{optionObj.name}}</button>      
+                    </block>
+                </view>
+            </view>
+    
+</block>

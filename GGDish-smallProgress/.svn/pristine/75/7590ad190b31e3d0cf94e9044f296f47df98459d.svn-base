@@ -1,0 +1,26 @@
+<view class="entInfoToast" wx:if="{{showEntScreenView}}">
+    <view class="ent-logo-toast"><image src="{{entInfo.logo}}" class="noDishImg-bg"></image></view>
+    <view class="time-body-toast flex">
+         <view class="classname" style="bottom:1px;position:relative;"><image src="../../image/business-time.png" style="width:26rpx;height:26rpx;margin-right:8rpx"></image></view>
+         <view class="ent-time">{{entInfo_toShow.time}}</view>
+    </view>
+    <view class="ent-toast-info">
+        <view class="basic-des">基本信息</view>
+           <view class="ent-address flex cell-ft">
+                <image src="../../image/home_location.png" ></image>
+                <view>{{entInfo_toShow.address}}</view>           
+           </view>
+
+           <view class="cell-ft flex">
+                <image class="phone-toast" src="../../image/ent-phone.png" catchtap="call" style="height:16px;width:13px;"></image>
+                <view class="classname">{{entInfo.tel}}</view>
+           </view>
+           
+    </view>
+    <view class="ent-toast-info">
+        <view class="basic-des">优惠信息</view>
+    </view>
+    <view class="close-toast-btn" catchtap="closeEntToast">
+        <image src="../../image/close_advert.png"></image>
+    </view>
+</view>

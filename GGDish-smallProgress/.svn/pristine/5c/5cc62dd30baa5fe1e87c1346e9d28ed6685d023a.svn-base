@@ -1,0 +1,71 @@
+{
+  "pages":[ 
+    
+ 
+    
+    "pages/main/home/home",
+    "pages/main/order/order",
+    "pages/main/me/me",
+
+    "pages/main/home/querySort",
+    "pages/menu/menu",
+    "pages/coupon/coupon",
+
+    "pages/chooseLocation/chooseLocation",
+    "pages/main/home/queryEnt",
+    "pages/templateMessage/templateMessage",
+
+
+    "pages/order/selectedDishHint/selectedDishHint",
+    "pages/order/selectedDishDetail/selectedDishDetail",
+    "pages/order/commitOrder/commitOrder",
+    "pages/order/leaveMessage/leaveMessage",
+    "pages/order/chooseCoupon/chooseCoupon",
+    "pages/order/placeOrder/placeOrder",
+
+    "pages/order/orderDetail/orderDetail",
+
+    "pages/myCollection/myCollection",
+    "pages/myCard/myCard",
+    "pages/login/login",
+    "pages/login/agreement/agreement",
+
+    "pages/qnToast/qnToast",
+    "pages/example/example", 
+    "pages/index/index"
+
+
+
+    
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#cf112d",
+    "navigationBarTitleText": "咕咕点菜",
+    "navigationBarTextStyle":"#000",
+   "backgroundColor": "#cf112D"
+  },
+  "tabBar": {
+    "color": "#969696",
+    "selectedColor": "#cf112D",
+    
+    "list": [{
+      "pagePath": "pages/main/home/home",
+      "text": "首页",
+      "iconPath": "image/tab/tab_home.png",
+      "selectedIconPath": "image/tab/tab_home_press.png"
+    },
+    {
+      "pagePath": "pages/main/order/order",
+      "text": "订单",
+      "iconPath": "image/tab/tab_order.png",
+      "selectedIconPath": "image/tab/tab_order_press.png"
+    },
+    {
+      "pagePath": "pages/main/me/me",
+      "text": "我",
+      "iconPath": "image/tab/tab_user.png",
+      "selectedIconPath": "image/tab/tab_user_press.png"
+    }]
+  }
+}

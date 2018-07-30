@@ -1,0 +1,72 @@
+<!--pages/menu/menu.wxml-->
+<!--小牛加载动画-->
+<include src="../component/qnLoading/qnLoading.wxml"/>
+<!--弹窗提示-->
+<include src="../component/qnToast/toast.wxml"/>
+
+<!--店铺信息弹窗-->
+<!--<include src="template/entInfoToast.wxml"/>--><!--导入二级菜单-->
+<import src="template/secondMenu/secondMenu.wxml"/>
+
+<!--购物车-->
+<import src="template/shoppingCar/shoppingCar.wxml"/>
+
+<!-- 菜品详情-->
+<import src="template/dishDetail/dishDetail.wxml"/>
+
+<!--使用无图模式下的点菜样式-->
+<import src="template/modeXml/noImgMode.wxml"/>
+
+<!--使用小图模式下的点菜样式-->
+<import src="template/modeXml/smallImgMode.wxml"/>
+
+<!--大图模式-->
+<import src="template/modeXml/bigImgMode.wxml"/>
+
+<!--超大图模式-->
+<import src="template/modeXml/superImgMode.wxml"/>
+
+
+<template is="secondMenu" data="{{...menu}}"/>
+
+<template is="shoppingCar" data="{{...menu}}"/>
+
+<template is="dishDetail" data="{{...menu}}"/>
+
+
+
+<!-- bindtouchstart="catchtouchstart" 
+ bindtouchmove="catchtouchmove" -->
+<view class="menu"style="height:{{menu.viewHeight}}px;position: relative; transform: translateY({{menu.headTranslateY}}px);">
+
+    <view class="ent-info">
+        <image src="../../image/bg_ent_info.png"></image>
+        <view class="ent flex" bindtap="showEntPopup">
+            <view class="ent-logo">
+                <image src="../../image/noDefult.png" mode="widthFix"></image>
+            </view>
+            <view>
+                <view class="ent-name flex">
+                    <view>{{entInfo.name}}</view>
+                    <image class="home-collection {{entInfo.isCollection?'':'off'}}" 
+                          catchtap="collection"></image>
+                </view>
+                
+                <view class="ent-time">{{entInfo.time}}</view>
+                <view class="ent-address flex">
+                    <view>{{entInfo.address}}</view>  
+                    <image src="../../image/icon/icon_ent_phone.png" catchtap="call"></image>
+                </view>
+            </view>
+        </view>
+    </view>
+
+<!--0无图 、 1大图 、 3 小图 、4超大图-->
+      <template is="{{menu.menuModel ==0 ?  'noImgModelController' : (menu.menuModel == 1 ? 'bigImgModelController' :(menu.menuModel==3 ? 'smallImgModelController' : 'superImgModelController' ))}}" data="{{...menu}}"/>
+</view>
+
+<!-- 事件拦截 让上面的店铺图显示或隐藏                    
+<view style="height:100%;position: absolute; width:100%;top:0" wx:if="{{true}}"
+ bindtouchstart="catchtouchstart" 
+ bindtouchmove="catchtouchmove"
+></view>-->

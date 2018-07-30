@@ -1,0 +1,37 @@
+Page({
+  data:{
+    selectIndex:1,
+    selectSubIndex:0,
+    sortZone:['全部','智能排序','筛选'],
+    allQuery:[
+        '全部','小吃快餐','火锅','家常菜',
+        '烧烤','海鲜','清蒸','自助餐',
+        '西餐','咖啡厅','面包甜点','素菜',
+        '川菜','湘菜','湖北菜','新疆菜',
+        '浙江菜','粤菜','东北菜','北京菜',
+        '日本菜','韩国菜','云南菜','东南亚菜',
+        '鲁菜','西北菜','贵州菜','其他'
+
+    ],
+    smartSort:['智能排序','人气排序','离我最近'],
+    screening:['点菜优惠','返券','优惠券','特价菜'],
+
+  },
+  onLoad: function (options) {
+      this.setUpBasiData();
+  },
+  setUpBasiData:function(){
+      var containerW = wx.getSystemInfoSync().windowWidth;
+      
+      var sortBlockW = (containerW - 10 * 7) / 4;
+      this.setData({ sortBlockW: sortBlockW})
+  },
+  closeBg:function(){
+    this.setData({ selectIndex : -1})
+  },
+  querySort:function(e){
+    this.setData({ selectIndex : e.currentTarget.dataset.querytype})
+  },
+  doNothingForCatch:function(){return}
+
+})

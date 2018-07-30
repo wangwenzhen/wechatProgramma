@@ -1,0 +1,273 @@
+var app = getApp();
+var qnRequest = require('../../../utils/request.js');
+var constants = require('../../../utils/constants.js');
+var Utils = require('../../../utils/util.js');
+var moreData;
+var initData;
+var qnLoading = require('../../component/qnLoading/qnLoading.js');
+Page({
+
+  data: {
+    
+    // ip:'https://order2.m.qncloud.cn/',
+    showMoreDes:true,
+    showloadDes:false,
+    // showDrapView:false,
+    loadDes:'加载中...',
+    drapLoadDes:'下拉刷新',
+    firstLoad:false,
+    pageNow: 1,
+    pageSize:20,
+
+    /**界面渲染数据源 */
+    onGoinglist:[
+    //  {
+    //     name:'加速度',
+    //     imgUrl:'',
+    //     orderStatus:'等待下单',
+    //     orderInfo:'2道菜2道菜2道菜2道菜',
+    //     orderDes:'猪肉大葱',
+    //     orderDate:'9:42',
+    //     totalPrice: 3000,
+    //     payAmount:'2000'
+    //   }
+
+    ],
+    overlist:[
+      // {
+      //   name:'加速度',
+      //   imgUrl:'',
+      //   orderStatus:'等待下单',
+      //   orderInfo:'2道菜2道菜2道菜2道菜',
+      //   orderDes:'猪肉大葱',
+      //   orderDate:'9:42',
+      //   payAmount:'2000'
+      // }
+    ],
+    onGoingOrderlist: [],
+    overOrderList:[],
+  },
+
+// 下拉刷新回调接口
+    onPullDownRefresh: function () {
+        this.setData({
+           pageNow: 1
+        });
+        this.getOrderList(true);
+    }, 
+  // clearTimeout(aaa); 
+    onReachBottom: function(){
+        var pageNow_chang = this.data.pageNow + 1;
+        this.setData({
+          pageNow : pageNow_chang,
+        })
+        // 开启动画
+        this.setData({
+            showMoreDes:false,
+            showloadDes:true
+        });
+        this.getOrderList(false);
+
+ },
+
+  onLoad: function () {
+     qnLoading.loading();
+     this.getOrderList(true);
+    
+  },
+  reloadData : function(){
+     this.qnLoading.show();
+     this.getOrderList(true);
+  },
+  getOrderList:function(isRefresh){
+        var that = this;
+
+          //  + ';jsessionid=aaaBY-vRSn24b8PnhAVRv',
+
+        wx.request({
+            url: constants.IP + constants.URL_GetOrderList,
+
+            data: {
+                openId:app.getOpenId(),
+                pageSize:that.data.pageSize,
+                pageNow:that.data.pageNow,
+                // userId:'1111'
+            },
+            header:{'content-type':'application/x-www-form-urlencoded'},
+            method: 'POST',
+        
+            success:function(res){
+                console.log('订单列表___success');
+                console.log(res);
+                if (res.data.orderList && res.data.orderList.length || !isRefresh){
+                  if (!that.data.firstLoad) that.qnLoading.hide();
+                    // 正常结束小牛动画
+                    that.setData({
+                        orderList: res.data.orderList ? res.data.orderList :[],
+                        firstLoad : true
+                    });
+                    that.setUpOrderList(isRefresh);
+                    that.qnLoading.hide();
+                }else{
+                    // 非正常结束小牛动画
+                    that.qnLoading.loadError();
+                    console.log('订单列表__请求数据异常');
+                    that.setData({
+                        firstLoad : false
+                    })
+
+                }
+                console.log(res);
+            },
+            fail:function(res){
+                  that.qnLoading.loadError();
+                  console.log('订单列表__请求数据异常-fail');
+            },
+            complete:function(res){
+                  wx.stopPullDownRefresh();
+            }
+        });
+  },
+  setUpOrderList : function(isRefresh){
+       // name:'加速度',
+  //       logo:'',
+  //       orderStatus:'等待下单',
+  //       orderInfo:'2道菜2道菜2道菜2道菜',
+  //       orderDes:'猪肉大葱',
+  //       orderDate:'9:42',
+  //       totalPrice: 3000,
+  //       payAmount:'2000'
+  /**
+   * 对数据进行拆分，后台返回的数据只是一个List 将完结未完结的数据都放在了一起
+   */
+        var overOrderListTemp = [];
+        var onGoingOrderlistTemp = [];
+        for(var i = 0;i < this.data.orderList.length;i++){
+            let orderObj = this.data.orderList[i];
+            if (orderObj.orderStatus == '06' || orderObj.orderStatus == '10'){
+                overOrderListTemp.push(orderObj)
+            }else{
+                onGoingOrderlistTemp.push(orderObj);       
+            }
+        }  
+        for (var i = 0; i < overOrderListTemp.length;i++){
+            this.data.overOrderList.push(overOrderListTemp[i]);
+        } 
+        for (var i = 0; i < onGoingOrderlistTemp.length; i++) {
+            this.data.onGoingOrderlist.push(onGoingOrderlistTemp[i]);
+        }
+
+        /**刷新 */
+        this.setData({
+          onGoingOrderlist: this.data.onGoingOrderlist,
+          overOrderList: this.data.overOrderList
+        })
+
+        var onGoinglist_chang = this.setupOrder(onGoingOrderlistTemp);
+        var overlist_chang = this.setupOrder(overOrderListTemp);
+        if(isRefresh){
+            this.setData({
+              onGoinglist : onGoinglist_chang,
+              overlist : overlist_chang
+            });
+            wx.stopPullDownRefresh();
+        }else{//加载更多
+            let onGoinglist = this.data.onGoinglist;
+            let overlist = this.data.overlist;
+            for(var i = 0 ; i < onGoinglist_chang.length ; i++){
+                onGoinglist.push(onGoinglist_chang[i]);
+            }
+            for(var i = 0 ; i < overlist_chang.length ; i++){
+                overlist.push( overlist_chang[i]);
+            }
+            this.setData({
+              onGoinglist : onGoinglist,
+              overlist : overlist,
+              showMoreDes:true,
+              showloadDes:false
+            });
+       
+        }
+  },
+  setupOrder:function(copy){
+       var chang = [];
+        for(var i= 0 ; i < copy.length; i++){
+           let obj = copy[i];
+           let insert_obj = {
+              totalPrice : obj.totalPrice,
+              logo: constants.IP+ obj.logo,
+              entName : obj.entName
+           };
+           let orderStatus = this.getOrderStatus(obj.orderStatus,obj.submitWay);
+           insert_obj.orderStatus = orderStatus;
+           let orderDes = this.getOrderDes(obj.dishList);
+           insert_obj.orderDes = orderDes;
+           insert_obj.payAmount = obj.prePaid;
+           insert_obj.refundAmount = obj.refundAmount;
+           insert_obj.orderInfo = this.getOrderInfo(obj);
+           insert_obj.orderDate = obj.createTime;
+           chang.push(insert_obj);
+        }
+        return chang;
+  },
+  getOrderInfo :function(obj){
+      var orderInfo = '';
+      var mainFoodNum = obj.mainFoodNum;
+      var dishNum = obj.dishNum;
+      if(mainFoodNum && dishNum){
+          orderInfo +=dishNum +"道菜 " + mainFoodNum + "份主食";
+      }else if(mainFoodNum){  
+          orderInfo += mainFoodNum + "份主食";
+      }else{
+          orderInfo +=dishNum +"道菜";
+      }
+      return orderInfo;
+  },
+  getOrderDes : function(dishList){
+      var dishInfo = '';
+      for(var i = 0;i < dishList.length;i++){
+          var obj = dishList[i];
+          dishInfo += obj.dishName;
+          dishInfo += obj.num > 1 ? 'x' +obj.num : '';
+          dishInfo += i != dishList.length -1  ? ',' : '';
+      }
+      return dishInfo;
+  },
+  getOrderStatus : function(orderStatus, submitWay){
+        var formatStr = '';
+        if ('00' == orderStatus) {
+          formatStr =  submitWay == '3' ? "等待下单" : "未下单";
+        }else if ('01' == orderStatus){
+            formatStr = "未就餐";
+        }else if ('05' == orderStatus){
+            formatStr = "就餐中";
+        }else if ('06' == orderStatus){
+            formatStr = "已完成";
+        }else if ('10' == orderStatus){
+            formatStr = "已取消";
+        }
+        return  formatStr;
+  },
+  errorImg : function (event){
+        var index = event.currentTarget.dataset.groupIndex;
+        var obj = event.currentTarget.dataset.isover ? this.data.overlist : this.data.onGoinglist;
+        obj[index].logo = '../../../image/noDefult.png';
+        if(event.currentTarget.dataset.isover){
+            this.setData({overlist : obj});
+        }else{
+            this.setData({onGoinglist : obj});
+        }
+  },
+  toOrderDetail:function(e){
+    var orderId = e.currentTarget.dataset.orderid;
+    wx.navigateTo({
+      url: '../../order/orderDetail/orderDetail?orderId=' + orderId,
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+  },
+  pageName:function(){
+    return "orderList";
+  }
+});

@@ -1,0 +1,26 @@
+.option{
+    background-color: #FFFFFF;
+    flex: 1;
+}
+.option + .option{
+    border-left: 1px solid #d8d8d8;
+}
+.option::after{
+  content:"";
+  position:absolute;
+  bottom:0;
+  left:-13px;
+  right:-13px;
+  border-bottom:1px solid #d8d8d8;
+  transform:scaleY(0.5);
+}
+.option {
+  padding:10px 0;
+  position:relative;
+  text-align:center;
+}
+.option image{
+  position:relative;
+  top:-4rpx;
+  left:8px;
+}

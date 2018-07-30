@@ -1,0 +1,43 @@
+/* pages/login/login.wxss */
+
+
+.phone-verify .cell {
+  padding: 18px 0;
+}
+.phone-verify .cell-ico {
+  width: 40px;
+}
+.phone-verify .cell-ico > image {
+  margin: 0px auto;
+ 
+  height: 22px;
+}
+.phone-verify input {
+  width: 100%;
+}
+.verify{
+  margin: 60rpx 34rpx;
+}
+
+.agreement{
+  text-align: center;
+  margin-top:60rpx;
+  color: #919191;
+  font-size: 28rpx;
+}
+.agreement > view{
+  display: inline-block;
+}
+.agreement > checkbox{
+  display: inline-block;
+}
+.cell-verify.count-down{
+  color: #969696;
+}
+.protocal{
+  text-decoration: underline;
+  color: #5E88BA;
+}
+.login .off{
+  background: #969696 !important;
+}

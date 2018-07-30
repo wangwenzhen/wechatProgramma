@@ -1,0 +1,16 @@
+<!--pages/order/selectedDishHint/selectedDishHint.wxml-->
+<view class="selectedDishHint">
+    <view class="order-info">
+    
+        <image src="../../../image/wait_order_dish.png"/>
+    
+        <view class="dish-info">已选好{{orderInfoDetail}}，共计¥{{totalPrice /100}}
+            <text class="check-dish" catchtap="toSelectedDishDetail">查看已点</text>
+        </view>
+        <view class="dish-hint">您可以先离开本页，到店入座后扫码下单</view>
+        
+    </view>
+
+    <view class="btn scan" catchtap="scanToSeat">我已入座，扫码下单</view>
+
+</view>

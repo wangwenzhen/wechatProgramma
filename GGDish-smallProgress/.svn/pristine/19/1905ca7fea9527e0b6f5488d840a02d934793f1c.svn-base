@@ -1,0 +1,105 @@
+var common = require('./common/common.js')
+var qnLoading = require('../../component/qnLoading/qnLoading.js')
+Page({
+  data:{
+    // industryId:'',//常态
+    // sortType:'',//排序类型
+    // privilege:'',//优惠类型
+    // selectIndex:0,
+    // showToastBg:false,
+    // sortZone: [{ optionName: '全部', subIndex: 0 }, { optionName: '智能排序', subIndex: 0 }, { optionName: '筛选',subIndex:0}],
+    // allQuery:[
+    //   { optionName: '全部', optionId: 0 }, { optionName: '小吃快餐', optionId: 20 }, { optionName: '火锅', optionId: 18 }, { optionName: '家常菜',optionId:2},
+    //   { optionName: '烧烤', optionId: 13 }, { optionName: '海鲜', optionId: 19 }, { optionName: '清真', optionId: 10 }, { optionName: '自助餐',optionId:25},
+    //   { optionName: '西餐', optionId: 24 }, { optionName: '咖啡厅', optionId: 11 }, { optionName: '面包甜点', optionId: 26 }, { optionName: '素菜',optionId:17},
+    //   { optionName: '川菜', optionId: 4 }, { optionName: '湘菜', optionId: 5 }, { optionName: '湖北菜', optionId: 6 }, { optionName: '新疆菜',optionId:12},
+    //   { optionName: '浙江菜', optionId: 7 }, { optionName: '粤菜', optionId: 8 }, { optionName: '东北菜', optionId: 9 }, { optionName: '北京菜',optionId:1},
+    //   { optionName: '日本菜', optionId: 21 }, { optionName: '韩国菜', optionId: 22 }, { optionName: '云南菜', optionId: 15 }, { optionName: '东南亚菜',optionId:23},
+    //   { optionName: '鲁菜', optionId: 3 }, { optionName: '西北菜', optionId: 14 }, { optionName: '贵州菜', optionId: 16 }, { optionName: '其他',optionId:27}
+    // ],
+    // smartSort:['智能排序','人气排序','离我最近'],
+    // screening:['点菜优惠','返券','优惠券','特价菜'],
+
+  },
+  onLoad: function (options) {
+      common.setUpScreenData();
+
+
+      this.setData({ selectIndex: options.selectIndex})
+      if (options.subIndex != 'undefined' && options.subIndex) {
+        var sortZone_chang = this.data.sortZone;
+        sortZone_chang[options.selectIndex].subIndex = options.subIndex;
+        if(options.selectIndex == 0){//第一个分区
+          sortZone_chang[options.selectIndex].optionName = this.data.allQuery[options.subIndex].optionName;
+          this.setData({ industryId: this.data.allQuery[options.subIndex].optionId})
+        }
+        this.setData({ sortZone: sortZone_chang,});
+      } else{
+        this.setData({ showToastBg: true})
+      }
+      qnLoading.loading();
+      common.setUpEntListData();
+      this.setUpBasiData();
+      this.requestEntListInfo(true);
+  },
+  setUpBasiData:function(){
+      var containerW = wx.getSystemInfoSync().windowWidth;
+      
+      var sortBlockW = (containerW - 10 * 7) / 4;
+      this.setData({ sortBlockW: sortBlockW})
+  },
+  closeBg:function(){
+    this.setData({ showToastBg: false})
+  },
+  
+  querySort:function(e){
+    if (this.data.selectIndex == e.currentTarget.dataset.querytype && this.data.showToastBg){
+      this.closeBg();
+      return;
+    }
+    this.setData({ selectIndex: e.currentTarget.dataset.querytype, showToastBg: true})
+ 
+  },
+  /**
+   *  点击条件后 获取商铺
+   */
+  tapOption:function(e){
+    var index = e.currentTarget.dataset.tapIndex;
+    var subIndex = e.currentTarget.dataset.tapSubindex;
+    /**
+     *  构造sortZone
+     */
+    var opionName_chang = index == 0 ? this.getOptionNameAndIndex(this.data.allQuery, subIndex,true) : (index == 1 ? this.getOptionNameAndIndex(this.data.smartSort,subIndex,false) : this.getOptionNameAndIndex(this.data.screening,subIndex,false));
+    var sortZone_chang = this.data.sortZone;
+    sortZone_chang[index].optionName = opionName_chang;
+    sortZone_chang[index].subIndex = subIndex;
+    /**
+     * 获取遍历的条件
+     */
+    this.setData({
+       sortZone:sortZone_chang,
+       industryId: this.data.allQuery[subIndex].optionId,
+       sortType: sortZone_chang[1].subIndex,
+       privilege: sortZone_chang[2].subIndex
+    })
+    this.closeBg();
+ 
+    /**
+     * 重新加载数据
+     */
+    this.qnLoading.show();
+    this.requestEntListInfo(true);
+
+
+  },
+  getOptionNameAndIndex: function (optionList, subIndex, isIndustryId){
+    for(var i = 0; i< optionList.length;i++){
+      let obj = optionList[i];
+      if (isIndustryId && i == subIndex){return obj.optionName}
+      if(i == subIndex) return obj;
+    }
+    return "";
+  },
+  doNothingForCatch:function(){return}
+
+})

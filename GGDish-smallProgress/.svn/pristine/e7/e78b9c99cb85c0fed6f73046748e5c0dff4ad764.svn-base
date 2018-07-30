@@ -1,0 +1,80 @@
+// pages/myCard/myCard.js
+//我的卡包
+var constants = require('../../utils/constants.js');
+var qnRequest = require('../../utils/request.js');
+var qnLoading = require('../component/qnLoading/qnLoading.js');
+var app = getApp();
+
+Page({
+    data:{
+       ip:"https://v.qncloud.cn/",
+       cardList:[
+          {
+              entId:"1492659799253",
+              entLogo:"resource/image/defaultPic/logoDF.png",
+              entName:"谁都不要操作此店",
+              integration:100,
+          },{
+              entId:"1492659799253",
+              entLogo:"resource/image/defaultPic/logoDF.png",
+              entName:"谁都不要操作此店",
+              integration:100,
+          },{
+              entId:"1492659799253",
+              entLogo:"resource/image/defaultPic/logoDF.png",
+              entName:"谁都不要操作此店",
+              integration:100,
+          },{
+              entId:"1492659799253",
+              entLogo:"resource/image/defaultPic/logoDF.png",
+              entName:"谁都不要操作此店",
+              integration:100,
+          }
+       ]
+    },
+    onLoad: function (options) {
+      this.initData();
+      qnLoading.loading();
+    },
+    initData:function(){
+        var that = this;
+        qnRequest.request({
+            url: constants.IP + constants.URL_UserCard,
+            success: function(res){
+                console.log(res);
+                if(res.data&& res.data.returnCode === constants.RETURN_OK){
+                    that.setData({
+                        cardList:res.data.cardList
+                    });
+                }else{
+                //获取失败
+                  that.qnLoading.loadError();
+                }
+                // success
+            },
+            fail: function(res) {
+                // fail
+              that.qnLoading.loadError();
+                console.log(res);
+            },
+            complete: function(res) {
+              that.qnLoading.hide();
+            }
+        })
+    },
+    //点击会员卡
+    onCardItemClicked:function(event){
+        var index = event.currentTarget.dataset.index;
+        console.log(index);
+        var entId = this.data.cardList[index].entId;
+        wx.navigateTo({
+           url: '../menu/menu?entId=' + entId,
+         })
+    },
+    //重新加载
+    reloadData: function () {
+      console.log('重新加载');
+      this.qnLoading.show();
+      this.initData();
+    },
+})

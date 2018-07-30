@@ -1,0 +1,22 @@
+<!--qn_loading
+qn_load_error-->
+<view class="loading_bg" wx:if="{{!endLoadingData || loadError}}">
+    <block wx:if="{{!endLoadingData}}">
+        <view class="V_H_Center">
+            <!--<view class="qn_loading"></view>-->
+            <view class="qn_load_ct">
+                <view class="qn_load_gg"></view>
+                <view class="qn_load_red"></view>
+            </view>
+            <view class="qn_load_des">努力加载中...</view>
+        </view>
+    </block>
+    <block wx:if="{{loadError}}">
+        <view class="V_H_Center">
+            <view class="qn_load_error"></view>
+            <view class="qn_load_des">哎呀...出错了</view>
+            <view class="qn_load_reload" catchtap="reloadData">重新加载</view>
+        </view>
+        
+    </block>
+</view>

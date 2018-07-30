@@ -1,0 +1,31 @@
+<!--pages/login/login.wxml-->
+<view class="login">
+
+			
+  <view class="cells line phone-verify">
+      <view class="cell cell-vcode" >
+          <view class="cell-ico"><image src="../../image/icon/phone.png"/></view>
+          <view class="cell-bd"><input placeholder="手机号" type="number"
+               maxlength="11" bindinput="inputPhone"/></view>
+          <view class="cell-verify {{isCountDown?'count-down':''}}" bindtap="countDown">{{isCountDown?countDown+'s后重试':'获取验证码'}}</view>
+      </view>
+
+      <view class="cell">
+          <view class="cell-ico"><image src="../../image/icon/keyCode.png"/></view>
+          <view class="cell-bd"><input placeholder="验证码" type="number"  
+                maxlength="6" bindinput="inputCode"/></view>
+      </view>
+      
+  </view>
+  <!-- 用户协议-->
+  <view class="agreement">
+ 
+    <checkbox checked="{{isProtocalChecked}}" bindtap="protocalChecked"/>我已同意
+    <view class="protocal" bindtap="protocalClicked">用户协议</view>
+  </view>
+  <!-- 确定按钮-->
+  <view class="btn verify {{isVerifyBtnEnable?'':'off'}}" bindtap="verify">绑定手机号</view>
+<!--弹窗提示-->
+<include src="../component/qnToast/toast.wxml"/>
+
+</view>

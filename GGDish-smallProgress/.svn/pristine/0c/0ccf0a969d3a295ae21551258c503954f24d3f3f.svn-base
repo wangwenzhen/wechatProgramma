@@ -1,0 +1,69 @@
+
+.shopName{
+    font-size: 36rpx;
+}
+.shopIcon{
+    width: 124rpx;
+    height: 124rpx;
+    margin-right:8px;
+    
+}
+.shop{
+    padding: 10px 0;
+    position: relative;
+    display: flex;
+    background-color: #FFFFFF;
+}
+.shop::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    right:0;
+    bottom: 0;
+    border-bottom: 1px solid #d8d8d8;
+    transform: scaleY(0.3);
+}
+.shop:last-child::after{
+    left: -13px;
+}
+.shop-address-features{
+    position: relative;
+    
+    font-size: 24rpx;
+    color: #969696;
+    margin-top: 12rpx;
+}
+.shop-address-features > text{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.shop-info{
+    font-size: 24rpx;
+    color: #969696;
+    padding-top: 12rpx;
+}
+.shop-info-box{
+    position: relative;
+    flex:1;
+    overflow:hidden;
+}
+.coupon-list > image{
+  width: 13px;
+  height: 13px;
+}
+image.middle{
+  /*vertical-align: middle;*/
+  margin-right: 4px; 
+  padding: 2px 0;
+}
+.coupon-list > view{
+  
+  color: #969696;
+  font-size: 11px;
+}
+.load-more{
+    color: #969696;
+    padding: 32rpx 0;
+    text-align: center;
+}

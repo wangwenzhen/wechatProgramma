@@ -1,0 +1,27 @@
+/* pages/queryEnt/queryEnt.wxss */
+.search-bg{
+    flex: 1;
+    padding: 4px 4px;
+    background-color: #f6f6f6;
+}
+.search-bg input{
+    flex: 1;
+}
+.search-bg button{
+    margin: 0 !important;
+    padding: 0!important;
+    border-radius:0px !important;
+}
+.search-bg button:after{
+    display: none;
+}
+.top-view{
+  background-color: #FFFFFF;
+  padding: 10px 11px;
+  border-bottom: 1px solid #e6e6e6;
+}
+.location-input{
+    color: #ababab;
+    line-height: 19px;
+}
+@import "common/common.wxss";

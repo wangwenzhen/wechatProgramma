@@ -1,0 +1,474 @@
+var app = getApp();
+var shoppingCarManager;
+var Utils = require('../../../../utils/util.js')
+function secondMenuSetup(){
+    let pages = getCurrentPages();
+    let curPage = pages[pages.length - 1];
+    /** 
+     * 属性点击事件操作 
+     * */
+    curPage.dishAttrOperation = function(event){
+        var influencePrice =  event.currentTarget.dataset.hasinf;
+        var attrNameIndex = event.currentTarget.dataset.attrnameindex;
+        var optionIndex = event.currentTarget.dataset.optionindex;
+        var curDishInfo_chang = this.data.menu.curDishInfo;
+        var curDishAttr_chang = influencePrice ?  curDishInfo_chang.dishAttrDatahasInf : curDishInfo_chang.dishAttrData;
+        var changAttrObj = curDishAttr_chang[attrNameIndex];
+        var changOptionObj = changAttrObj.option[optionIndex];
+        curDishInfo_chang.priceFloat = false;
+        if(!changAttrObj.multiSelect && changOptionObj.status){
+            //在特价菜分区下可以取消同个控件的高亮
+            if(curDishInfo_chang.groupName =='特价菜'){
+                changOptionObj.status = changOptionObj.status ? 0 : 1;    
+            }else{return};//没有变动
+            
+        }else if(!changAttrObj.multiSelect && !changOptionObj.status){
+            //将其它属性设置normal
+            for(var i = 0 ; i < changAttrObj.option.length ; i++){
+                var obj = changAttrObj.option[i];
+                if(i != optionIndex){
+                    obj.status = 0;
+                }else{
+                    obj.status = 1;
+                }
+            }
+        }else if(changAttrObj.multiSelect){
+            //多选的取反
+            changOptionObj.status = changOptionObj.status ? 0 : 1;
+        }
+        this.matchPrice(curDishInfo_chang);
+        
+     },
+     /**
+      *    添加配菜   
+      */
+     curPage.addSideDish=function(event){
+        event.isAdd = true;
+        this.sideDishOperation(event);
+     },
+     /**
+      *    减少配菜   
+      */
+     curPage.minusSideDish=function(event){
+         event.isAdd = false;
+        this.sideDishOperation(event);
+     },
+     curPage.sideDishOperation=function(event){ 
+        var sideDishIndex = event.currentTarget.dataset.sidedishindex;
+        var curDishInfo_chang = this.data.menu.curDishInfo;
+        var sideDishObj = curDishInfo_chang.sideDishData[sideDishIndex];
+        if(event.isAdd){
+            sideDishObj.selNum += 1;
+        }else{
+            sideDishObj.selNum -= 1;
+        }
+        var sideDishComboStr_chang = '';
+        var sideDishComboArr = [];
+        var sideDishData_chang = curDishInfo_chang.sideDishData;
+        /**
+         * 拼接已选配菜
+         */
+        for(var i = 0 ; i < sideDishData_chang.length ;i++){
+            var obj = sideDishData_chang[i];
+            if(obj.selNum > 0){
+                var tempStr = i == sideDishData_chang.length -1 ? "":"、";
+                sideDishComboArr.push(obj.dishName +"x"+obj.selNum);
+            }
+        }
+        if(sideDishComboArr.length){
+            sideDishComboStr_chang = sideDishComboArr.join("、");
+        }
+        curDishInfo_chang.sideDishComboStr= sideDishComboStr_chang;
+        this.matchPrice(curDishInfo_chang);
+     },
+     /**
+      *  对当前已选的菜品属性 、 配菜进行价格匹配
+      */
+     curPage.matchPrice=function(curDishInfo_chang){
+        var tempPrice;
+        var tempOriginalPrice; 
+        if(curDishInfo_chang.isSpecial){
+            tempPrice= this.data.specialList[curDishInfo_chang.dishId].price
+            tempOriginalPrice = this.data.specialList[curDishInfo_chang.dishId].originalPrice;
+        }else{
+            tempPrice= this.data.dishList[curDishInfo_chang.dishId].price
+            tempOriginalPrice = 0;
+         }
+        
+        var allSelAttr = [];//用于拼接已选
+        // var infPriceAttr = [];//用于价格匹配
+        var dishAttrData_chang = curDishInfo_chang.dishAttrData;
+        var dishAttrDataHasInf_chang = curDishInfo_chang.dishAttrDatahasInf;
+        if(!curDishInfo_chang.defaulSelAttr){curDishInfo_chang.defaulSelAttr = [];}
+        if(curDishInfo_chang.hasSpecialAttr && curDishInfo_chang.defaulSelAttr.length){
+            for(var i = 0 ; i < curDishInfo_chang.defaulSelAttr.length ; i++){
+                var obj = curDishInfo_chang.defaulSelAttr[i];
+                allSelAttr.push(obj.optionName);    
+
+            }
+        }
+        // else{
+           this.getAttrArr(dishAttrData_chang,allSelAttr);
+           this.getAttrArr(dishAttrDataHasInf_chang,allSelAttr);
+        // }
+
+        /**拼接浮动已选属性 */
+        allSelAttr.sort();
+        curDishInfo_chang.attrComboStr = allSelAttr.join(" ");
+         /**
+         * 生成MD5 
+         * 通过dishId、已选属性、已选配菜
+         * */
+        var generateMd5 = Utils.caculateDishMD5(curDishInfo_chang);
+        curDishInfo_chang.dishMd5 = generateMd5;
+
+        /**
+         * 获取价格匹配
+         */
+        var specialDish = this.data.specialList[curDishInfo_chang.dishId];
+        if(specialDish){
+            var dishAttrOptionPriceDataSpecial = specialDish.dishAttrOptionPriceData;
+        }
+        
+        var dishAttrOptionPriceDataNormal = this.data.dishList[curDishInfo_chang.dishId].dishAttrOptionPriceData;
+       
+
+
+
+
+        /**先匹配特价属性 */
+        var isMatchSuccess;
+        if(curDishInfo_chang.hasSpecialAttr){
+            isMatchSuccess = this.refreshDishPrice(curDishInfo_chang,dishAttrOptionPriceDataSpecial,allSelAttr,false);
+            if(isMatchSuccess){
+                 this.setData({'menu.curDishInfo.isSpecial' : isMatchSuccess,});
+                return;
+            }
+        }
+        /**后匹配普通属性 */
+        if(curDishInfo_chang.groupName != '特价菜'){
+            isMatchSuccess = this.refreshDishPrice(curDishInfo_chang,dishAttrOptionPriceDataNormal,allSelAttr,true);
+            if(isMatchSuccess){curDishInfo_chang.isSpecial = false;}
+        }
+
+
+        if(!isMatchSuccess){//都未匹配成功
+             curDishInfo_chang.price  = tempPrice + this.getSideDishTotalPrice(curDishInfo_chang);
+             curDishInfo_chang.originalPrice = tempOriginalPrice ? tempOriginalPrice + this.getSideDishTotalPrice(curDishInfo_chang) : 0;     
+        }
+       
+   
+        this.setData({'menu.curDishInfo' : curDishInfo_chang,});
+     },
+     curPage.refreshDishPrice=function(curDishInfo_chang,dishAttrOptionPriceData,allSelAttr,isNormal){
+ 
+        var price_chang = 0;
+        var originalPrice_chang = 0;
+        /***
+         *  从价格匹配表中获取所有影响价格的属性 ，构建当前匹配时的影响价格数组属性
+         */
+        var infPriceAllAttrStr="";
+        for(var i = 0 ; i < dishAttrOptionPriceData.length;i++){
+            var Obj = dishAttrOptionPriceData[i];
+            infPriceAllAttrStr += Obj.options;
+        }
+        var infPriceAttr = [];
+
+        for(var i=0;i< allSelAttr.length;i++){
+            if(infPriceAllAttrStr.indexOf(allSelAttr[i])>=0){
+                infPriceAttr.push(allSelAttr[i]);
+            }
+        }
+        /**
+         *  从已选且影响价格的属性中，去设置 禁止的按钮stauts == -1
+         *  同级属性不禁止，价格匹配不禁止，其余禁止，递归本次不禁止属性和上次去交集，遍历结束将其余属性且单选禁止
+         */
+        if(curDishInfo_chang.groupName =='特价菜'){
+            let effectAttrsBefroe;
+            let effectAttrsAfter;
+            for(var index =0 ; index < infPriceAttr.length; index++){
+                let attr = infPriceAttr[index];
+                // 获取有效属性
+               
+                if(index == 0){
+                    effectAttrsBefroe = this.getEffectAttrNameList(attr,dishAttrOptionPriceData,curDishInfo_chang);
+                }else{
+                    effectAttrsAfter = this.getEffectAttrNameList(attr,dishAttrOptionPriceData,curDishInfo_chang);
+                    /**进行交集 */
+                    let intersection = [];
+                    for(var befroeIndex = 0 ; befroeIndex < effectAttrsBefroe.length;befroeIndex++){
+                        var effectAttrsAfterStr = effectAttrsAfter.toString();
+                        if(effectAttrsAfterStr.indexOf(effectAttrsBefroe[befroeIndex]) >=0){
+                            intersection.push(effectAttrsBefroe[befroeIndex]);
+                        }
+                    }
+                    effectAttrsBefroe = intersection;
+                }
+            }
+            console.log('获取完 所有当前影响价格且不禁止的属性');
+
+            this.setupDisableAttr(effectAttrsBefroe,curDishInfo_chang);
+
+        }
+       
+
+        for(var i = 0; i < dishAttrOptionPriceData.length; i++){
+            var matchNum = 0;
+            var optionPriceObj = dishAttrOptionPriceData[i];
+            var optionArr =  optionPriceObj.options.split("|");
+            for(var j = 0 ; j < infPriceAttr.length;j++){
+                var optionObj = infPriceAttr[j];
+                if(optionPriceObj.options.indexOf(optionObj) >=0 ){
+                    matchNum++;
+                }
+                if(j==infPriceAttr.length - 1&& matchNum ==optionArr.length){
+                    if(isNormal){
+                        curDishInfo_chang.price  = dishAttrOptionPriceData[i].dishPrice + this.getSideDishTotalPrice(curDishInfo_chang);
+                        curDishInfo_chang.originalPrice = 0;
+                    }else{
+                        curDishInfo_chang.price  = dishAttrOptionPriceData[i].presentPrice + this.getSideDishTotalPrice(curDishInfo_chang);
+                        curDishInfo_chang.originalPrice = dishAttrOptionPriceData[i].originalPrice + this.getSideDishTotalPrice(curDishInfo_chang);
+                    }
+                   
+
+                    this.setData({'menu.curDishInfo' : curDishInfo_chang,});
+                    return true;
+                }
+            }
+        }
+
+        return false;
+        
+     },
+       /**
+         * 将不可效的属性禁止
+         */
+    curPage.setupDisableAttr = function(effectAttrs,curDishInfo_chang){
+        // var curDishInfo_chang = this.data.menu.curDishInfo; 
+        for(var i=0;i <curDishInfo_chang.dishAttrData.length;i++){
+            var obj = curDishInfo_chang.dishAttrData[i];
+            if(obj.multiSelect){continue;}
+            for(var j=0;j <obj.option.length;j++){
+                let effectAttrsStr = !effectAttrs || effectAttrs.toString();
+                if(!effectAttrs){
+                     obj.option[j].status = 0;
+                }
+                else if(effectAttrsStr.indexOf(obj.option[j].name) < 0){
+                    obj.option[j].status = -1;
+                }else if(obj.option[j].status != 1){
+                    obj.option[j].status = 0;
+                }
+            }
+        }
+
+        for(var i=0;i <curDishInfo_chang.dishAttrDatahasInf.length;i++){
+            var obj = curDishInfo_chang.dishAttrDatahasInf[i];
+            if(obj.multiSelect){continue;}
+            for(var j=0;j <obj.option.length;j++){
+                let effectAttrsStr = !effectAttrs || effectAttrs.toString();
+                if(!effectAttrs){
+                     obj.option[j].status = 0;
+                }
+                else if(effectAttrsStr.indexOf(obj.option[j].name) < 0){
+                    obj.option[j].status = -1;
+                }else if(obj.option[j].status != 1){
+                    obj.option[j].status = 0;
+                }
+            }
+        }
+        console.log('当前禁止属性设置完毕');
+     
+
+    },
+            
+
+     curPage.getEffectAttrNameList = function(attr,dishAttrOptionPriceData,curDishInfo_chang){
+        var attrDataIndex;
+        var isInfPrice = false;
+        var effectAttrs = [];
+        // var curDishInfo_chang = this.data.menu.curDishInfo;
+        /**
+         * 获取同级属性
+         */
+        for(var i=0;i <curDishInfo_chang.dishAttrData.length;i++){
+            var obj = curDishInfo_chang.dishAttrData[i];
+            for(var j=0;j <obj.option.length;j++){
+                if(obj.option[j].name == attr){
+                    attrDataIndex = i;
+                    break;
+                }
+            }
+        }
+        if(!attrDataIndex){
+            for(var i=0;i <curDishInfo_chang.dishAttrDatahasInf.length;i++){
+                var obj = curDishInfo_chang.dishAttrDatahasInf[i];
+                for(var j=0;j <obj.option.length;j++){
+                    if(obj.option[j].name == attr){
+                        attrDataIndex = i;
+                        isInfPrice =true;
+                        break;
+                    }
+                }
+            }
+        }
+        var optionData = isInfPrice ? curDishInfo_chang.dishAttrDatahasInf : curDishInfo_chang.dishAttrData;
+        if(attrDataIndex){
+            for(var i = 0;i < optionData[attrDataIndex].option.length;i++){
+                 effectAttrs.push(optionData[attrDataIndex].option[i].name);
+            }
+        }else{
+                effectAttrs.push(attr);
+        }
+        
+        /**
+         * 获取匹配属性
+         */
+        for(var i = 0; i <dishAttrOptionPriceData.length; i++){
+            let optionObj = dishAttrOptionPriceData[i];
+            if(optionObj.options.indexOf(attr) >=0){
+                /**具有匹配属性 */
+                let optionArr = optionObj.options.split("|");
+                for(var j=0;j< optionArr.length;j++){
+                    if(optionArr[j]!=attr){
+                        effectAttrs.push(optionArr[j]);
+                    }
+                }
+            }
+        }
+        return effectAttrs;
+     },
+     /**
+      *  配菜价格
+      */
+     curPage.getSideDishTotalPrice= function(curDishInfo_chang){
+        var totalSideDishPrice = 0;
+        for(var i = 0 ;i < curDishInfo_chang.sideDishData.length; i ++){
+            var sideDishObj = curDishInfo_chang.sideDishData[i];
+            if(sideDishObj.selNum){
+                totalSideDishPrice += sideDishObj.selNum * sideDishObj.price;
+            }
+        }
+        
+        curDishInfo_chang.sideDishPrice = totalSideDishPrice;
+        return totalSideDishPrice;
+     },
+     curPage.getAttrArr=function(dishAttrData_chang,allSelAttr){
+         for(var i =0 ; i < dishAttrData_chang.length;i++){
+                var attrNameObj = dishAttrData_chang[i];
+                
+                for(var j = 0 ; j < attrNameObj.option.length ; j++){
+                    var optionObj = attrNameObj.option[j];
+                    if(optionObj.status==1){
+                        allSelAttr.push(optionObj.name);
+                    }
+                }
+            }
+     },
+      // 关闭二级菜单
+    curPage.colseDishPopWindow =function(){
+        this.setData({
+            'menu.showSecondMenu' : false,
+        })
+    },
+    curPage.commitExistDishInfoMinus = function(event){
+        event.isAdd = false;
+        this.commitExistDishInfo(event);
+    },
+    curPage.commitExistDishInfoPlus = function(event){
+        event.isAdd = true;
+        this.commitExistDishInfo(event);
+    },
+    curPage.commitExistDishInfo = function(event){
+       
+        if(event.isAdd){
+            this.commitCurDishInfo();
+            
+        }else{
+            this.tapAlreadyChooseDishMinus(event);
+            this.colseDishPopWindow();
+              /***
+               * 刷新界面各个控件位置
+               */
+            if(this.data.menu.shoppingCart.addDishes[curDishInfo_chang.dishMd5].num == 1){
+                this.calculateControlFrames();    
+            }
+        }
+    },
+    /**
+     * 提交当前菜信息
+     */
+    curPage.commitCurDishInfo = function(){
+        
+        var curDishInfo_chang = this.data.menu.curDishInfo;
+        /**
+         * 加入购物车前判断界面属性是否有未选中。
+         * 有则弹出提示
+         */
+        var dishAttrDatahasInf_chang = curDishInfo_chang.dishAttrDatahasInf;
+        var dishAttrData_chang = curDishInfo_chang.dishAttrData;
+        var isPopTip;
+        isPopTip= this.isPopTip(dishAttrDatahasInf_chang);
+        if(isPopTip.length){
+            let des = "请选择 "+isPopTip;
+            this.onFullToast(des);
+            return
+        }
+        isPopTip= this.isPopTip(dishAttrData_chang);
+        if(isPopTip.length){
+            let des = "请选择 "+isPopTip;
+            this.onFullToast(des);
+            return
+        }
+        /**
+         *  加入购物车 且刷新
+         */
+        // shoppingCarManager = app.getShoppingCarManager(); //获取购物车管理类
+       /**当前菜生成后添加，price originalPrice prsentPrice 数据源数据，未点菜时的数据 */
+        if (curDishInfo_chang.isSpecial) {
+          var befDish = this.data.specialList[curDishInfo_chang.dishId];
+          curDishInfo_chang.dishPrice = befDish.price;
+          curDishInfo_chang.dishOriginalPrice = befDish.originalPrice;
+          curDishInfo_chang.dishPresentPrice = befDish.presentPrice;
+        } else {
+          var befDish = this.data.dishList[curDishInfo_chang.dishId];
+          curDishInfo_chang.dishPrice = curDishInfo_chang.originalPrice = curDishInfo_chang.presentPrice = befDish.price;
+        }
+        //获取dishName
+        curDishInfo_chang.dishOriginalName = this.data.dishList[curDishInfo_chang.dishId].dishName;
+
+
+       this.refreshShoppingcar(curDishInfo_chang);
+       this.colseDishPopWindow();
+       /***
+        * 刷新界面各个控件位置
+        */
+        if(this.data.menu.shoppingCart.addDishes[curDishInfo_chang.dishMd5].num == 1){
+            this.calculateControlFrames();    
+        }
+    },
+    curPage.isPopTip = function(dishAttrData){
+        for(var i = 0 ; i < dishAttrData.length; i++){
+            var markNum = 0;
+            let obj = dishAttrData[i];
+
+            for(var j = 0 ; j < obj.option.length;j++){
+                let optionObj = obj.option[j];
+                if(optionObj.status == 0 || optionObj.status == -1){
+                    markNum ++;
+                }
+            }
+            if(markNum == obj.option.length){
+                return obj.attrName;
+            }
+        }
+        return "";
+    }
+
+
+}
+module.exports = {
+    secondMenuInit : secondMenuSetup
+}
+
+
+    

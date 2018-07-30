@@ -1,0 +1,12 @@
+<!--pages/order/leaveMessage/leaveMessage.wxml-->
+<view class="l-Message">
+    <view class="message-panel">
+        <textarea  class="message-input" maxlength="50"  bindinput="inputMessage" value="{{defaultMessage}}" />
+
+        <view class="word-limit">{{messageLength}}/50个字</view>
+    </view>
+
+    <view class="btn save" bindtap="save">保存</view>
+
+
+</view>

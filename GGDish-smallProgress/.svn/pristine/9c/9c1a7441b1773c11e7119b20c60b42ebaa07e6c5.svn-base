@@ -1,0 +1,58 @@
+<!--bigImg.wxml-->
+<template name="bigImgModelController">
+ 
+<view class="bigImg">
+     <!-- 顶部的tabbar -->
+    <include src="common/bigSuperDishBar.wxml"/>
+     <!-- 显示菜品项目 -->
+    <view class="dish-list-lay">
+        <swiper bindchange="pageChange" current="{{curGroupIndex}}"  >
+            <view wx:for="{{dishMenu}}" wx:key="{{index}}" wx:for-index="menu_index" wx:for-item="group">
+                <swiper-item data-super-index="{{menu-index}}">
+                    <scroll-view scroll-y class="dish-scroll">
+                        <view class="item-dish-outter  {{group.hasImgDishNum && group.hasImgDishNum%2 && group.hasImgDishNum-1 == dish_index ? 'item-last-dish-singular':''}}" wx:for="{{group.dishes}}" wx:key="{{index}}" wx:for-index="dish_index">
+                            <view 
+                                bindtap="showDishDetail" data-tap-menu-index="{{menu_index}}"data-tap-dish-index="{{dish_index}}" 
+                                class="item-dish">
+                                <image wx:if="{{item.dishMidPic}}" class="dish-img" src="{{item.dishMidPic}}" binderror="errorImg" data-tap-menu-index="{{menu_index}}"data-tap-dish-index="{{dish_index}}" data-menu-model="1"/> 
+                                <view class="item-dish-info">
+                                    <view class="dish-des ell" >{{item.dishName}}</view>
+                                    <view wx:if="{{item.groupName == '特价菜'}}"class="special-limit ell">{{item.specialLimit}}</view>
+                                        <!--原价现价 -->
+                                    <view class="flex">
+                                        <view class="price-detail ell">
+                                            <text class="dish-price">{{item.price/100}}</text>
+                                            <text class="dish-unit {{item.priceFloat ? 'dish-float' : ''}}">/{{item.dishUnit}}</text>
+                                            <text class="originalPri" wx:if="{{item.originalPrice}}">{{item.originalPrice/100}}</text>
+                                        </view>
+                                        <view class="num-operation">
+                                            <block wx:if="{{item.soldOut}}">
+                                                <view class="sellOver">已售罄</view>
+                                            </block>
+                                            <block wx:elif="{{item.hasSideDish}}">
+                                                <view class="sideDish" 
+                                                    catchtap="tapDishPlus" data-tap-menu-index="{{menu_index}}" data-tap-dish-index="{{dish_index}}">可选配菜</view>
+                                            </block>
+                                            <block wx:else>
+                                                <view  class="btn-box" wx:if="{{!item.soldOut}}">
+                                                        <view wx:if="{{shoppingCart.addDishes[item.dishMd5].num>0}}" class="minus" 
+                                                            catchtap="tapDishMinus" data-tap-menu-index="{{menu_index}}"data-tap-dish-index="{{dish_index}}">
+                                                        </view>
+                                                        <view class="num-innner {{shoppingCart.addDishes[item.dishMd5].num>0 ? '':'visHidden'}}">{{shoppingCart.addDishes[item.dishMd5].num}}
+                                                        </view>
+                                                        <view class="plus"  catchtap="tapDishPlus" data-tap-menu-index="{{menu_index}}"data-tap-dish-index="{{dish_index}}" >
+                                                        </view>
+                                                </view>
+                                            </block>
+                                        </view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </scroll-view>
+                </swiper-item>
+            </view>
+        </swiper>
+    </view>
+</view>
+</template>

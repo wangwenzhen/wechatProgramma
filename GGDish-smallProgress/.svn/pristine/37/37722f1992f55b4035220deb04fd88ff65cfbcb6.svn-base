@@ -1,0 +1,29 @@
+<view class="cChoose">
+    <!-- 优惠券列表-->
+    <scroll-view scroll-y class="coupon-lay">
+        <view>
+            <!-- 可以同享-->
+            <view class="classname">
+                <view class="coupon-title">以下优惠可以同时享用</view>
+                <view wx:for="{{coupons.shareCoupons}}" wx:key="{{index}} " 
+                      class="item-coupons {{item.couponType==1?'cash':'discount'}} {{item.notUse?'notUse':''}}"
+                      bindtap="tapCoupons" data-index="{{index}}"data-coupon-type="0">
+                    <include src="common/couponList.wxml"/>
+                </view>     
+            </view>
+            <!-- 不可同享-->
+            <view class="classname">
+                <view class="coupon-title">以下优惠只能选择一种</view>
+            <view wx:for="{{coupons.unShareCoupons}}" wx:key="{{index}} " 
+                class="item-coupons {{item.couponType==1?'cash':'discount'}}  {{item.notUse?'notUse':''}}"
+                bindtap="tapCoupons" data-index="{{index}}" data-coupon-type="1">
+                    <include src="common/couponList.wxml"/>
+                </view>    
+            </view>
+        </view>
+    </scroll-view>
+    <!-- 确定按钮-->
+    <view class="cells sure-lay" bindtap="sure">
+        <view class="btn">确定({{selectNum}})</view>
+    </view>
+</view>

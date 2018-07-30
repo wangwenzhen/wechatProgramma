@@ -1,0 +1,38 @@
+/* pages/order/leaveMessage/leaveMessage.wxss */
+
+.message-panel{
+    height: 200px;
+    background:#fff;
+    width: 100%;
+    position: relative;
+    padding-top: 12rpx;
+}
+.message-panel::after{
+  content: " ";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 1px;
+  border-bottom: 1px solid #d8d8d8;
+  color: #d8d8d8;
+  transform-origin: 0 100%;
+  transform: scaleY(0.5);
+}
+.message-input{
+    color:#1f1f1f;
+    font-size: 32rpx;
+    width: 100%-40rpx;
+    height:150px;
+    margin-left: 20rpx;
+    margin-right: 20rpx;
+}
+.word-limit{
+    position: absolute;
+    bottom: 30rpx;
+    right: 20rpx;
+    color: #969696;
+}
+.save{
+    margin: 60rpx 20rpx 20rpx 20rpx;
+}

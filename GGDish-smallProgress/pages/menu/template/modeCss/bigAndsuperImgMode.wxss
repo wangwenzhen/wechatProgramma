@@ -1,0 +1,196 @@
+/* 大图、超大图通用*/
+.bigImg , .superImg{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background:#fff;
+}
+/*  topbar */
+.dish-group-bar{
+    position:relative;
+    width:100%;
+    height:40px;
+    background:#fff;
+    z-index:1;
+}
+.dish-group-bar::after{
+    content:'';
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0px;
+    height: 1px;
+    border-bottom: 1px solid #e6e6e6;
+    color: #e6e6e6;
+    transform-origin: 0 0;
+    transform: scaleY(0.5);
+}
+.scroll-group-bar{
+    height:100%;
+    width:80%;
+    white-space:nowrap;
+}
+.scroll-group-bar .on{
+     color: #Cf112d;
+}
+.scroll-group-bar .on::after{
+    content:'';
+    position:absolute;
+    left:12rpx;
+    right:12rpx;
+    bottom:0;
+    height: 3px;
+    border-bottom: 3px solid #cf112d;
+    color: #cf112d;
+}
+.dish-group-bar .bar-item{
+    height:39px;
+    line-height:39px;
+    display:inline-block;
+    padding: 0 12rpx;
+    text-align:center;
+    font-size:30rpx;
+    position:relative;
+}
+.bigImg .group-intro,
+.superImg .group-intro{
+    position: relative;
+    background: #fff;
+    padding: 5px 5px;
+    text-align: center;
+    color: #969696;
+    font-size:21rpx;
+}
+.dish-list-lay{
+    background:#FFFFFF;
+    width: 100%;
+    flex:1;
+    position:relative;
+}
+.dish-list-lay > swiper{
+    height:100%;
+    width: 100%;
+    position:absolute;
+}
+.bigImg .swich-model,
+.superImg .swich-model{
+    position:absolute;
+    right:10px;
+    top:7px;
+}
+/* 大图模式*/
+.bigImg .dish-scroll{
+    height:100%;
+    width:auto;
+    margin-right:8rpx;
+}
+.bigImg .item-dish-outter{
+    position:relative;
+    width:50%;
+    float:left;
+    box-sizing:border-box;
+    padding-left: 8rpx;
+    padding-bottom:12rpx;
+}
+.bigImg .item-dish{
+  border:1px solid #E0E0E0;
+}
+.bigImg .dish-img{
+  width:100%;
+  height:348rpx;
+}
+.bigImg .item-dish-info{
+  position:relative;
+  padding: 20rpx 9rpx 10rpx 9rpx;
+}
+.bigImg .num-operation{
+    display:flex;
+    text-align:center;
+}
+.bigImg .item-last-dish-singular{
+  margin-right: 50px;
+}
+.bigImg .special-limit{
+    margin-top: 10rpx;
+    margin-bottom: 10rpx;
+}
+.bigImg .price-detail{
+    line-height: 26px;
+    height: 26px;
+}
+.bigImg .sellOver{
+    line-height:26px;
+    position: relative;
+    top: 5rpx;
+}
+/* 超大图模式*/
+.superImg .item-dish-img{
+    width:700rpx;
+    height:700rpx;
+    margin-bottom: 24rpx;
+}
+.superImg .item-dish-has-img{
+   padding: 12px;
+}
+.superImg .item-dish-has-img:first-child{
+   padding-top: 0;
+}
+.superImg .special-limit{
+    margin-top: 10rpx;
+}
+.superImg .price-detail{
+    margin-top: 20rpx;
+}
+.superImg .num-operation{
+    height:26px;
+    line-height:26px;
+    margin-top:-10rpx;
+}
+.superImg .item-dish-no-img .num-operation{
+    margin-top:-20rpx;
+}
+.superImg .item-dish-has-img .num-operation{
+    margin-top:5rpx;
+}
+.superImg .item-dish-no-img .item-dish-info{
+    padding: 12px 12px 20px 12px;
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.superImg .item-dish-has-img .item-dish-info{
+    display:flex;
+    position:relative;
+}
+.superImg .item-dish-no-img .item-dish-info::after{
+    content: " ";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px solid #e6e6e6;
+    color: #e6e6e6;
+    transform-origin: 0 0;
+    transform: scaleY(0.5);
+    left: 12px;
+}
+.superImg .item-last-has-img{
+   padding-bottom:20px;
+   position: relative;
+}
+.superImg .item-last-has-img::after{
+  content: " ";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 1px;
+  border-top: 1px solid #e6e6e6;
+  color: #e6e6e6;
+  transform-origin: 0 0;
+  transform: scaleY(0.5);
+  left: 12px;
+}

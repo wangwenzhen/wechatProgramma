@@ -1,0 +1,67 @@
+/* pages/myCard/myCard.wxss */
+.card{
+     position: relative;
+     width: 95%;
+     height: 211rpx;
+     margin: 0 auto;
+     margin-top: 24rpx;
+}
+.card >image{
+    position: absolute;
+    width: 100%;
+    height: 211rpx;
+    z-index: 1;
+}
+.ent-info{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+.ent-logo{
+    margin-left: 24rpx;
+    margin-right: 12rpx;
+    position: relative;
+    width: 150rpx;
+    height: 150rpx;
+
+}
+.ent-logo >image{
+     position: absolute;
+     border-radius:100rpx;
+     width:100%;
+     height: 100%;
+}
+.ent-name{
+    color: #fff;
+    font-size: 30rpx;
+}
+.integration{
+    color: #fff;
+    font-size: 24rpx;
+}
+.vip{
+    position: absolute;
+    right: 24rpx;
+    top: 24rpx;
+    color: #fff;
+    font-size: 24rpx;
+}
+.no-data{
+    width: 100%;
+    height:100%;
+    position: absolute;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color: #969696;
+    font-size: 24rpx;
+}
+.no-data > image{
+    width:148rpx;
+    height:148rpx;
+}
+.no-data>text{
+    margin-top:40rpx;
+}

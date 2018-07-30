@@ -1,0 +1,11 @@
+<form report-submit="true" bindsubmit="formSubmit" >
+
+  <view class="btn-area">
+    <button formType="submit">发送模板消息</button>
+  </view>
+
+</form>
+客服
+<contact-button type="default-dark" size="20"session-from="我是一个客户端">
+
+</contact-button> 

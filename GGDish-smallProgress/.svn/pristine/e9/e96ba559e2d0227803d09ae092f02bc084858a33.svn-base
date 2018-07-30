@@ -1,0 +1,61 @@
+<include src="../../component/qnLoading/qnLoading.wxml"/>
+<!--未完成订单-->
+<block wx:if="{{onGoinglist.length}}">
+<view>
+    <view class="view-box flex" wx:for="{{onGoinglist}}" wx:key="{{*this}}" wx:for-index="i" catchtap="toOrderDetail" data-orderId="{{onGoingOrderlist[i].orderId}}">
+        <view class="left-view">
+            <image src="{{item.logo}}" class="order-list-img" binderror="errorImg" data-group-index="{{i}}" data-isOver="{{false}}"></image>
+        </view>
+        <view class="right-view">
+            <view class="top-inline">
+                <view class="ent-name ell">{{item.entName}}</view>
+                <text class="order-status">{{item.orderStatus}}</text>
+            </view>
+            <view class="order-list-info flex">
+                <view class="ell">{{item.orderInfo}} <text>￥{{item.totalPrice / 100}}</text></view>
+                <text class="list-payAmount ell">(已付￥{{item.payAmount / 100}})</text>
+            </view>
+            <view class="flex">
+                <view class="list-orderDes ell">
+                    {{item.orderDes}}
+                </view>
+                <view class="order-time">
+                    {{item.orderDate}}
+                </view>
+
+            </view>
+        </view>
+    </view>
+</view>
+</block>
+<!--已完成订单-->
+<block wx:if="{{overlist.length}}">
+    <view class="completion-list">已完成订单</view>
+    <view>
+        <view class="view-box flex" wx:for="{{overlist}}" wx:key="{{index}}" catchtap="toOrderDetail" data-orderId="{{overOrderList[index].orderId}}">
+            <view class="left-view">
+                <image src="{{item.logo}}" class="order-list-img" binderror="errorImg" data-group-index="{{index}}" data-isOver="{{true}}"></image>
+            </view>
+            <view class="right-view">
+                <view class="top-inline">
+                    <view class="ent-name ell">{{item.entName}}</view>
+                    <text class="order-status">{{item.orderStatus}}</text>
+                </view>
+                <view class="order-list-info flex">
+                    <view class="ell">{{item.orderInfo}} <text>￥{{item.totalPrice / 100}}</text></view>
+                    <text class="list-payAmount ell">(已付￥{{item.payAmount / 100}})</text>
+                </view>
+                <view class="flex">
+                    <view class="list-orderDes ell">
+                        {{item.orderDes}}
+                    </view>
+                    <view class="order-time">
+                        {{item.orderDate}}
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</block>
+
+<include src="../../component/qnLoadMore/qnLoadMore.wxml"/>

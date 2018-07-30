@@ -1,0 +1,20 @@
+<!--pages/myCollection/myCollection.wxml-->
+<include src="../component/qnLoading/qnLoading.wxml"/>
+
+<view class="myCollection cells">
+    <block wx:if="{{entList && entList.length>0}}">
+        <view wx:for="{{entList}}"wx:key="{{index}}" class="cell" data-index="{{index}}"bindtap="onEntItemClick">
+            <image src="{{ip + item.entLogo}}"></image>
+            <view class="ent-info">
+                <view>{{item.entName}}</view>
+                <view class="ent-industy">{{item.industyName}}</view>
+            </view>
+        </view>
+    </block>
+    <block wx:else>
+        <view class="no-data" >
+              <image src="../../../image/collection_nodata.png"></image>
+              <text>暂无收藏</text>
+        </view>
+    </block>
+</view>

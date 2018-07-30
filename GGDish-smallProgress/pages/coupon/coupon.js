@@ -1,0 +1,169 @@
+// pages/coupon/coupon.js
+var constants = require('../../utils/constants.js')
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+      
+      interfaceData:{
+        intro:'',
+        logo:'',
+        coupon_detail:'',
+        timeZone:'',
+        entName:'',
+        ruleDescribe:'',
+      }
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+      var couponStr = wx.getStorageSync("couponStr");
+      if (couponStr){
+          wx.removeStorageSync('couponStr')
+          var coupon = JSON.parse(couponStr);
+          this.setData({ coupon: coupon})
+          this.setupCouponData();
+      }
+  },
+  setupCouponData:function(){
+      var coupon_chang= this.data.coupon;
+     
+      var insertObj = {};
+      insertObj.intro = coupon_chang.intro;
+      insertObj.logo = constants.IP + coupon_chang.img_path;
+      insertObj.coupon_detail = coupon_chang.coupon_detail;
+      insertObj.timeZone = "有效期:"+coupon_chang.receive_time.replace(/\./g, '-') + '至' + coupon_chang.end_date.replace(/\./g,'-');
+      insertObj.entName = coupon_chang.name;
+      insertObj.ruleDescribe = this.getRuleDes(coupon_chang);
+      /**是否过期 */
+      var st = this.getNowFormatDate();
+      var et = coupon_chang.end_time;
+      var stdt = new Date(st.replace("-", "/"));
+      var etdt = new Date(et.replace("-", "/"));
+      
+      insertObj.isShowOverDate = stdt > etdt ? true : false;
+      this.setData({interfaceData: insertObj})
+
+  },
+  //获取当前时间，格式YYYY-MM-DD
+  getNowFormatDate:function () {
+    var date = new Date();
+    var seperator1 = "-";
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if(month >= 1 && month <= 9) {
+      month = "0" + month;
+    }
+        if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+    }
+        var currentdate = year + seperator1 + month + seperator1 + strDate;
+    return currentdate;
+  },
+  getRuleDes: function (coupon){
+    // var maxSalesNum = coupon.maxSalesNum;//最大使用分数
+    var timeType = coupon.timeType;//可特价优惠区间
+    var isWeekendUse = coupon.isWeekendUse;//周末是否可用
+    var isHolidayUse = coupon.isHolidayUse;//节假日是否可用
+    var isShare = coupon.isShare;//是否可同享
+    var privilege_type = coupon.privilege_type;//1的时候不显示满足 多少可用信息。且目前 我的优惠券页数据只是满券信息一种
+    var specialLimit = "";
+    // if (maxSalesNum) {
+    //   specialLimit += "每单限" + maxSalesNum + "份";
+    // }
+    if (timeType == 1) {
+
+      specialLimit += specialLimit.length ? "\n午市专享" : "午市专享";
+
+    } else if (timeType == 2) {
+      specialLimit += specialLimit.length ? "\n晚市专享" : "晚市专享";
+    }
+    if (isWeekendUse == 0 && isHolidayUse == 0) {
+      specialLimit += specialLimit.length ? "\n周末、法定节假日不特价" : "周末、法定节假日不特价";
+    } else if (isWeekendUse == 0) {
+      specialLimit += specialLimit.length ? "\n周末不可使用" : "周末不可使用";
+    } else if (isHolidayUse == 0) {
+      specialLimit += specialLimit.length ? "\n法定节假日不特价" : "法定节假日不特价";
+    }
+    if (!isShare) {
+      specialLimit += specialLimit.length ? "\n不与其他优惠同享" : "不与其他优惠同享";
+    }
+    if (privilege_type != 1){
+      specialLimit += specialLimit.length ? '\n满' + coupon.consumeAmountLimit + '元可用' : '满' + coupon.consumeAmountLimit +'元可用';
+    }
+
+    return specialLimit;
+  },
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+  
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+  
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+  
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+  
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+  
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+  
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+  
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+  
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+  
+  },
+  errImg:function(){
+      this.setData({
+        'couponLogo': '../../../image/noImgForSmallModel.png',
+      });  
+  }
+})

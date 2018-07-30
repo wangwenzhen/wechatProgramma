@@ -1,0 +1,36 @@
+.log-list {
+  display: flex;
+  flex-direction: column;
+  padding: 40rpx;
+}
+.log-item {
+  margin: 10rpx;
+}
+.on{
+  background: #CEF012;
+}
+
+.hovertest{
+  padding: 20rpx;
+}
+
+button{
+ border-radius: 0px;
+}
+.tes-css{
+  background-color: rebeccapurple;
+}
+.test-W-H-center{
+  padding: 5px;
+  display: inline-block;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.test-W-H-center text{
+  display: inline-block;
+  position: relative;
+  margin-left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}

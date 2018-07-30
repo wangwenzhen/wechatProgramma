@@ -1,0 +1,103 @@
+<include src="../../component/qnLoading/qnLoading.wxml"/>
+
+<view wx:if="{{showEntScreenView}}">
+  <include src="common/entScreenToast.wxml"/>
+</view>
+
+
+<view wx:if="{{showLocationFail}}" class="locationFail-bg">
+       <view class="box">
+          <image src="../../../image/location_fail.png"></image>          
+          <view class="fail-tip">定位失败，请手动选择地址</view>
+          <view class="address-btn" bindtap="toLocation">选择地址</view>
+       </view>
+</view>
+
+<!--pages/main/home/home.wxml-->
+<view class="location-top-view">    
+    <view class="flex">
+      
+      <view class="middle-address flex" style="overflow: hidden;" catchtap="toLocation">
+          <image src="../../../image/home_location.png" style="height:17px;width:14px"></image>
+          <text class="address-text ell" style="overflow: hidden;">{{address}}</text>
+      </view>
+      <image src="../../../image/home_search.png" style="width:20px;height:20px" catchtap="toQueryEnt"></image>
+    </view>
+    <!--进行中的订单 简视图 注释-->
+    <!--<view class="onGoing-order-simple cell-ft" catchtap="toDishDetail" data-orderId="{{indeOrder.orderId}}">{{home.onGoingOrder.entName}}有个新订单 {{home.onGoingOrder.orderStatus}}</view>-->
+</view>
+
+<!--正在进行中的订单 详情视图-->
+<view class="onGoing-order" wx:if="{{home.onGoingOrder}}" style="z-index:80">
+    <view class="orderStatus">{{home.onGoingOrder.orderStatus}}</view>
+    <view class="entId-logo-bd flex">
+      <image src="{{home.onGoingOrder.logo}}" class="entId-logo" data-entLogo="true" binderror="errorImg"></image>
+    </view>
+    <view class="order-info-bd {{isSeat ? 'bottom' : ''}}">
+      <view class="entName">{{home.onGoingOrder.entName}}</view>
+      <view class="orderId">{{home.onGoingOrder.orderId}}</view>
+      <view class="order-detail" catchtap="toDishDetail" data-orderId="{{indexOrder.orderId}}">
+          <view class="flex">
+             <view class="orderInfo ell">{{home.onGoingOrder.orderInfo}}</view>
+             <view class="totalPrice">￥{{home.onGoingOrder.totalPrice/100}}</view>
+             <view class="payMoney">(已付￥{{home.onGoingOrder.payMoney/100}})</view>
+          </view>
+          <view class="dishInfo ell cell-ft">{{home.onGoingOrder.dishInfo}}</view>
+      </view>
+      <view class="btn" wx:if="{{onGoingOrderInfo.orderStatus != 2}}" catchtap="scanToSeat">{{onGoingOrderInfo.orderStatus == 0 ? '立即下单' : (onGoingOrderInfo.orderStatus== 1 || onGoingOrderInfo.orderStatus == '100'? '我已入座,立即下单' : '')}}</view>
+    </view>
+</view>
+<view class="takeOrder_icon_box">             
+    <block wx:for="{{[3,1,2,4,7,5,6,8]}}" wx:key="{{index}}">
+        <view class="home_takeOrder_whole" style="margin-left:{{takeOrderIconW}}px;margin-right:{{takeOrderIconW}}px" catchtap="querySort" data-queryType="0" data-subIndex="{{item}}" data-toScreenVC="true">
+            <view class="home_takeOrder_icon takeOrder_item{{item}}"></view>
+            <view style="font-size:23rpx;margin-top:12rpx;font-weight:700;">{{home.takeOrderIconDes[index]}}</view>
+        </view>
+    </block>
+</view>
+<view class="near_block flex" wx:if="{{hottestEnt}}">
+    <image class="near_icon" src="../../../image/near_eater.png"></image>
+    <text class="shopInfo ell">{{hottestEnt}}</text>
+    <view class="cell-ft"></view>
+</view>
+<block wx:if="{{home.isShowPreferentialView}}">
+    <view class="preferentialView">
+        <view class="left-view">
+            <view style="color:#e03519;font-size:16px">立减优惠</view>
+            <view class="common-text">哪里优惠去哪里</view>
+            <image src="../../../image/knock _preferential.png" style="width:69px;height:69px;margin-top:8px"></image>
+        </view>
+        <view class="right-view">
+           <view class="common-view">
+                <view>
+                    <view style="color:#00b7ee;font-size:16px">天天特价</view>
+                    <view class="common-text">特价美食来袭</view>
+                    <image src="../../../image/dayDay_discount.png" class="discount-pic"></image>
+                </view>
+                
+           </view>
+           <view class="common-view">
+                <view style="color:#ff7e00;font-size:16px">精挑细选</view>
+                <view class="common-text">精选人气美食</view>
+                <image src="../../../image/selective.png" class="discount-pic"></image>
+           </view>
+        </view>
+    </view>
+</block>
+<view class="shoplist">
+    <view class="select-for-you" style="color: #999999;">
+        <image src="../../../image/for-you-select.png" mode="widthFix" style="width:12px;"></image> 为你精选
+    </view>
+    <view class="sort-option-home flex">
+        <view class="option" catchtap="querySort" data-queryType="0" data-showQueryToast="true">全部 </view>
+        <view class="option" catchtap="querySort" data-queryType="1" data-showQueryToast="true">智能排序 </view>
+        <view class="option" catchtap="querySort" data-queryType="2" data-showQueryToast="true">筛选 </view>
+    </view>
+    <include src="common/common.wxml" />
+</view>
+
+<include src="../../component/qnLoadMore/qnLoadMore.wxml"/>
+
+
+<!--<view class="load-more">{{hasMore? '加载更多' : '没有更多商家了'}}</view>-->
+

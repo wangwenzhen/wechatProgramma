@@ -1,0 +1,38 @@
+ <!-- 商铺列表展示-->
+ 
+ <block wx:for="{{home.shopList}}" wx:for-item="shop" wx:for-index="i" wx:key="*this">
+        <view class="shop" catchtap="toTakeOrder" data-entId="{{shop.entId}}">
+            <view class="classname"><image src="{{shop.logo}}" class="noDishImg-bg shopIcon" data-tap-shop-index="{{i}}" ></image></view>
+            <view class="shop-info-box">
+                
+                <view class="shopName flex">
+                    <view style="flex:1">{{shop.shopName}}</view>
+                    <view class="home-collection" wx:if="{{shop.isCollection}}"></view>
+                </view>
+                <view class="shop-address-features">
+                    <view class="ell" style="width:72%">{{shop.addressAndFeaturesDish}}</view>
+                    <block wx:if="{{shop.distance < 100}}">
+                      <text>{{smallerDistance}}</text>  
+                    </block>
+                    <block wx:elif="{{ shop.distance < 1000 && shop.distance > 100}}">
+                      <text>{{shop.distance}}米</text>  
+                    </block>
+                    <block wx:else>
+                        <text>{{shop.distance / 1000}}km</text>
+                    </block>
+                    
+                    
+                </view>
+                <block wx:if="{{!shop.couponMaterialList.length}}">
+                    <view class="shop-info">{{shop.recentConsume}}</view>
+                </block>
+                <block wx:else> 
+                    <view class="coupon-list flex" wx:for="{{shop.couponMaterialList}}" wx:key="*this" wx:for-item="coupon">
+                        <!--//3返券 、 2满减 、0折扣-->
+                        <image class="middle" src="{{coupon.couponType == 1 ? '../../../image/icon/return_coupon.png' : (coupon.couponType == 10 ||coupon.couponType== 11 ? '../../../image/icon/icon_minus.png' : '../../../image/icon/discount-icon.png' )}}"></image>
+                        <view class="ell" style="width:74%;display:inline-block">{{coupon.content}}</view>
+                    </view>
+                </block>
+            </view>
+        </view>
+</block>

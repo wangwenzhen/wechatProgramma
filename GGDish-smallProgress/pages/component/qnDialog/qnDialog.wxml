@@ -1,0 +1,13 @@
+<view class="dialog" wx:if="{{showDialog}}" catchtap="hideDialog">
+
+
+    <view catchtap="catchEventToDoNothing">
+        <view class="dialog-title">{{dialogTitle}}</view>
+        <view class="dialog-content">{{dialogContent}}</view>
+        <view class="dialog-btn cells">
+            <view class="btn b-red" catchtap="hideDialog">{{cancelBtnTxt}}</view>
+            <view class="btn "  catchtap="dialogConfirm">{{confirmBtnTxt}}</view>
+        </view>
+    </view>
+
+</view>

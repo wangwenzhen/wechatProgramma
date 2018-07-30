@@ -1,0 +1,106 @@
+/* pages/order/selectedDishDetail/selectedDishDetail.wxss */
+
+.order-title{
+    background:#fff;
+}
+.order-title.cells{
+    margin-top: 0;
+}
+.order-info{
+    align-items: flex-start;
+    display: flex;
+    padding: 30rpx 24rpx;
+}
+.order-dish{
+     background:#fff;
+     padding: 0 0 0 12px;
+}
+.icon-dish{
+    width: 40rpx;
+    height:40rpx;
+    margin-right: 20rpx;
+}
+.dish-hint{
+    padding: 10rpx 20rpx 10rpx 0;
+    color: #1f1f1f;
+    font-size: 34rpx;
+    align-items: center;
+}
+.dish-hint::after{
+    content: " ";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 1px;
+    border-bottom: 1px solid #d8d8d8;
+    color: #d8d8d8;
+    transform-origin: 0 100%;
+    transform: scaleY(0.5);
+}
+.dish-hint .cell-ico > image{
+    width: 50rpx;
+}
+.ent-logo{
+    width: 50rpx;
+    height: 50rpx;
+    margin-right: 20rpx;
+}
+.change-order{
+    padding: 6rpx 40rpx;
+    margin-right: 20rpx;
+    font-size: 22rpx;
+}
+.dish-item-container{
+    margin-top: 20rpx;
+    margin-bottom:20rpx;
+}
+.dish-item{
+    padding-right:20rpx; 
+    display:flex;
+    position:relative;
+}
+.dish-name{
+    flex: 1;
+    font-size:32rpx;
+}
+.dish-num{
+    width:100rpx;
+    font-size:28rpx;
+    color:#969696;
+}
+.dish-price{
+    width:150rpx;
+    font-size:28rpx;
+    color:#969696;
+    text-align:right;
+}
+.side-dish{
+    padding-left: 24rpx;
+    padding-right:24rpx;
+    padding-top: 15rpx;
+    color:#969696;
+    font-size:28rpx;
+}
+.select-dish{
+    color: #969696;
+    font-size: 22rpx;
+}
+.change-lay{
+    padding-top: 20rpx;
+}
+.specialSign {
+  vertical-align:middle;
+  background-color:#DF3F5D;
+  height:32rpx;
+  line-height:32rpx;
+  width:32rpx;
+  text-align:center;
+  color:#FFFFFF;
+  font-size:22rpx;
+  border-radius:6rpx;
+  margin-right:10rpx;
+}
+
+/* 取消订单的弹窗 */
+@import "../../component/qnDialog/qnDialog.wxss";

@@ -1,0 +1,143 @@
+/* pages/coupon/coupon.wxss */
+page{
+  background: #cf112d;
+}
+.coupon-logo-bg{
+  background: #FFFFFF;
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 80rpx;
+  position: absolute;
+  top: 28rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+.coupon-logo{
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 70rpx;
+  margin: 0 auto;
+  
+}
+.coupon-bg{
+  position: absolute;
+  top: 108rpx;
+  left: 24rpx;
+  right: 24rpx;
+  bottom: 80rpx;
+  background: #FFFFFF;
+}
+[class^="point-"]{
+  position: absolute;
+  bottom: -12rpx;
+  width: 24rpx;
+  height:24rpx;
+  border-radius: 12rpx;
+  background-color: #cf112d;
+}
+.point-left{
+  left: -44rpx;
+}
+.point-right{
+  right: -44rpx;
+}
+.coupon-info{
+  position: relative;
+  margin: 96rpx 32rpx;
+  margin-bottom: 0;
+  padding-bottom: 80rpx;
+  text-align: center;
+  border-bottom: 1px dashed #e6e6e6;
+}
+
+.conpon-money{
+  color: #cf112d;
+  font-size: 78rpx;
+}
+.conpon-money::after{
+  content: "元";
+  font-size:50rpx;
+}
+.conpon-type{
+  background-color: #FFa800;
+  margin-left: 20rpx;
+  font-size: 24rpx;
+  position: relative;
+  bottom: 8rpx;
+  color: #FFFFFF;
+  padding: 4rpx 8rpx;
+}
+.coupon-info .cell-ft{
+  padding-top: 35rpx;
+}
+.coupon-info .cell-ft::after{
+  top: inherit; 
+  bottom: 24rpx;
+  border-color: #9f9f9f;
+}
+
+.coupon-id{
+  color: #cf112d;
+  margin-top: 20rpx;
+  margin-bottom: 8rpx;
+  font-size: 32rpx;
+}
+.coupon-id::before{
+  content: "券码:";
+  font-size: 24rpx;
+  position: relative;
+  bottom: 1px;
+  margin-right: 10rpx;
+}
+.entName{
+  position: absolute;
+  right: 0;
+  bottom: 20rpx;
+  color: #969696; 
+  font-size: 28rpx;
+}
+.use-bg{
+   margin:36rpx 32rpx;
+}
+.rule{
+  position: relative;
+  margin-top: 80rpx;
+}
+.rule::before{
+  content: "使用规则";
+  position: absolute;
+  color: #969696;
+  font-size: 24rpx;
+  top: -44rpx;
+}
+.instructions{
+  position: relative;
+  margin-top: 80rpx;
+}
+.instructions::before{
+  content: "使用说明";
+  position: absolute;
+  color: #969696;
+  font-size: 24rpx;
+  top: -44rpx;
+}
+.use-bg > image{
+  position: absolute;
+  width: 180rpx;
+  height: 180rpx;
+  right: 32rpx;
+  bottom: 45rpx;
+}
+.use-bg text{
+  line-height: 34rpx;
+  font-size: 28rpx;
+}
+page>text{
+  font-size: 28rpx;
+  color: #FFFFFF;
+  position: absolute;
+  bottom: 20rpx;
+  width: 100%;
+  text-align: center;
+}

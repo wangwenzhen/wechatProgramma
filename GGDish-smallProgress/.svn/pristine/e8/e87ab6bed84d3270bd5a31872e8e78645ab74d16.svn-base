@@ -1,0 +1,24 @@
+/* pages/myCollection/myCollection.wxss */
+.myCollection.cells{
+    background:#fff;
+    margin-top: 0;
+}
+.myCollection .cells::before{
+    display: none;
+}
+.cell::before{
+    left: 0;
+}
+.cell image{
+    width: 120rpx;
+    height: 120rpx;
+}
+.ent-info{
+    padding-left: 20rpx;
+    height: 120rpx;
+}
+.ent-industy{
+    color: #969696;
+    font-size: 22rpx;
+    margin-top: 20rpx;
+}

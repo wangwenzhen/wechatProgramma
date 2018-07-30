@@ -1,0 +1,42 @@
+<view class="sortList flex" catchtouchmove="doNothingForCatch">
+      <view wx:for="{{sortZone}}" wx:key="*this" class="option {{index == selectIndex ? 'on' : ''}} {{index == selectIndex && showToastBg ? 'active' : ''}}" catchtap="querySort" data-queryType="{{index}}">{{item.optionName}}</view>
+</view>
+<view class="toast-bg" wx:if="{{showToastBg}}" catchtouchmove="doNothingForCatch" catchtap="closeBg">
+    <view class="list-bg" style="{{selectIndex == 0 ?'padding:10px 7px;' :''}}">
+          <block wx:if="{{selectIndex == 0}}"><!--全部-->
+              <view class="sort-block {{sortZone[0].subIndex == index ? 'on' : ''}}" wx:for="{{allQuery}}" wx:key="*this" catchtap="tapOption" data-tap-index="{{0}}" data-tap-subIndex="{{index}}" style="width:{{sortBlockW}}px;padding:20rpx 0;">{{item.optionName}}</view>
+          </block>
+          <block wx:elif="{{selectIndex == 1}}"><!--智能排序-->
+              <view wx:for="{{smartSort}}" class="outer-bd flex" wx:key="*this" catchtap="tapOption" data-tap-index="{{1}}" data-tap-subIndex="{{index}}">
+                  <block wx:if="{{index==0}}">
+                      <view class="smart-sort {{sortZone[1].subIndex == index ? '' : 'off'}}"></view>
+                  </block>
+                  <block wx:elif="{{index==1}}">
+                      <view class="hot-sort {{sortZone[1].subIndex == index ? '' : 'off'}}"></view>
+                  </block>
+                  <block wx:else>
+                      <view class="distance-near {{sortZone[1].subIndex == index ? '' : 'off'}}"></view>
+                  </block>
+
+                  <view class="smartSort {{sortZone[1].subIndex == index ? 'on' : ''}}">{{item}}</view>
+              </view>
+          </block>
+          <block wx:else><!--筛选-->
+              <view class="flex" wx:for="{{screening}}" class="outer-bd flex" wx:key="*this" catchtap="tapOption" data-tap-index="{{2}}" data-tap-subIndex="{{index}}">
+                  <block wx:if="{{index==0}}">
+                      <view class="takeOrder-counpon {{sortZone[2].subIndex  == index ? '' : 'off'}}"></view>
+                  </block>
+                  <block wx:elif="{{index==1}}">
+                      <view class="return-counpon {{sortZone[2].subIndex  == index ? '' : 'off'}}"></view>
+                  </block>
+                  <block wx:elif="{{index==2}}">
+                      <view class="coupon-icon {{sortZone[2].subIndex  == index ? '' : 'off'}}"></view>
+                  </block>
+                  <block wx:else>
+                      <view class="special-text-icon {{sortZone[2].subIndex  == index ? '' : 'off'}}"></view>
+                  </block>
+                  <view class="screening {{sortZone[2].subIndex  == index ? 'on' : ''}}">{{item}}</view>
+              </view>
+          </block>
+    </view>
+</view>

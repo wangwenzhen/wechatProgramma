@@ -1,0 +1,45 @@
+/* pages/order/selectedDishHint/selectedDishHint.wxss */
+.selectedDishHint{
+
+}
+.order-info{
+    background: #fff;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 30rpx;
+    position: relative;
+}
+.order-info::after{
+  content: "";
+  position: absolute;
+  border-bottom: 1px solid #e6e6e6;
+  transform: scaleY(0.5);
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.order-info >image{
+    width: 100rpx;
+    height: 100rpx;
+    margin: 30rpx auto;
+    display: inline-block;
+}
+.scan{
+    margin: 34px 24rpx;
+}
+.dish-info{
+    text-align:center;
+    font-size: 16px;
+}
+.check-dish{
+font-size: 13px;
+    margin-left: 6rpx;
+    color: #969696;
+    text-decoration:underline;
+}
+.dish-hint{
+   text-align:center;
+   font-size: 14px;
+   color: #969696;
+   margin-top: 10rpx;
+}

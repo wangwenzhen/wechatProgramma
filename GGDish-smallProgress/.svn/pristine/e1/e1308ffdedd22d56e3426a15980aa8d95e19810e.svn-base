@@ -1,0 +1,95 @@
+<include src="../../component/qnLoading/qnLoading.wxml"/>
+
+<view class="cmtOrder">
+
+    <!-- 统计-->
+    <view class="statistic">
+        <view class="cell">
+            <image class="icon-statistic" src="../../../image/icon/iton_count_statistic.png"></image> 
+            <view class="sInfo-container">
+                <view class="sInfo">
+                    <text wx:if="{{orderInfo.dishNum}}">{{orderInfo.dishNum}}道菜 </text>
+                    <text wx:if="{{orderInfo.stapleNum}}">{{orderInfo.stapleNum}}份主食 </text>
+                    <text wx:if="{{orderInfo.tableWare}}">{{orderInfo.tableWare}}份餐具 </text>
+                    <text wx:if="{{orderInfo.tableNum}}">{{orderInfo.tableNum}}份餐位 </text>
+                </view>
+                <view wx:if="{{orderInfo.deskInfo}}" class="sDesk">您所在的桌位：{{orderInfo.deskInfo}}</view>
+            </view>
+            <view bindtap="changeDish" class="change-dish">修改已选菜品</view>
+        </view>
+    </view>
+    <!-- 小计 -->
+    <view class="cells">					
+        <view class="cell">							
+            <view class="cell-bd cell-title">小计</view>
+            <view class="subtotal">¥{{orderInfo.sumMoney/100}}</view>
+          
+        </view>
+    </view>
+    <!-- 优惠不可用时的提示-->
+    <view class="privlg-disable-hint" wx:if="{{control.isShowHint}}">{{discountInfo.privilegeHint}}</view>
+
+    <!-- 会员优惠，点菜优惠 -->
+    <view class="cells discount-lay" wx:if="{{control.isShowMember||control.isShowPrivilege}}">
+        <!-- 会员优惠 -->
+        <view wx:if="{{control.isShowMember}}" class="cell {{control.memberCanUse?'privlg-able':'privlg-disable'}}">
+             <image class="icon-privlg" src="{{control.memberCanUse?'../../../image/icon/icon_vip.png':'../../../image/icon/icon_vip_disable.png'}}" ></image> 
+             <view class="cell-bd privilege-name">{{discountInfo.memberToShow.memberName}}</view>
+             <block wx:if="{{discountInfo.membersData ||discountInfo.membersInfo}}">
+                <view class="discount-money" wx:if="{{control.privilegeCanUse}}">{{discountInfo.memberToShow.discountToShow}}</view>
+                <image class="checked-privlg" src="{{!control.memberCanUse?'../../../image/icon/icon_disable.png':(control.isSelectMember?'../../../image/icon/icon_selected.png':'../../../image/icon/icon_unselect.png')}}" bindtap="tapMember"></image> 
+             </block>
+             <block wx:elif="{{orderInfo.grantStatus===1 || orderInfo.grantStatus ===4 }}">
+                 <view class="please-later">请稍后</view>  
+             </block>
+             <block wx:elif="{{orderInfo.grantStatus===0 || orderInfo.grantStatus ===5 }}">
+                  <view class="btn im-member" bindtap="imMember">我是会员</view> 
+             </block>
+        </view>
+        <!-- 点菜优惠 -->
+         <view wx:if="{{control.isShowPrivilege}}" class="cell {{control.privilegeCanUse?'privlg-able':'privlg-disable'}}">
+             <image class="icon-privlg" src="{{control.privilegeCanUse?'../../../image/icon/icon_minus.png':'../../../image/icon/icon_minus_disable.png'}}"></image> 
+             <view class="cell-bd">
+                <view class="privilege-name">{{discountInfo.privileges.privilegeName}}</view>
+                <view wx:if="{{(control.privilegeCanUse&& discountInfo.privileges.uncountMoneyToShow)||(!control.privilegeCanUse&&discountInfo.privileges.privilegePrompt)}}" class="privilege-hint">{{control.privilegeCanUse?discountInfo.privileges.uncountMoneyToShow:discountInfo.privileges.privilegePrompt}}</view>
+             </view>
+            
+             <view class="discount-money" wx:if="{{control.privilegeCanUse}}">- ¥{{discountInfo.privileges.discount/100}}</view>
+             <image  class="checked-privlg" src="{{!control.privilegeCanUse?'../../../image/icon/icon_disable.png':(control.isSelectPrivilege?'../../../image/icon/icon_selected.png':'../../../image/icon/icon_unselect.png')}}" bindtap="tapPrivilege"></image> 
+        </view>
+    </view>
+    <!-- 可用优惠券 -->
+    <view class="cells">
+          <view class="cell {{control.couponCanUse?'act':''}}" bindtap="tapCoupons">							
+            <view class="cell-bd cell-title">优惠券</view>
+            <view class="{{control.isSelectCoupon?'coupon-detail-discount':''}} coupon-detail ell ">{{!control.couponCanUse?'无可用优惠券':discountInfo.coupons.couponsToShow}}</view>
+            <view class="cell-ft coupon-next" wx:if="{{control.couponCanUse}}"></view>
+        </view>
+    </view>
+    <!-- 给商家留言 -->
+    <view class="cells">					
+        <view class="cell act" bindtap="tapLeaveMessage">							
+            <view class="cell-bd cell-title">给商家留言</view>
+            <view class="message ell">{{orderInfo.remark?orderInfo.remark:'口味、偏好等'}}</view>
+            <view class="cell-ft" ></view>
+        </view>
+    </view>
+
+    <!-- 底部 -->
+    <view class="cells sure-order-container" >
+        <view class="return-coupons" wx:if="{{false}}"> 支付成功后将获得
+            <view class="return-coupons-content">2张[10元代金券]</view>
+            <view class="integral">20积分</view>
+        </view>
+        <view class="cell">
+            <view wx:if="{{orderInfo.specialDiscount || orderInfo.discount}}" class="discount">已优惠：¥{{discount/100}}</view>
+            <view class="should-pay">应付：¥{{shouldPay/100}}</view>
+            <view bindtap="takeOrderNow" class="btn sure-order">立即下单</view>
+        </view>
+       
+    </view>
+
+</view>
+
+<!--弹窗提示-->
+<include src="../../component/qnToast/toast.wxml"/>

@@ -1,0 +1,45 @@
+/* pages/myCollection/myCollection.wxss */
+.myCollection.cells{
+   background:#fff;
+    margin-top:0;
+    position:relative;
+    height:100%;
+
+}
+.myCollection .cells::before{
+    display: none;
+}
+.cell::before{
+    left: 0;
+}
+.cell image{
+    width: 120rpx;
+    height: 120rpx;
+}
+.ent-info{
+    padding-left: 20rpx;
+    height: 120rpx;
+}
+.ent-industy{
+    color: #969696;
+    font-size: 22rpx;
+    margin-top: 20rpx;
+}
+.no-data{
+    width: 100%;
+    height:100%;
+    position: absolute;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color: #969696;
+    font-size: 24rpx;
+}
+.no-data > image{
+    width:148rpx;
+    height:148rpx;
+}
+.no-data>text{
+    margin-top:40rpx;
+}

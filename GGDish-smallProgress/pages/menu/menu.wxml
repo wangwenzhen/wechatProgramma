@@ -1,0 +1,81 @@
+<!--pages/menu/menu.wxml-->
+<!--小牛加载动画-->
+<include src="../component/qnLoading/qnLoading.wxml"/>
+<!--弹窗提示-->
+<include src="../component/qnToast/toast.wxml"/>
+
+<!--店铺信息弹窗-->
+<include src="template/entInfoToast.wxml"/>
+
+
+<import src="template/secondMenu/secondMenu.wxml"/>
+
+<!--购物车-->
+<import src="template/shoppingCar/shoppingCar.wxml"/>
+
+<!-- 菜品详情-->
+<import src="template/dishDetail/dishDetail.wxml"/>
+
+<!--使用无图模式下的点菜样式-->
+<import src="template/modeXml/noImgMode.wxml"/>
+
+<!--使用小图模式下的点菜样式-->
+<import src="template/modeXml/smallImgMode.wxml"/>
+
+<!--大图模式-->
+<import src="template/modeXml/bigImgMode.wxml"/>
+
+<!--超大图模式-->
+<import src="template/modeXml/superImgMode.wxml"/>
+
+
+<template is="secondMenu" data="{{...menu}}"/>
+
+<template is="shoppingCar" data="{{...menu}}"/>
+
+<template is="dishDetail" data="{{...menu}}"/>
+
+
+
+<!-- bindtouchstart="catchtouchstart" 
+ bindtouchmove="catchtouchmove" -->
+<view class="menu"style="height:{{menu.viewHeight}}px;position: relative; transform: translateY({{menu.headTranslateY}}px);">
+
+
+    <view class="ent-info">
+        
+        <view class="ent flex" bindtap="showEntPopup">
+            <view class="ent-logo">
+                <image class="noDishImg-bg styleTwo clip"  src="{{entInfo.logo}}" ></image>
+            </view>
+            <view>
+                <view class="ent-name flex">
+                    <view>欢迎光临 !</view>
+                    <image class="{{entInfo.isCollection?'home-collection':'hot-sort off collectionSize'}}" 
+                          catchtap="collection"></image>
+                    <image src="../../image/ent-phone.png" catchtap="call" style="margin-left:50rpx;height:16px;width:13px;"></image>
+                </view>
+                <view class="flex" style="color:#969696">
+                  
+                  <view wx:if="{{entInfo_toShow.time}}" class="classname" style="bottom:1px;position:relative;"><image src="../../image/business-time.png" style="width:26rpx;height:26rpx;margin-right:8rpx"></image></view>
+                  <view class="ent-time" wx:if="{{entInfo_toShow.time}}">{{entInfo_toShow.time}}</view>
+              
+                  <view class="ent-address flex">
+                    <image src="../../image/home_location.png" ></image>
+                    <view>{{entInfo_toShow.address}}</view>  
+                    
+                  </view>
+                </view>       
+            </view>
+        </view>
+    </view>
+
+<!--0无图 、 1大图 、 3 小图 、4超大图-->
+      <template is="{{menu.menuModel ==0 ?  'noImgModelController' : (menu.menuModel == 1 ? 'bigImgModelController' :(menu.menuModel==3 ? 'smallImgModelController' : 'superImgModelController' ))}}" data="{{...menu}}"/>
+</view>
+
+<!-- 事件拦截 让上面的店铺图显示或隐藏                    
+<view style="height:100%;position: absolute; width:100%;top:0" wx:if="{{true}}"
+ bindtouchstart="catchtouchstart" 
+ bindtouchmove="catchtouchmove"
+></view>-->

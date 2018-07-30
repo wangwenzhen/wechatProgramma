@@ -1,0 +1,9 @@
+<include src="../../component/qnLoading/qnLoading.wxml"/>
+<include src="common/entScreenToast.wxml"/>
+
+<view class="shopList">
+  <include src="common/common.wxml"/>
+</view>
+<view class="load-more" wx:if="{{!home.shopList.length}}">没有更多商家了</view>
+
+<!--<view style="width:50px">2啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法啊实打实大法师法2</view>-->

@@ -1,0 +1,8 @@
+<include src="../component/qnToast/toast.wxml"/>
+
+
+<view bindtap="clickTip">点击显示</view>
+
+
+<view bindtap="clickTipAuto">点击显示带图提示</view>
+

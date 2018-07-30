@@ -1,0 +1,22 @@
+.log-list {
+  display: flex;
+  flex-direction: column;
+  padding: 40rpx;
+}
+.log-item {
+  margin: 10rpx;
+}
+.on{
+  background: #CEF012;
+}
+
+.hovertest{
+  padding: 20rpx;
+}
+
+button{
+ border-radius: 0px;
+}
+.tes-css{
+  background-color: rebeccapurple;
+}

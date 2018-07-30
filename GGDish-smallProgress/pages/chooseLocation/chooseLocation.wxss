@@ -1,0 +1,120 @@
+page{
+    background: #f6f6f6;
+}
+.top-location{
+    background: #FFFFFF;
+    padding: 8px 12px;
+}
+.top-location.off{
+     border-bottom: 1px solid #d8d8d8;
+}
+.search-bg{
+    flex: 1;
+    margin-left: 8px;
+    padding: 4px 4px;
+    background-color: #f6f6f6;
+}
+.city-name{
+    font-size: 15px;
+    color: #969696;
+}
+.city-name::after{
+    content:" ";
+    display: inline-block;
+    vertical-align: middle;
+    height: 0;
+    width: 0;
+    position: relative;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid #787878;
+    top: -2px;
+}
+.city-name.on::after{
+    transform: rotate(180deg);
+}
+.search-bg input{
+    flex: 1;
+
+}
+.location-input{
+    color: #ababab;
+    line-height: 19px;
+}
+.choose-city{
+    padding: 15px 12px;
+    font-size: 15px;
+    position: relative;
+    background-color:#FFFFFF;
+}
+.choose-city::before{
+    content: " ";
+    border-bottom: 1px solid #d8d8d8;
+    transform: scaleY(0.5);
+    position: absolute;
+    left: 12px;
+    right: 0;
+    bottom: 0;
+}
+.choose-city-bg{
+    background-color: rgba(0,0,0,0.5);
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.citys{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+.choose-city.on{
+    color: #D22F48;
+}
+.choose-city.on::after{
+    content: " ";
+    height: 14px;
+    width: 6px;
+    border-width: 2px 2px 0 0;
+    border-color: #D22F48;
+    border-style: solid;
+    transform: matrix(0.71, 0.71, 0.71, -0.71, 0, 0);
+    position: absolute;
+    top: 50%;
+    margin-top: -10px;
+    right: 15px;
+}
+.region{
+    padding: 15px 12px;
+    background: #FFFFFF;
+    position: relative;
+}
+.region::before{
+    content: " ";
+    position: absolute;
+    border-bottom: 1px solid #d8d8d8;
+    transform: scaleY(0.5);
+    left: 12px;
+    bottom: 0;
+    right: 0;
+}
+.region:last-child::before{
+    left: 0;
+}
+.region-top{
+    margin-top: 10px;
+    border-top: 1px solid #d8d8d8;
+}
+
+.search-bg button{
+    margin: 0 !important;
+    padding: 0!important;
+    border-radius:0px !important;
+}
+.search-bg button:after{
+    display: none;
+}
+.aaa{
+    font-size: 20px;
+}

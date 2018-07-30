@@ -1,0 +1,69 @@
+var constants = require('./constants');
+var utils = require('./util');
+
+var loginLib = require('./login');
+
+var noop = function noop() {};
+
+function request(options) {
+
+   
+    var success = options.success || noop;
+    var fail = options.fail || noop;
+    var complete = options.complete || noop;
+    var originHeader = options.header || {};
+
+    var requestUrl = options.url||'';
+   
+    // 成功回调
+    var callSuccess = function () {
+        success.apply(null, arguments);
+        complete.apply(null, arguments);
+    };
+
+    // 失败回调
+    var callFail = function (error) {
+        fail.call(null, error);
+        complete.call(null, error);
+    };
+
+    // 是否已经进行过重试
+    var hasRetried = false;
+    var openId = wx.getStorageSync('openId');
+    if (!openId) {
+        doRequestWithLogin();
+    } else {
+        doRequest();
+    }
+
+    function doRequestWithLogin() {
+        loginLib.login({ success: doRequest, fail: callFail });
+    }
+
+    // 实际进行请求的方法 
+    function doRequest() {
+        console.log('真正发起请求_____start');
+        console.log(wx.getStorageSync('openId'));
+        if (!options.data){
+          options.data = {};
+        }
+        options.data.openId = wx.getStorageSync('openId');
+        options.data.userId = wx.getStorageSync('openId');
+
+        wx.request(utils.extend({}, options, {
+          
+            success: function (response) {
+                console.log('真正发起请求______success');
+                var data = response.data;
+                callSuccess.apply(null, arguments);
+            },
+
+            fail: callFail,
+            complete: noop,
+        }));
+    };
+};
+
+module.exports = {
+    request: request,
+};
